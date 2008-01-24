@@ -1,4 +1,4 @@
-# Sphinx recipes
+# Nginx recipes
 namespace :nginx do
   
   task :setup do 

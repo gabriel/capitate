@@ -1,0 +1,13 @@
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
+load 'config/deploy'
+
+require 'erb'
+
+<% recipes.each do |recipe| %>
+after "deploy:setup", "<%= recipe %>:setup"
+after "deploy:update_code", "<%= recipe %>:update_code"
+<% end %>
+
+# Auto cleanup after deploy?
+# after "deploy", "deploy:cleanup"

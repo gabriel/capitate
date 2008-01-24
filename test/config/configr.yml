@@ -1,0 +1,23 @@
+application: testapp
+user: testapp
+
+deploy_to: "/var/www/apps/testapp"
+web_server: 10.0.6.159
+db_server: 10.0.6.159
+
+mongrel_port: 9000
+mongrel_size: 3
+
+db_user: testapp
+db_pass: testapp
+db_name: testapp
+
+repository: svn+ssh://gabe@ducktyper.com/var/svn/testapp/trunk
+
+domain_name: foo.com
+
+recipes:
+  - database
+  - mongrel_cluster
+  - sphinx
+  - nginx

@@ -1,0 +1,70 @@
+#
+# Uses cache directory configured for public/cache
+# Re-writes url for iphone user agent to /iphone (so as not to conflict with cache)
+# TODO-gabe: Same for mobile user agents
+#
+# Redirects domain.com to www.domain.com (IMO should be the other way around; ie. www is deprecated)
+#
+
+upstream mongrel-cluster-<%= application %> {
+  <% ports.each do |port| %>
+  server 127.0.0.1:<%= port %>;
+  <% end %>
+}
+
+server {
+    listen       80;
+    server_name  www.<%= domain_name %>;
+    root <%= current_path %>/public;
+    index index.html index.htm;
+
+    #access_log  logs/host.access.log  main;
+
+    location / {
+      proxy_set_header  X-Real-IP  $remote_addr;
+      proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
+      proxy_redirect false;
+
+      if ($http_user_agent ~* "(iPhone|iPod)") {
+        rewrite ^/$ /iphone break;
+        proxy_pass http://mongrel-cluster-<%= application %>;
+        break;
+      }
+
+      if (-f $request_filename) {
+        break;
+      }
+      
+      if (-f $document_root/cache/$uri/index.html) {
+        rewrite (.*) /cache/$1/index.html break;
+      }
+
+      if (-f $document_root/cache/$uri.html) {
+        rewrite (.*) /cache/$1.html break;
+      }
+
+      if (-f $document_root/cache/$uri) {
+        rewrite (.*) /cache/$1 break;
+      }
+
+      if (!-f $request_filename) {
+        proxy_pass http://mongrel-cluster-<%= application %>;
+        break;
+      }
+    }
+
+    #error_page  404              /404.html;
+      
+    # redirect server error pages to the static page /50x.html
+    # 
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    } 
+}
+
+server {
+  server_name <%= domain_name %>;
+  rewrite ^/(.*) http://www.<%= domain_name %>/$1 permanent;
+}

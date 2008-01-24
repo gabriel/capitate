@@ -1,0 +1,74 @@
+= Configr
+
+The idea is to have:
+
+* A central configuration file (since alot of configuration is shared between mongrel, sphinx, rails, etc.)
+* Use (erb) templates to generate configuration files and the capistrano configuration itself
+* Use rake tasks
+* Use capistrano with recipes
+
+
+== Setting up Configr
+
+* So you have an rails project and you want to configure (or deploy it).
+
+  rake configr:setup
+  
+* On the server, you'll need to create the user (and password) for your application:
+
+  sudo /usr/sbin/adduser -d /var/www/apps/testapp testapp
+  sudo passwd testapp
+  sudo chmod a+r /var/www/apps/testapp
+  
+(We are using the deploy directory as the home, just for convenience and because it will create it for us)
+  
+* Add testapp user to /etc/sudoers. Eventually we will be able to restrict the user properly (TODO-gabe)
+    
+    
+== Setup the database
+
+On the server, you'll need to create a user and database for mysql:
+
+  mysql -u root -pmysql_pass
+  
+  GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON testapp.* TO 'testapp'@'localhost' IDENTIFIED BY 'testapp_pass';
+  GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON testapp.* TO 'testapp'@'%' IDENTIFIED BY 'testapp_pass';
+  
+  create database testapp;
+  
+Eventually we will restrict privileges correctly based on ip (TODO-gabe)
+  
+  
+== Deploying
+(with capistrano)
+
+If this is the first time you've deployed you'll need to run:
+
+  cap deploy:setup
+
+Deploy options:
+  
+  cap deploy
+
+  cap deploy:migrations (deploys with migrations)
+  
+  cap deploy:migrate (only does migration on existing deployment)
+
+
+== Removing files generated from configr setup 
+(or to clear stuff so you can redo all the config)
+
+  rake configr:clean
+  
+  
+== Freezing gems
+
+You must freeze all gems (excluding core ones like mongrel, ruby-mysql, etc):
+
+Freeze rails:
+  rake rails:freeze:edge TAG=rel_2-0-2
+  
+Gemsonrails:
+  http://gemsonrails.rubyforge.org/
+  
+  

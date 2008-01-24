@@ -1,0 +1,90 @@
+= Centos 5.1 Setup Steps
+
+* Install centos in a VMWare install, or get a pre-packaged vm (see http://www.thoughtpolice.co.uk/vmware/)
+* VMWare server code (92J4X-YKE0U-2A15J-426J5)
+
+
+== Preliminary setup
+
+* Change root passwd (ch1ostiw)
+* Change /etc/inittab runlevel to 3
+* Add yourself to sudoers
+
+* Uninstall unused stuff:
+  sudo yum remove openoffice.org-*
+  
+* Run sudo yum update
+  sudo yum install gcc kernel-devel
+
+
+== Install ruby
+
+  sudo yum install ruby ruby-devel ruby-libs ruby-irb ruby-rdoc ruby-ri
+
+
+== Install rubygems (from source)
+
+  sudo yum install zlib zlib-devel
+  wget http://rubyforge.org/frs/download.php/29548/rubygems-1.0.1.tgz
+
+  
+== Install rake
+
+  sudo gem install rake
+
+
+== Install nginx (from source)
+
+  sudo yum install pcre-devel
+  sudo yum install openssl openssl-devel
+  wget http://sysoev.ru/nginx/nginx-0.5.35.tar.gz
+
+  ./configure --sbin-path=/sbin/nginx --conf-path=/usr/local/nginx/nginx.conf --pid-path=/usr/local/nginx/nginx.pid --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module
+
+
+== Install mongrel, mongrel_cluster
+
+  sudo gem install mongrel
+  sudo gem install mongrel_cluster
+
+
+== Install mysql
+
+  sudo yum install mysql mysql-devel mysql-server
+
+(If database box):
+
+* Make sure it starts up on boot:
+  sudo /sbin/chkconfig --level 345 mysqld on
+  
+* Set the root password:
+  /usr/bin/mysqladmin -u root password 'sick-dev112'
+
+
+== Install sphinx
+
+  yum install gcc-c++
+  wget http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz
+
+  ./configure --with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql --prefix=/usr/local/sphinx
+  
+  
+== Install monit
+
+  sudo yum install flex byacc
+  wget http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz
+
+
+== Setup www directory
+
+* Create www apps directory:
+  sudo mkdir -p /var/www/apps
+  
+== Miscellaneous
+
+* Comment out "Defaults requiretty" in /etc/sudoders
+    
+
+  
+
+  

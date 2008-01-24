@@ -1,0 +1,12 @@
+moving
+--This line, and those below, will be ignored--
+
+D    recipes/linux
+D    recipes/mongrel
+A    recipes/mongrel_cluster.rb
+A    recipes/database.rb
+D    recipes/sphinx
+D    recipes/rails
+A    recipes/privileges.rb
+A    recipes/sphinx.rb
+A    recipes/deploy.rb

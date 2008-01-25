@@ -17,7 +17,20 @@ repository: svn+ssh://gabe@ducktyper.com/var/svn/testapp/trunk
 domain_name: foo.com
 
 recipes:
-  - database
-  - mongrel_cluster
-  - sphinx
-  - nginx
+  install:    
+    - nginx
+    - sphinx
+  
+  setup:
+    - user
+    - mysql
+    - database
+    - mongrel_cluster
+    - nginx
+    - sphinx
+  
+  update_code:
+    - database
+    - sphinx
+    
+    

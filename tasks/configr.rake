@@ -5,7 +5,7 @@ namespace :configr do
   # Create Capfile and deploy.rb
   task :setup do     
     include Configr::Tasks
-    task_setup
+    task_setup    
   end
   
   # Remove capistrano files
@@ -20,10 +20,11 @@ namespace :configr do
     task_bootstrap
   end
   
-  # Update config, etc.
+  # Update config and re-run setup
   task :update do
     include Configr::Tasks
     task_update
+    task_setup
   end
   
 end

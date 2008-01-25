@@ -1,0 +1,20 @@
+---
+install:    
+  after:
+  - nginx
+
+setup:
+  before:
+  - add_user
+  after:
+  - add_user
+  - mysql
+  - database
+  - mongrel_cluster
+  - nginx
+  - sphinx
+
+update_code:
+  after:
+  - database
+  - sphinx

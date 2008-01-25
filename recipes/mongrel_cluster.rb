@@ -18,9 +18,5 @@ namespace :mongrel_cluster do
     sudo "install -o root /tmp/mongrel_cluster_#{application} /etc/init.d/mongrel_cluster_#{application}"
     sudo "/sbin/chkconfig --level 345 mongrel_cluster_#{application} on"
   end
-  
-  task :update_code do
-    # Do nothing
-  end
-  
+    
 end

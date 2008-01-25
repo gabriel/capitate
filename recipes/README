@@ -1,0 +1,9 @@
+= Recipes
+
+Install tasks are one time tasks (per image).
+
+Setup tasks are one time tasks (per application).
+
+Update code tasks are called after each deploy (per application).
+
+The patch.rb is not a recipe but is to include Configr helpers for use within recipes.

@@ -1,3 +1,8 @@
+#
+# This file is auto-generated from Configr.
+# To update config files, please run rake configr:update
+#
+
 set :application, "<%= application %>"
 set :repository, "<%= repository %>"
 
@@ -21,13 +26,17 @@ role :db,  "<%= db_server %>", :primary => true
 # set :use_sudo, false
 
 #
-# Custom variables
-# 
-
-# Used in database.rb recipe
+# Custom variables accessible in recipes
+#
 set :db_user, "<%= db_user %>"
 set :db_pass, "<%= db_pass %>"
 set :db_name, "<%= db_name %>"
 set :mongrel_port, <%= mongrel_port %>
 set :mongrel_size, <%= mongrel_size %>
 set :domain_name, "<%= domain_name %>"
+set :web_server, "<%= web_server %>"
+
+set :mysql_admin_user, Proc.new { Capistrano::CLI.ui.ask('Mysql admin user: ') }
+set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') } # Could use Capistrano::CLI.password_prompt("...")
+
+set :bootstrap_user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }

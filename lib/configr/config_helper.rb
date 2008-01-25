@@ -1,7 +1,6 @@
 require 'erb'
 require 'yaml'
 
-#
 # == Configuration helpers
 #
 # * Loads the configuration 
@@ -80,7 +79,21 @@ module Configr::ConfigHelper
       FileUtils.rm_rf(rm_file)
     end
   end
-
+  
+  # The default path to the configr yaml.
+  def configr_yml_path
+    @configr_yml_path ||= "#{RAILS_ROOT}/config/configr.yml"
+  end
+  
+  # Check for config file and a good version
+  def check_config
+    if File.exist?(configr_yml_path)
+      hash = YAML.load_file(configr_yml_path)
+      return Configr::Config.check_version(hash)
+    end
+    return false
+  end
+  
   # Load binding from the config object (generated from the configr yaml)
   def load_binding_from_config(path)
     config = YAML.load_file(path)

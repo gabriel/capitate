@@ -4,7 +4,8 @@ module Configr::Tasks
   include Configr::ConfigHelper
   include Configr::Prompt  
   
-  # Run the setup task
+  # Run the configr setup task.
+  # This generates your capistrano configuration, and any other local project specific stuff (like database.yml, sphinx.conf, etc)
   def task_setup    
     config_path = relative_to_root("config/configr.yml")
     
@@ -37,7 +38,7 @@ module Configr::Tasks
     clean("config/database.yml")
     clean("config/sphinx.conf")
     
-    if prompt_yes_no("Do you want to delete the configr.yml?", false) && File.exist?(relative_to_root("config/configr.yml"))
+    if File.exist?(relative_to_root("config/configr.yml")) && prompt_yes_no("Do you want to delete the configr.yml?", false)
       clean("config/configr.yml") 
     end
   end
@@ -50,33 +51,8 @@ module Configr::Tasks
   
   # Run the boostrap task.
   #
-  # This elps create the configr.yml (prompts for user input)
+  # This helps create the configr.yml (prompts for user input)
   # Alternatively you can create the yaml manually.
-  #
-  # Example,
-  #
-  #   application: testapp
-  #   user: testapp
-  # 
-  #   deploy_to: "/var/www/apps/testapp"
-  #   web_server: 10.0.6.159
-  #   db_server: 10.0.6.159
-  # 
-  #   db_user: testapp
-  #   db_pass: testapp
-  #   db_name: testapp
-  #
-  #   mongrel_port: 9000
-  #   mongrel_size: 3
-  #
-  #   repository: http://foo.com/var/svn/testapp/trunk
-  #
-  #   domain_name: foo.com
-  # 
-  #   recipes:
-  #     - database
-  #     - mongrel_cluster
-  #     - sphinx
   #
   def task_bootstrap(defaults = {}, auto_default = false)
     config = {}.merge(defaults)
@@ -98,17 +74,11 @@ module Configr::Tasks
     config["domain_name"] = prompt_with_example("Domain name (for nginx, no www prefix)", "foo.com", config["domain_name"], auto_default)
     
     # Default recipes
-    config["recipes"] = [ "database", "mongrel_cluster", "sphinx", "nginx" ]
-    
+    config["recipes"] = Configr::Config::DefaultRecipes    
     config["version"] = Configr::Config::Version
     
     File.open(configr_yml_path, "w") { |f| f.puts config.to_yaml }
     puts "%10s %-40s" % [ "create", "config/configr.yml" ] 
   end
   
-protected
-
-  def configr_yml_path
-    @configr_yml_path ||= "#{RAILS_ROOT}/config/configr.yml"
-  end
 end

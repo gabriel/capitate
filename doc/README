@@ -18,7 +18,7 @@ The idea is to have:
 
   sudo /usr/sbin/adduser -d /var/www/apps/testapp testapp
   sudo passwd testapp
-  sudo chmod a+r /var/www/apps/testapp
+  sudo chmod a+rx /var/www/apps/testapp
   
 (We are using the deploy directory as the home, just for convenience and because it will create it for us)
   

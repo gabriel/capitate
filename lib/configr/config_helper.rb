@@ -36,9 +36,14 @@ module Configr::ConfigHelper
     root_path
   end
   
+  # Root of templates path
+  def template_root
+    @template_root ||= File.expand_path(File.dirname(__FILE__) + "/../templates")
+  end
+  
   # Get full template path
   def full_template_path(template_path)
-    File.expand_path(File.dirname(__FILE__) + "/../templates/#{template_path}")
+    File.join(template_root, template_path)
   end
   
   # Load template at (full) path with binding
@@ -48,6 +53,11 @@ module Configr::ConfigHelper
     
     template = ERB.new(IO.read(template_path))
     template.result(binding)
+  end
+  
+  def load_file(path)
+    template_path = full_template_path(path)
+    IO.read(template_path)
   end
   
   # Write template at (relative path) with binding to destination path.

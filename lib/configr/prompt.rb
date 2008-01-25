@@ -1,12 +1,14 @@
 # For getting user input
 module Configr::Prompt
   
-  def prompt_with_default(message, default)
+  def prompt_with_default(message, default = nil, auto = false)
+    return default if auto && !default.blank?
     prompt(message, nil, nil, default, true)
   end
   
-  def prompt_with_example(message, example)
-    prompt(message, nil, example, nil, true)
+  def prompt_with_example(message, example, default = nil, auto = false)
+    return default if auto && !default.blank?
+    prompt(message, nil, example, default, true)
   end
   
   def prompt(message, choices = nil, example = nil, default = nil, check_input = false)    

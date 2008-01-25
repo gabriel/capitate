@@ -20,4 +20,10 @@ namespace :configr do
     task_bootstrap
   end
   
+  # Update config, etc.
+  task :update do
+    include Configr::Tasks
+    task_update
+  end
+  
 end

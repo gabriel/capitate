@@ -8,7 +8,7 @@ namespace :nginx do
     run "mkdir -p #{shared_path}/config"
     put load_template("nginx/nginx_include.conf.erb", binding), "#{shared_path}/config/nginx_#{application}.conf"    
     
-    run "ln -nfs #{shared_path}/config/sphinx.conf #{release_path}/config/sphinx.conf"
+    #run "ln -nfs #{shared_path}/config/nginx_#{application}.conf #{release_path}/config/nginx_#{application}.conf"
   end
   
   task :update_code do

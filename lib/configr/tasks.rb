@@ -42,6 +42,12 @@ module Configr::Tasks
     end
   end
   
+  # Run the update task
+  def task_update
+    defaults = File.exist?(configr_yml_path) ? YAML.load_file(configr_yml_path) : {}
+    task_bootstrap(defaults, true)
+  end
+  
   # Run the boostrap task.
   #
   # This elps create the configr.yml (prompts for user input)
@@ -72,32 +78,37 @@ module Configr::Tasks
   #     - mongrel_cluster
   #     - sphinx
   #
-  def task_bootstrap
-    config = {}
+  def task_bootstrap(defaults = {}, auto_default = false)
+    config = {}.merge(defaults)
     
-    config["application"] = prompt_with_example("Application name", "myapp").downcase
-    config["user"] = prompt_with_default("User", config["application"])
-    config["deploy_to"] = prompt_with_default("Deploy to", "/var/www/apps/#{config["application"]}")
-    config["web_server"] = prompt_with_default("Web server", "10.0.6.159")
-    config["db_server"] = prompt_with_default("Database server", "10.0.6.159")
-    config["db_user"] = prompt_with_default("Database user", config["user"])
-    config["db_pass"] = prompt("Database password")
-    config["db_name"] = prompt_with_default("Database name", config["user"])
+    config["application"] = prompt_with_example("Application name", "myapp", config["application"], auto_default).underscore
+    config["user"] = prompt_with_default("User", config["user"] || config["application"], auto_default)
+    config["deploy_to"] = prompt_with_default("Deploy to", config["deploy_to"] || "/var/www/apps/#{config["application"]}", auto_default)
+    config["web_server"] = prompt_with_default("Web server", config["web_server"] || "10.0.6.159", auto_default)
+    config["db_server"] = prompt_with_default("Database server", config["db_server"] || "10.0.6.159", auto_default)
+    config["db_user"] = prompt_with_default("Database user",config["db_user"] || config["user"], auto_default)
+    config["db_pass"] = prompt_with_default("Database password", config["db_pass"], auto_default)
+    config["db_name"] = prompt_with_default("Database name", config["db_name"] || config["user"], auto_default)
     
-    config["repository"] = prompt_with_example("Repository", "http://foo.com/var/svn/myapp/trunk")
+    config["repository"] = prompt_with_example("Repository", "http://foo.com/var/svn/myapp/trunk", config["repository"], auto_default)
     
-    config["mongrel_port"] = prompt_with_example("Mongrel starting port", "9000")
-    config["mongrel_size"] = prompt_with_example("Number of mongrels", "3")
+    config["mongrel_port"] = prompt_with_example("Mongrel starting port", "9000", config["mongrel_port"], auto_default)
+    config["mongrel_size"] = prompt_with_example("Number of mongrels", "3", config["mongrel_size"], auto_default)
     
-    config["domain_name"] = prompt_with_example("Domain name (for nginx, no www prefix)", "foo.com")
+    config["domain_name"] = prompt_with_example("Domain name (for nginx, no www prefix)", "foo.com", config["domain_name"], auto_default)
     
     # Default recipes
-    config["recipes"] = [ "database", "mongrel_cluster", "sphinx" ]
+    config["recipes"] = [ "database", "mongrel_cluster", "sphinx", "nginx" ]
     
-    configr_yml_path = "#{RAILS_ROOT}/config/configr.yml"
+    config["version"] = Configr::Config::Version
     
     File.open(configr_yml_path, "w") { |f| f.puts config.to_yaml }
     puts "%10s %-40s" % [ "create", "config/configr.yml" ] 
   end
   
+protected
+
+  def configr_yml_path
+    @configr_yml_path ||= "#{RAILS_ROOT}/config/configr.yml"
+  end
 end

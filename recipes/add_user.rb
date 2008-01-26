@@ -2,6 +2,9 @@ namespace :add_user do
   
   # Since the application user does not exist, you will need to log in as an existing user with sudo priviliges.
   # This is known as the bootstrap user.
+  #
+  # We need to temporarily change the connection user to this bootstrap user, and then set back after.
+  # We also need to reset the connection.
   task :setup do
     old_user = fetch(:user)
     
@@ -25,6 +28,8 @@ namespace :add_user do
     ensure
       set :user, old_user
     end
+    
+    clear_sessions
   end
     
 end

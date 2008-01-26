@@ -13,7 +13,7 @@ class Configr::Config
   DefaultRecipes = YAML.load_file(File.dirname(__FILE__) + "/../../config/recipes.yml")
   
   # Increment this version whenever you make non-backwards compatible changes; It will force an configr update.
-  Version = 7
+  Version = 8
   
   # Initialize with hash, all keys used to set instance variable
   def initialize(hash)
@@ -58,7 +58,7 @@ class Configr::Config
   
   class << self
   
-    # Return the binding from a config hash
+    # Return the binding for an instance of this class (from the config hash)
     def binding_from_hash(hash)
       new(hash).get_binding
     end

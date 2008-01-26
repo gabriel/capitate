@@ -24,8 +24,8 @@ module Configr::Tasks
     end
         
     config_binding = load_binding_from_config(config_path)
-    write_template("capistrano/Capfile.erb", config_binding, relative_to_root("Capfile"))    
-    write_template("capistrano/deploy.rb.erb", config_binding, relative_to_root("config/deploy.rb"))
+    write_template("capistrano/Capfile.erb", config_binding, relative_to_root("Capfile"), true)    
+    write_template("capistrano/deploy.rb.erb", config_binding, relative_to_root("config/deploy.rb"), true)
     write_template("rails/database.yml.erb", config_binding, relative_to_root("config/database.yml"))
     write_template("sphinx/sphinx.conf.erb", config_binding, relative_to_root("config/sphinx.conf"))
     

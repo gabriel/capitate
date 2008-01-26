@@ -7,14 +7,13 @@ setup:
   before:
   - add_user
   after:
-  - add_user
   - mysql
-  - database
+  - rails
   - mongrel_cluster
-  - nginx
+  - nginx  
   - sphinx
 
 update_code:
   after:
-  - database
+  - rails
   - sphinx

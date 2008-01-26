@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + "/../init"
 
+# Tasks for configr.
+# Otherwise use capistrano.
 namespace :configr do 
   
   # Create Capfile and deploy.rb

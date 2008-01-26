@@ -62,12 +62,17 @@ module Configr::ConfigHelper
   # Write template at (relative path) with binding to destination path.
   #
   # template_path is relative <tt>"capistrano/deploy.rb.erb"</tt>
-  def write_template(template_path, binding, dest_path, verbose = true)        
-    if verbose
-      relative_dest_path = Pathname.new(File.expand_path(dest_path)).relative_path_from(Pathname.new(File.expand_path(".")))    
-      puts "%10s %-40s" % [ "create", relative_dest_path ] 
+  def write_template(template_path, binding, dest_path, overwrite = false, verbose = true)    
+    # This is gnarly!
+    relative_dest_path = Pathname.new(File.expand_path(dest_path)).relative_path_from(Pathname.new(File.expand_path(".")))  
+    
+    if !overwrite && File.exist?(dest_path) 
+      puts "%10s %-40s (skipped)" % [ "create", relative_dest_path ] if verbose
+      return
     end
     
+    puts "%10s %-40s" % [ "create", relative_dest_path ] if verbose
+        
     File.open(dest_path, "w") { |file| file.puts(load_template(template_path, binding)) }
   end
   

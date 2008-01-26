@@ -1,5 +1,5 @@
-# Database recipes (rails)
-namespace :database do
+# Rails recipes
+namespace :rails do
   
   desc "Create database yaml in shared path" 
   task :setup do    

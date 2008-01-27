@@ -1,0 +1,10 @@
+---
+install:     
+  after:
+  - centos
+  - ruby
+  - nginx
+  - mongrel_cluster
+  - mysql
+  - sphinx
+  - monit

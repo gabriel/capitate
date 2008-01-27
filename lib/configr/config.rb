@@ -10,7 +10,7 @@ class Configr::Config
   attr_accessor :domain_name
   attr_accessor :version
   
-  DefaultRecipes = YAML.load_file(File.dirname(__FILE__) + "/../../config/recipes.yml")
+  DefaultRecipes = YAML.load_file(File.dirname(__FILE__) + "/../../config/app_recipes.yml")
   
   # Increment this version whenever you make non-backwards compatible changes; It will force an configr update.
   Version = 8
@@ -29,24 +29,6 @@ class Configr::Config
     end
   end
 
-  # Generates all the callbacks for the Capfile.
-  # This is based on the recipes configuration.
-  def capfile_callbacks
-    callbacks = [ "install", "setup", "update_code" ]
-    
-    callback_data = []
-    
-    callbacks.each do |callback|
-      recipes[callback].each do |call_when, recipes|
-        recipes.each do |recipe|
-          callback_data << { :when => call_when.to_sym, :deploy_task => "deploy:#{callback}",  :recipe_callback => "#{recipe}:#{callback}" }
-        end
-      end
-    end
-    
-    callback_data
-  end
-    
   def validate
     # TODO-gabe: validate
   end

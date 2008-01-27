@@ -1,4 +1,4 @@
-= Centos 5.1 Setup Steps
+= Notes for Centos 5.1 Setup
 
 * Install centos in a VMWare install, or get a pre-packaged vm (see http://www.thoughtpolice.co.uk/vmware/)
 

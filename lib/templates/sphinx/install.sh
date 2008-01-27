@@ -1,6 +1,12 @@
 #!/bin/sh
 
+set -e
+trap error ERR
+
 cd /tmp 
+
+wget -nv http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz
+
 tar zxpf sphinx-0.9.7.tar.gz
 
 cd sphinx-0.9.7

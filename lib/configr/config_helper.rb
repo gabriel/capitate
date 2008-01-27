@@ -114,7 +114,30 @@ module Configr::ConfigHelper
   end
   
   def capfile_callbacks
-    Configr::Config.new(load_config_yaml).capfile_callbacks
+    recipes = Configr::Config.new(YAML.load_file(configr_yml_path)).recipes
+    tasks = [ "install", "setup", "update_code" ]
+    load_callbacks(recipes, tasks)
+  end
+  
+  # Load callbacks from recipes list and tasks list
+  def load_callbacks(recipes, tasks)
+    callbacks = []
+
+    tasks.each do |task|
+      recipes[task].each do |call_when, recipes|
+        recipes.each do |recipe|
+          callbacks << { :when => call_when.to_sym, :deploy_task => "deploy:#{task}",  :recipe_callback => "#{recipe}:#{task}" }
+        end
+      end
+    end
+
+    callbacks
+  end
+  
+  def install_callbacks
+    recipes_path = File.dirname(__FILE__) + "/../../config/image_recipes.yml"
+    recipes = YAML.load_file(recipes_path)
+    load_callbacks(recipes, [ "install" ])
   end
     
 end

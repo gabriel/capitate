@@ -7,15 +7,60 @@ load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
 set :project_root, File.dirname(__FILE__)
 
-# Load bootstrapped deploy.rb
-Dir['vendor/plugins/*/recipes/bootstrap/deploy.rb'].each { |bootstrap| load(bootstrap)}
+# Load bootstrapped deploy.rb and patch.rb
+Dir['vendor/plugins/*/recipes/bootstrap/patch.rb'].each { |patch| load(patch)}
 
 # Load recipes
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
 
 require 'erb'
 
-set :project_root, File.dirname(__FILE__)
+#
+# deploy.rb
+#
+
+config = load_config_yaml
+
+set :application, config["application"]
+set :repository, config["repository"]
+
+set :deploy_via, :copy
+set :copy_strategy, :export
+
+# If you aren't deploying to /u/apps/#{application} on the target
+# servers (which is the default), you can specify the actual location
+# via the :deploy_to variable:
+set :deploy_to, config["deploy_to"]
+
+# If you aren't using Subversion to manage your source code, specify
+# your SCM below:
+# set :scm, :subversion
+
+role :web, config["web_server"]
+role :db,  config["db_server"], :primary => true
+
+# set :keep_releases, 3
+# set :use_sudo, false
+
+#
+# Custom variables accessible in recipes
+#
+vars = [ :db_user, :db_pass, :db_name, :mongrel_port, :mongrel_size, :domain_name, :web_server ]
+vars.each do |var|
+  set var, config[var.to_s]
+end
+
+# This should be overriden by project specific Capfile
+set :user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }
+
+#
+# Callbacks
+#
+
+capfile_callbacks.each do |callback|
+  before callback[:deploy_task], callback[:recipe_callback] if callback[:when] == :before
+  after callback[:deploy_task], callback[:recipe_callback] if callback[:when] == :after
+end
 
 # Auto cleanup after deploy?
 # after "deploy", "deploy:cleanup"

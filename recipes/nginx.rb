@@ -1,13 +1,16 @@
 # Nginx recipes
 namespace :nginx do
     
-  desc "Creates nginx conf, initscript, nginx user and installs as service"
+  desc "Install nginx, conf, initscript, nginx user and service"
   task :install do
-    put load_file("nginx/install.sh"), "/tmp/nginx_install.sh"
-    put load_file("nginx/nginx"), "/tmp/nginx"    
-    put load_file("nginx/nginx.conf"), "/tmp/nginx.conf" 
+    yum_install([ "pcre-devel", "openssl", "openssl-devel" ])
+
+    run("rm -rf /tmp/nginx && mkdir -p /tmp/nginx")
     
-    sudo "sh -v /tmp/nginx_install.sh"    
+    put(load_file("nginx/nginx"), "/tmp/nginx/nginx.initd")
+    put(load_file("nginx/nginx.conf"), "/tmp/nginx/nginx.conf")
+    
+    install_script("nginx/install.sh")  
   end
   
   desc "Create and update the nginx vhost include"

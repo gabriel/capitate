@@ -8,23 +8,21 @@ The idea is to have:
 * Use capistrano with recipes
 
 
-== Setting up Configr
+== Creating image
+
+  cap deploy:install
+  
+* You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
+
+
+== Setting up Configr (for application)
 
 * Configure your application
 
   rake configr:setup
       
     
-== Installing (TODO)
-
-* Run install
-
-  cap centos:install
-  
-  You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
-  
-    
-== Deploying
+== Deploying (application)
 
 If this is the first time you've deployed you'll need to run:
 

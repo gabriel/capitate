@@ -1,7 +1,13 @@
 # Mysql recipes
 namespace :mysql do
   
-  task :install do
+  desc "Install mysql"
+  task :install do    
+    set :mysql_admin_password, Capistrano::CLI.ui.ask('Mysql admin password (to set): ')
+    
+    yum_install([ "mysql", "mysql-devel", "mysql-server" ])
+    
+    install_script("mysql/install.sh.erb")
     
   end
   

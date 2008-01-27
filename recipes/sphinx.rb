@@ -1,12 +1,19 @@
 # Sphinx recipes
 namespace :sphinx do
   
+  desc "Install sphinx"
+  task :install do 
+    yum_install([ "gcc-c++" ])
+    install_script("sphinx/install.sh")
+  end
+  
+  desc "Setup sphinx for application"
   task :setup do 
     run "mkdir -p #{shared_path}/config"
     put load_template("sphinx/sphinx.conf.erb", binding), "#{shared_path}/config/sphinx.conf"    
   end
   
-  desc "Make symlink for sphinx conf" 
+  desc "Update sphinx for application" 
   task :update_code do
     run "ln -nfs #{shared_path}/config/sphinx.conf #{release_path}/config/sphinx.conf"
   end

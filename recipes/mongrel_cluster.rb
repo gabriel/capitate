@@ -1,6 +1,7 @@
 # Create init script
 namespace :mongrel_cluster do
   
+  desc "Install mongrel and mongrel_cluster"
   task :install do 
     sudo "gem install mongrel mongrel_cluster"
   end

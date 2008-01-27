@@ -1,8 +1,4 @@
 ---
-install:    
-  after:
-  - nginx
-
 setup:
   before:
   - add_user

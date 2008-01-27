@@ -12,4 +12,5 @@ require "configr/tasks"
 
 require "configr/helpers/yum"
 require "configr/helpers/wget"
+require "configr/helpers/install_script"
 

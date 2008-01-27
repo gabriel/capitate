@@ -1,6 +1,12 @@
 #! /bin/sh
 
+set -e
+trap error ERR
+
 cd /tmp 
+
+wget -nv http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz
+
 tar zxpf monit-4.10.1.tar.gz
 
 cd monit-4.10.1

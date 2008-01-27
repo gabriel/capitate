@@ -4,12 +4,18 @@
 #
 
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+
+set :project_root, File.dirname(__FILE__)
+
+# Load bootstrapped deploy.rb
+Dir['vendor/plugins/*/recipes/bootstrap/deploy.rb'].each { |bootstrap| load(bootstrap)}
+
+# Load recipes
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
-load 'config/deploy'
 
 require 'erb'
 
-<%= capfile_callbacks %>
+set :project_root, File.dirname(__FILE__)
 
 # Auto cleanup after deploy?
 # after "deploy", "deploy:cleanup"

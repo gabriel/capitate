@@ -10,6 +10,10 @@ module Configr::ConfigHelper
     
   # Project root (for rails)
   def root
+    if respond_to?(:fetch)
+      return fetch(:project_root)
+    end
+    
     RAILS_ROOT
   end
     
@@ -87,13 +91,17 @@ module Configr::ConfigHelper
   
   # The default path to the configr yaml.
   def configr_yml_path
-    @configr_yml_path ||= "#{RAILS_ROOT}/config/configr.yml"
+    @configr_yml_path ||= "#{root}/config/configr.yml"
+  end
+  
+  def load_config_yaml
+    YAML.load_file(configr_yml_path)
   end
   
   # Check for config file and a good version
   def check_config
     if File.exist?(configr_yml_path)
-      hash = YAML.load_file(configr_yml_path)
+      hash = load_config_yaml
       return Configr::Config.check_version(hash)
     end
     return false
@@ -103,6 +111,10 @@ module Configr::ConfigHelper
   def load_binding_from_config(path)
     config = YAML.load_file(path)
     Configr::Config.binding_from_hash(config)
+  end
+  
+  def capfile_callbacks
+    Configr::Config.new(load_config_yaml).capfile_callbacks
   end
     
 end

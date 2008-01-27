@@ -1,6 +1,10 @@
 # Mysql recipes
 namespace :mysql do
   
+  task :install do
+    
+  end
+  
   desc "Create database user, and database with appropriate permissions"
   task :setup do
     # Locations can access from

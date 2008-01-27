@@ -8,21 +8,21 @@ The idea is to have:
 * Use capistrano with recipes
 
 
-== Installing (TODO)
-
-* Run install
-
-  rake configr:install
-
-
 == Setting up Configr
 
 * Configure your application
 
   rake configr:setup
-  
-* Add application user to /etc/sudoers. Eventually we will be able to restrict the user properly (TODO-gabe)
+      
     
+== Installing (TODO)
+
+* Run install
+
+  cap centos:install
+  
+  You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
+  
     
 == Deploying
 

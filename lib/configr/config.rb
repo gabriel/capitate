@@ -39,12 +39,12 @@ class Configr::Config
     callbacks.each do |callback|
       recipes[callback].each do |call_when, recipes|
         recipes.each do |recipe|
-          callback_data << %{#{call_when} "deploy:#{callback}", "#{recipe}:#{callback}"}
+          callback_data << { :when => call_when.to_sym, :deploy_task => "deploy:#{callback}",  :recipe_callback => "#{recipe}:#{callback}" }
         end
       end
     end
     
-    callback_data.join("\n")
+    callback_data
   end
     
   def validate

@@ -1,8 +1,6 @@
 = Centos 5.1 Setup Steps
 
 * Install centos in a VMWare install, or get a pre-packaged vm (see http://www.thoughtpolice.co.uk/vmware/)
-* VMWare server code (92J4X-YKE0U-2A15J-426J5)
-
 
 == Preliminary setup
 
@@ -11,10 +9,11 @@
 * Add yourself to sudoers
 
 * Uninstall unused stuff:
-  sudo yum remove openoffice.org-*
+  sudo yum -y remove openoffice.org-*
   
-* Run sudo yum update
-  sudo yum install gcc kernel-devel
+* Update and install core stuff
+  sudo yum update
+  sudo yum -y install gcc kernel-devel
 
 
 == Install ruby

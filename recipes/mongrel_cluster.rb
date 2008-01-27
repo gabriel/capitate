@@ -1,6 +1,10 @@
 # Create init script
 namespace :mongrel_cluster do
   
+  task :install do 
+    sudo "gem install mongrel mongrel_cluster"
+  end
+  
   desc "Create mongrel cluster"
   task :setup do 
     run "mkdir -p #{shared_path}/config"

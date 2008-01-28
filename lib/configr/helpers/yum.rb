@@ -32,7 +32,7 @@ module Configr::Helpers::Yum
   
   # Clean yum
   def yum_clean
-    sudo "yum -y clean"
+    sudo "yum -y clean all"
   end
   
 end

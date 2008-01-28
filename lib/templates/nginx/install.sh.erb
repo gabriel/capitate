@@ -1,0 +1,36 @@
+#! /bin/bash
+
+set -e
+trap error ERR
+
+BIN_PATH=<%= nginx_bin_path %>
+CONF_PATH=<%= nginx_conf_path %>
+PID_PATH=<%= nginx_pid_path %>
+ERROR_LOG_PATH=/var/log/nginx_master_error.log
+LOCK_PATH=/var/lock/nginx
+PREFIX_PATH=<%= nginx_prefix_path %>
+
+cd /tmp/nginx
+
+wget -nv http://sysoev.ru/nginx/nginx-0.5.35.tar.gz
+
+tar zxpf nginx-0.5.35.tar.gz
+
+cd nginx-0.5.35
+./configure --sbin-path=$BIN_PATH --conf-path=$CONF_PATH --pid-path=$PID_PATH --error-log-path=$ERROR_LOG_PATH --lock-path=$LOCK_PATH --prefix=$PREFIX_PATH --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module
+make
+make install
+
+cd ..
+rm -rf nginx-0.5.35*
+
+install -o root nginx.initd /etc/init.d/nginx
+/sbin/chkconfig --level 345 nginx on
+
+mkdir -p /etc/nginx/vhosts
+   
+install -o root -m 644 nginx.conf $CONF_PATH
+
+id nginx || /usr/sbin/adduser -r nginx
+
+/sbin/service nginx start

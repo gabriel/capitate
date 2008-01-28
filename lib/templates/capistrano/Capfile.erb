@@ -1,13 +1,13 @@
 #
 # This file is auto-generated from Configr.
-# To update config files, please run rake configr:update
+# To update config files, run rake configr:update
 #
 
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
 set :project_root, File.dirname(__FILE__)
 
-# Load bootstrapped deploy.rb and patch.rb
+# Load bootstrapped patch.rb
 Dir['vendor/plugins/*/recipes/bootstrap/patch.rb'].each { |patch| load(patch)}
 
 # Load recipes
@@ -19,10 +19,10 @@ require 'erb'
 # deploy.rb
 #
 
-config = load_config_yaml
-
-set :application, config["application"]
-set :repository, config["repository"]
+set :application, config.application
+set :repository, config.repository
+set :user, config.user
+set :bootstrap_user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }
 
 set :deploy_via, :copy
 set :copy_strategy, :export
@@ -30,14 +30,14 @@ set :copy_strategy, :export
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
 # via the :deploy_to variable:
-set :deploy_to, config["deploy_to"]
+set :deploy_to, config.deploy_to
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 # set :scm, :subversion
 
-role :web, config["web_server"]
-role :db,  config["db_server"], :primary => true
+role :web, config.web_server
+role :db,  config.db_server, :primary => true
 
 # set :keep_releases, 3
 # set :use_sudo, false
@@ -47,20 +47,22 @@ role :db,  config["db_server"], :primary => true
 #
 vars = [ :db_user, :db_pass, :db_name, :mongrel_port, :mongrel_size, :domain_name, :web_server ]
 vars.each do |var|
-  set var, config[var.to_s]
+  set var, config.send(var)
 end
-
-# This should be overriden by project specific Capfile
-set :user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }
 
 #
 # Callbacks
 #
 
-capfile_callbacks.each do |callback|
-  before callback[:deploy_task], callback[:recipe_callback] if callback[:when] == :before
-  after callback[:deploy_task], callback[:recipe_callback] if callback[:when] == :after
-end
+before "deploy:setup", "centos:add_user"
+after "deploy:setup", "mysql:setup"
+after "deploy:setup", "rails:setup"
+after "deploy:setup", "mongrel_cluster:setup"
+after "deploy:setup", "nginx:setup"
+after "deploy:setup", "sphinx:setup"
+
+after "deploy:update_code", "rails:update_code"
+after "deploy:update_code", "sphinx:update_code"
 
 # Auto cleanup after deploy?
 # after "deploy", "deploy:cleanup"

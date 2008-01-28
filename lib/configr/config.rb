@@ -5,12 +5,10 @@ class Configr::Config
   
   attr_accessor :application, :user, :deploy_to, :web_server, :db_server
   attr_accessor :db_user, :db_pass, :db_name
-  attr_accessor :repository, :recipes
+  attr_accessor :repository
   attr_accessor :mongrel_port, :mongrel_size
   attr_accessor :domain_name
   attr_accessor :version
-  
-  DefaultRecipes = YAML.load_file(File.dirname(__FILE__) + "/../../config/app_recipes.yml")
   
   # Increment this version whenever you make non-backwards compatible changes; It will force an configr update.
   Version = 8

@@ -1,5 +1,14 @@
 # Nginx recipes
 namespace :nginx do
+  
+  # Conf variables
+  set :nginx_bin_path, "/sbin/nginx"
+  set :nginx_conf_path, "/etc/nginx/nginx.conf"
+  set :nginx_pid_path, "/var/run/nginx.pid"
+  set :nginx_prefix_path, "/var/nginx"
+  
+  # Callbacks
+  after "nginx:setup", "nginx:restart"
     
   desc "Install nginx, conf, initscript, nginx user and service"
   task :install do
@@ -7,10 +16,10 @@ namespace :nginx do
 
     run("rm -rf /tmp/nginx && mkdir -p /tmp/nginx")
     
-    put(load_file("nginx/nginx"), "/tmp/nginx/nginx.initd")
-    put(load_file("nginx/nginx.conf"), "/tmp/nginx/nginx.conf")
+    put(load_template("nginx/nginx.initd.erb", binding), "/tmp/nginx/nginx.initd")
+    put(load_template("nginx/nginx.conf.erb", binding), "/tmp/nginx/nginx.conf")
     
-    install_script("nginx/install.sh")  
+    install_script("nginx/install.sh.erb")  
   end
   
   desc "Create and update the nginx vhost include"
@@ -20,9 +29,14 @@ namespace :nginx do
     public_path = current_path + "/public"
     
     run "mkdir -p #{shared_path}/config"
-    put load_template("nginx/nginx_vhost.conf.erb", binding), "#{shared_path}/config/nginx_#{application}.conf"    
+    put load_template("nginx/nginx_vhost.conf.erb", binding), "/tmp/nginx_#{application}.conf"    
     
-    # TODO: Include in sites-available
+    sudo "install -o root /tmp/nginx_#{application}.conf /etc/nginx/vhosts/#{application}.conf"        
+  end
+  
+  # Restart nginx
+  task :restart do
+    sudo "/sbin/service nginx restart"
   end
     
 end

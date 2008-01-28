@@ -12,18 +12,3 @@ set :user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }
 
 # Roles
 role :app, Capistrano::CLI.ui.ask('Server: ')
-
-#
-# Capfile
-# 
-
-namespace :deploy do
-  task :install do 
-    # Default install task (otherwise use callbacks)
-  end
-end
-
-install_callbacks.each do |callback|
-  before callback[:deploy_task], callback[:recipe_callback] if callback[:when] == :before
-  after callback[:deploy_task], callback[:recipe_callback] if callback[:when] == :after
-end

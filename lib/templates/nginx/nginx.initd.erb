@@ -13,10 +13,9 @@ set -e
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DESC="nginx daemon"
 NAME=nginx
-DAEMON=/sbin/$NAME
-CONFIGFILE=/usr/local/nginx/nginx.conf
-PIDFILE=/var/run/$NAME.pid
-SCRIPTNAME=/etc/init.d/$NAME
+DAEMON=<%= nginx_bin_path %>
+CONFIGFILE=<%= nginx_conf_path %>
+PIDFILE=<%= nginx_pid_path %>
 
 # Gracefully exit if the package has been removed.
 test -x $DAEMON || exit 0
@@ -62,7 +61,7 @@ case "$1" in
   	echo "."
 	;;
   *)
-	  echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
+	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
 	  exit 3
 	;;
 esac

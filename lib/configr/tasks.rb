@@ -73,13 +73,12 @@ module Configr::Tasks
     
     config["repository"] = prompt_with_default("Repository uri", config["repository"], auto_default)
     
-    config["mongrel_port"] = prompt_with_example("Mongrel starting port", "9000", config["mongrel_port"], auto_default)
-    config["mongrel_size"] = prompt_with_example("Number of mongrels", "3", config["mongrel_size"], auto_default)
+    config["mongrel_port"] = prompt_with_example("Mongrel starting port", "9000", config["mongrel_port"], auto_default).to_i
+    config["mongrel_size"] = prompt_with_example("Number of mongrels", "3", config["mongrel_size"], auto_default).to_i
     
     config["domain_name"] = prompt_with_default("Domain name (for nginx vhost; no www prefix)", config["domain_name"] || "localhost", auto_default)
     
     # Default recipes
-    config["recipes"] = Configr::Config::DefaultRecipes    
     config["version"] = Configr::Config::Version
     
     File.open(configr_yml_path, "w") { |f| f.puts config.to_yaml }

@@ -98,6 +98,10 @@ module Configr::ConfigHelper
     YAML.load_file(configr_yml_path)
   end
   
+  def config
+    @config ||= Configr::Config.new(load_config_yaml)
+  end
+  
   # Check for config file and a good version
   def check_config
     if File.exist?(configr_yml_path)

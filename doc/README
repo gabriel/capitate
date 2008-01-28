@@ -10,17 +10,10 @@ The idea is to have:
 
 == Creating image
 
-  cap deploy:install
+  cap centos:install (For centos image)
   
-* You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
-
-
-== Setting up Configr (for application)
-
-* Configure your application
-
-  rake configr:setup
-      
+You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
+    
     
 == Deploying (application)
 
@@ -37,11 +30,6 @@ Otherwise, your deploy options:
   cap deploy:migrate (only does migration on existing deployment)
 
 
-== Clearing
-
-  rake configr:clean
-  
-  
 == Freezing gems
 
 You must freeze all gems (excluding core ones like mongrel, ruby-mysql, etc):

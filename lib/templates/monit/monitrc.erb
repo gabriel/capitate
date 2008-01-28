@@ -1,0 +1,26 @@
+set daemon     60 
+set logfile    syslog
+set mailserver localhost
+set alert      gabrielh@gmail.com
+
+
+# Monit http server settings:
+# ---------------------------
+
+set httpd port 2814
+     ssl enable
+     pemfile /var/certs/monit.pem
+     allow admin:poop987
+
+
+check process mysql with pidfile /var/run/mysqld/mysqld.pid
+   group database
+   start program = "/sbin/service mysqld start"
+   stop program = "/sbin/service mysqld stop"
+   if failed host 127.0.0.1 port 3306 then restart
+   if 5 restarts within 5 cycles then timeout
+
+
+check process nginx with pidfile <%= nginx_pid_path %>
+   start program = "/etc/init.d/nginx start"
+   stop program = "/etc/init.d/nginx stop"

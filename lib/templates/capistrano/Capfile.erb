@@ -51,18 +51,20 @@ vars.each do |var|
 end
 
 #
-# Callbacks
+# Callbacks (loaded from config)
 #
 
-before "deploy:setup", "centos:add_user"
-after "deploy:setup", "mysql:setup"
-after "deploy:setup", "rails:setup"
-after "deploy:setup", "mongrel_cluster:setup"
-after "deploy:setup", "nginx:setup"
-after "deploy:setup", "sphinx:setup"
+config.recipes["before_setup"].each do |recipe|
+  after "deploy:update_code", recipe
+end
 
-after "deploy:update_code", "rails:update_code"
-after "deploy:update_code", "sphinx:update_code"
+config.recipes["after_setup"].each do |recipe|
+  after "deploy:setup", recipe
+end
+
+config.recipes["after_update_code"].each do |recipe|
+  after "deploy:update_code", recipe
+end
 
 # Auto cleanup after deploy?
 # after "deploy", "deploy:cleanup"

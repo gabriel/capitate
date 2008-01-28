@@ -5,7 +5,7 @@ class Configr::Config
   
   attr_accessor :application, :user, :deploy_to, :web_server, :db_server
   attr_accessor :db_user, :db_pass, :db_name
-  attr_accessor :repository
+  attr_accessor :repository, :recipes
   attr_accessor :mongrel_port, :mongrel_size
   attr_accessor :domain_name
   attr_accessor :version

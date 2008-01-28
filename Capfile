@@ -1,5 +1,6 @@
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
+# Patches for capistrano
 load "recipes/bootstrap/patch.rb"
 
 # Load recipes

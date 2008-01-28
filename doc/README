@@ -25,7 +25,7 @@ Otherwise, your deploy options:
   
   cap deploy
 
-  cap deploy:migrations (deploys with migrations)
+  cap deploy:migrations (deploys and does migration)
   
   cap deploy:migrate (only does migration on existing deployment)
 

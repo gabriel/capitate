@@ -1,0 +1,14 @@
+---
+before_setup:
+  - "centos:add_user_for_app"
+  
+after_setup:
+  - "mysql:setup"
+  - "rails:setup"
+  - "mongrel_cluster:setup"
+  - "nginx:setup"
+  - "sphinx:setup"
+  
+after_update_code:
+  - "rails:update_code"
+  - "sphinx:update_code"

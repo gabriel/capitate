@@ -26,7 +26,7 @@ namespace :centos do
     sudo "sed -i -e 's/^id:5:initdefault:/id:3:initdefault:/g' /etc/inittab"
   end
   
-  # These run after centos install task
+  # These run after centos install task and install all the apps
   tasks = [ "ruby:install", "nginx:install", "mongrel_cluster:install", "mysql:install", "sphinx:install", "monit:install", "centos:cleanup" ]
   tasks.each do |task_name|
     after "centos:install", task_name
@@ -38,14 +38,14 @@ namespace :centos do
     yum_clean
   end
   
-  
+  # Add user for an application
   desc "Add user (adds to admin group)"
-  task :add_user do
+  task :add_user_for_app do
     
-    with_user(bootstrap_user) do |old_user|
+    with_user(bootstrap_user) do |user_to_add|
     
       exists = false
-      sudo "id #{old_user}" do |channel, stream, data|
+      sudo "id #{user_to_add}" do |channel, stream, data|
         if data !~ /No such user/
           exists = true
         end
@@ -53,12 +53,12 @@ namespace :centos do
       
       if !exists
     
-        sudo "/usr/sbin/adduser -d #{deploy_to} -G admin #{old_user}"
+        sudo "/usr/sbin/adduser -d #{deploy_to} -G admin #{user_to_add}"
         sudo "chmod a+rx #{deploy_to}"
     
-        new_password = Capistrano::CLI.password_prompt("Password for user (#{old_user}): ")
+        new_password = Capistrano::CLI.password_prompt("Password for user (#{user_to_add}): ")
     
-        sudo "passwd #{old_user}" do |channel, stream, data|
+        sudo "passwd #{user_to_add}" do |channel, stream, data|
           logger.info data
       
           if data =~ /password:/i
@@ -68,7 +68,7 @@ namespace :centos do
         end
         
       else        
-        logger.important "User #{old_user} already exists"
+        logger.important "User #{user_to_add} already exists"
       end
       
     end

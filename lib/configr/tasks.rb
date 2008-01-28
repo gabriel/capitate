@@ -53,6 +53,7 @@ module Configr::Tasks
   def task_bootstrap(defaults = {}, auto_default = false)
     config = {}.merge(defaults)
     
+    # Auto-detect repository default, if possible
     unless config["repository"]
       begin
         svn_info = YAML.load(`svn info`)
@@ -77,6 +78,9 @@ module Configr::Tasks
     config["mongrel_size"] = prompt_with_example("Number of mongrels", "3", config["mongrel_size"], auto_default).to_i
     
     config["domain_name"] = prompt_with_default("Domain name (for nginx vhost; no www prefix)", config["domain_name"] || "localhost", auto_default)
+    
+    # Load default recipes if not set
+    config["recipes"] ||= YAML.load_file(File.dirname(__FILE__) + "/recipes.yml")
     
     # Default recipes
     config["version"] = Configr::Config::Version

@@ -1,10 +1,16 @@
 = Notes for Centos 5.1 Setup (could be out of date)
 
-* Install centos in a VMWare install, or get a pre-packaged vm (see http://www.thoughtpolice.co.uk/vmware/)
+http://jailtime.org/download:centos:v5.1
+
+XEN Links: 
+http://wiki.centos.org/TipsAndTricks/Xen
+http://wiki.rpath.com/wiki/Xen_DomU_Guide
+
+
 
 == Preliminary setup
 
-* Change root passwd (ch1ostiw)
+* Change root passwd
 * Change /etc/inittab runlevel to 3
 * Add yourself to sudoers
 

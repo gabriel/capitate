@@ -12,18 +12,9 @@ namespace :centos do
     # Install core dependencies
     yum_install([ "gcc", "kernel-devel" ])
     
-    # Create web apps directory
-    sudo "mkdir -p /var/www/apps"       
     
-    # Add admin group
-    sudo "/usr/sbin/groupadd admin"
-    
-    # Patch sudoers to include admin group
-    put load_file("patches/centos/sudoers.patch"), "/tmp/sudoers.patch"
-    sudo "patch /etc/sudoers < /tmp/sudoers.patch" 
-    
-    # Change inittab to runlevel 3
-    sudo "sed -i -e 's/^id:5:initdefault:/id:3:initdefault:/g' /etc/inittab"
+    put load_file("centos/sudoers"), "/tmp/sudoers"
+    install_script("centos/setup.sh")    
   end
   
   # These run after centos install task and install all the apps
@@ -32,7 +23,6 @@ namespace :centos do
     after "centos:install", task_name
   end    
     
-
   desc "Cleanup"
   task :cleanup do
     yum_clean

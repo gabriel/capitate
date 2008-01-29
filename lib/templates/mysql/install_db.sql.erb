@@ -1,5 +1,6 @@
 <% locations_for_grant.each do |location| %>
-GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON <%= db_name %>.* TO '<%= db_user %>'@'<%= location %>' IDENTIFIED BY '<%= db_pass %>';
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX ON <%= db_name %>.* TO '<%= db_user %>'@'<%= location %>' IDENTIFIED BY '<%= db_pass %>';
 <% end %>
 
 CREATE DATABASE IF NOT EXISTS <%= db_name %>;
+

@@ -55,7 +55,7 @@ end
 #
 
 config.recipes["before_setup"].each do |recipe|
-  after "deploy:update_code", recipe
+  before "deploy:setup", recipe
 end
 
 config.recipes["after_setup"].each do |recipe|

@@ -12,6 +12,9 @@ namespace :centos do
     # Install core dependencies
     yum_install([ "gcc", "kernel-devel" ])
     
+    # Other dependencies
+    yum_install([ "aspell", "aspell-devel", "libevent-devel", "libxml2-devel" ])
+        
     # Setup    
     put load_file("centos/sudoers"), "/tmp/sudoers"
     install_script("centos/setup.sh")    

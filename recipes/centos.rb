@@ -12,7 +12,7 @@ namespace :centos do
     # Install core dependencies
     yum_install([ "gcc", "kernel-devel" ])
     
-    
+    # Setup    
     put load_file("centos/sudoers"), "/tmp/sudoers"
     install_script("centos/setup.sh")    
   end

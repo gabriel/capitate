@@ -11,7 +11,7 @@ module Configr::ConfigHelper
   include Configr::Templates
   include Configr::Profiles
   
-  include Configr::Helpers::YumHelper
+  include Configr::Helpers::PackageHelper
   include Configr::Helpers::WgetHelper
   include Configr::Helpers::ScriptHelper
   include Configr::Helpers::GemHelper

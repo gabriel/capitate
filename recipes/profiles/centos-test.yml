@@ -1,3 +1,5 @@
+packager: "yum"
+
 packages:
   remove:
     - "openoffice.org-*"

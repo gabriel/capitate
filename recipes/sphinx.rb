@@ -3,8 +3,8 @@ namespace :sphinx do
   
   desc "Install sphinx"
   task :install do 
-    yum_install([ "gcc-c++" ])
-    install_script("sphinx/install.sh")
+    package_install([ "gcc-c++" ])
+    script_install("sphinx/install.sh")
   end
   
   desc "Setup sphinx for application"

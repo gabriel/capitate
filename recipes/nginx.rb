@@ -12,14 +12,14 @@ namespace :nginx do
     
   desc "Install nginx, conf, initscript, nginx user and service"
   task :install do
-    yum_install([ "pcre-devel", "openssl", "openssl-devel" ])
+    package_install([ "pcre-devel", "openssl", "openssl-devel" ])
 
     run("rm -rf /tmp/nginx && mkdir -p /tmp/nginx")
     
     put(load_template("nginx/nginx.initd.erb", binding), "/tmp/nginx/nginx.initd")
     put(load_template("nginx/nginx.conf.erb", binding), "/tmp/nginx/nginx.conf")
     
-    install_script("nginx/install.sh.erb")  
+    script_install("nginx/install.sh.erb")  
   end
   
   desc "Create and update the nginx vhost include"

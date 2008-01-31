@@ -6,8 +6,8 @@ namespace :mysql do
     
     set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') }
     
-    yum_install([ "mysql", "mysql-devel", "mysql-server" ])
-    install_script("mysql/install.sh.erb")
+    package_install([ "mysql", "mysql-devel", "mysql-server" ])
+    script_install("mysql/install.sh.erb")
   end
   
   desc "Create database user, and database with appropriate permissions"

@@ -1,7 +1,7 @@
 # Installer capistrano helper
 module Configr::Helpers::ScriptHelper
   
-  def install_script(script, files_to_put = {})
+  def script_install(script, files_to_put = {})
     
     files_to_put.each do |file, dest|
       put load_file(file), dest

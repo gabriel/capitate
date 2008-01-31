@@ -8,7 +8,7 @@ module Configr::Profiles
   
   def choose_profile
     profile = HighLine.new.choose(*recipe_profiles) do |menu|
-      menu.header = "Choose recipe profile:"
+      menu.header = "Choose recipe profile"
     end
     
     YAML.load_file("#{ProfileDir}/#{profile}.yml")

@@ -1,0 +1,12 @@
+packages:
+  remove:
+    - "openoffice.org-*"
+    
+  install:
+    - "gcc"
+    - "kernel-devel"
+    - "libevent-devel"
+    - "libxml2-devel"
+    
+tasks:
+  - "centos:cleanup"

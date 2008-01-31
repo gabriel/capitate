@@ -1,0 +1,19 @@
+packages:
+  remove:
+    - "openoffice.org-*"
+    
+  install:
+    - "gcc"
+    - "kernel-devel"
+    - "libevent-devel"
+    - "libxml2-devel"
+    
+tasks:
+  - "ruby:install"
+  - "nginx:install"
+  - "mongrel_cluster:install"
+  - "mysql:install"
+  - "sphinx:install"
+  - "monit:install"
+  - "aspell:install"
+  - "centos:cleanup"    

@@ -7,9 +7,6 @@ class Capistrano::Configuration::Namespaces::Namespace
   # Load config helper for use within recipes
   require File.dirname(__FILE__) + "/../../init"
   include Configr::ConfigHelper
-  include Configr::Helpers::Yum
-  include Configr::Helpers::Wget
-  include Configr::Helpers::InstallScript
       
 end
 

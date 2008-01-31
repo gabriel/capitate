@@ -1,5 +1,5 @@
 # Yum capistrano helpers
-module Configr::Helpers::Yum
+module Configr::Helpers::YumHelper
   
   # Update all installed packages
   def yum_update
@@ -14,6 +14,10 @@ module Configr::Helpers::Yum
   # Install via yum.
   # If package already exists, it will be updated (unless update_existing = false).
   def yum_install(packages, update_existing = true)    
+    
+    # If a single object, wrap in array
+    packages = [ packages ] unless packages.is_a?(Array)
+    
     if update_existing
       
       installed_packages = []

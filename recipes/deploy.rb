@@ -1,4 +1,5 @@
-# Override default deploy tasks here
+# Override default deploy tasks here.
+# TODO: Use monit to restart if included.
 namespace :deploy do
   
   task :restart, :roles => :web do 

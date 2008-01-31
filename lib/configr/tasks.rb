@@ -2,7 +2,6 @@
 module Configr::Tasks
   
   include Configr::ConfigHelper
-  include Configr::Prompt  
   
   # Run the configr setup task.
   # This generates your capistrano configuration, and any other local project specific stuff (like database.yml, sphinx.conf, etc)
@@ -15,7 +14,7 @@ module Configr::Tasks
         The config/configr.yml files was not found. You need to setup your configuration.
         
       EOS
-      do_bootstrap = prompt_yes_no("Would you like to create and setup your config/configr.yml?")
+      do_bootstrap = HighLine.new.agree("Would you like to create and setup your config/configr.yml?")
       if do_bootstrap
         Rake::Task["configr:bootstrap"].invoke 
       else
@@ -50,42 +49,39 @@ module Configr::Tasks
   # This helps create the configr.yml (prompts for user input)
   # Alternatively you can create the yaml manually.
   #
-  def task_bootstrap(defaults = {}, auto_default = false)
-    config = {}.merge(defaults)
+  def task_bootstrap(config = nil, auto_default = false)
+    config ||= Configr::Config.new
+        
+    config.ask("Application name: ", "application")
+    config.set_default("user", config.application)
+    config.ask("User (to run application as):", "user")
+    config.set_default("deploy_to", "/var/www/apps/#{config.application}")
+    config.ask("Deploy to:", "deploy_to")    
+    config.ask("Web server (ip):", "web_server")
+    config.ask("Database server (ip):", "db_server")
     
-    # Auto-detect repository default, if possible
-    unless config["repository"]
-      begin
-        svn_info = YAML.load(`svn info`)
-        config["repository"] = svn_info["URL"] if svn_info
-      rescue
-        # Couldn't auto-detect repository
-      end
-    end    
+    config.set_default("db_user", config.user)
+    config.ask("Database user:", "db_user")
+    config.ask("Database password:", "db_pass")
+    config.set_default("user", config.db_name)
+    config.ask("Database name:", "db_name")
     
-    config["application"] = prompt_with_example("Application name", "myapp", config["application"], auto_default).underscore
-    config["user"] = prompt_with_default("User", config["user"] || config["application"], auto_default)
-    config["deploy_to"] = prompt_with_default("Deploy to", config["deploy_to"] || "/var/www/apps/#{config["application"]}", auto_default)
-    config["web_server"] = prompt_with_default("Web server", config["web_server"] || "10.0.6.159", auto_default)
-    config["db_server"] = prompt_with_default("Database server", config["db_server"] || "10.0.6.159", auto_default)
-    config["db_user"] = prompt_with_default("Database user",config["db_user"] || config["user"], auto_default)
-    config["db_pass"] = prompt_with_default("Database password", config["db_pass"], auto_default)
-    config["db_name"] = prompt_with_default("Database name", config["db_name"] || config["user"], auto_default)
+    default_repos = YAML.load(`svn info`)["URL"] rescue nil
+    config.set_default("repository", default_repos)        
+    config.ask("Repository uri:", "repository")
     
-    config["repository"] = prompt_with_default("Repository uri", config["repository"], auto_default)
+    config.ask("Mongrel starting port:", "mongrel_port")
+    config.ask("Number of mongrels:", "mongrel_size")
     
-    config["mongrel_port"] = prompt_with_example("Mongrel starting port", "9000", config["mongrel_port"], auto_default).to_i
-    config["mongrel_size"] = prompt_with_example("Number of mongrels", "3", config["mongrel_size"], auto_default).to_i
-    
-    config["domain_name"] = prompt_with_default("Domain name (for nginx vhost; no www prefix)", config["domain_name"] || "localhost", auto_default)
+    config.ask("Domain name (for nginx vhost; no www prefix):", "domain_name")    
     
     # Load default recipes if not set
-    config["recipes"] ||= YAML.load_file(File.dirname(__FILE__) + "/recipes.yml")
+    config.recipes ||= YAML.load_file(File.dirname(__FILE__) + "/recipes.yml")
     
     # Default recipes
-    config["version"] = Configr::Config::Version
+    config.version = Configr::Config::Version
     
-    File.open(configr_yml_path, "w") { |f| f.puts config.to_yaml }
+    config.save(configr_yml_path)
     puts "%10s %-40s" % [ "create", "config/configr.yml" ] 
   end
   

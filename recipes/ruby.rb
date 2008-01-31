@@ -12,8 +12,7 @@ namespace :ruby do
     install_script("ruby/rubygems_install.sh")
   
     # Gems to install
-    sudo "gem install rake"
-    
+    sudo "gem install rake"    
   end
   
 end

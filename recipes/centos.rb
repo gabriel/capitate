@@ -1,30 +1,29 @@
 
 namespace :centos do
   
+  
   desc "Install core for centos"
   task :install do
-    # Remove lame packages          
-    yum_remove([ "openoffice.org-*" ])
+    
+    profile = choose_profile
+    
+    # These run after centos install task and install all the apps
+    profile["tasks"].each do |task_name|
+      after "centos:install", task_name
+    end
+    
+    # Remove packages          
+    yum_remove(profile["packages"]["remove"])
     
     # Update all existing packages
     yum_update
     
-    # Install core dependencies
-    yum_install([ "gcc", "kernel-devel" ])
+    # Install packages
+    yum_install(profile["packages"]["install"])
     
-    # Other dependencies
-    yum_install([ "aspell", "aspell-devel", "libevent-devel", "libxml2-devel" ])
-        
     # Setup    
-    put load_file("centos/sudoers"), "/tmp/sudoers"
-    install_script("centos/setup.sh")    
+    install_script("centos/setup.sh",  { "centos/sudoers" => "/tmp/sudoers" })    
   end
-  
-  # These run after centos install task and install all the apps
-  tasks = [ "ruby:install", "nginx:install", "mongrel_cluster:install", "mysql:install", "sphinx:install", "monit:install", "centos:cleanup" ]
-  tasks.each do |task_name|
-    after "centos:install", task_name
-  end    
     
   desc "Cleanup"
   task :cleanup do

@@ -1,4 +1,5 @@
 namespace: "centos"
+description: "Test profile"
 packager: 
   type: "yum"
   remove:

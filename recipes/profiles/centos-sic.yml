@@ -1,13 +1,15 @@
 namespace: "centos"
+description: "Install based on thoughtpolice centos 5.1 image"
 packager:
   type: "yum" 
   remove:
   - "openoffice.org-*"  
+  - "ImageMagick"
   install:
   - "gcc"
   - "kernel-devel"
   - "libevent-devel"
-  - "libxml2-devel"    
+  - "libxml2-devel" 
 tasks:
   - "ruby:install"
   - "nginx:install"
@@ -16,7 +18,9 @@ tasks:
   - "sphinx:install"
   - "monit:install"
   - "aspell:install"
+  - "imagemagick:install"
   - "centos:cleanup"      
 gems:
   - "rake"
   - "raspell"  
+  - "rmagick"

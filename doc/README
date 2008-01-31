@@ -2,18 +2,20 @@
 
 The idea is to have:
 
-* A central configuration file (since alot of configuration is shared between mongrel, sphinx, rails, etc.)
+* A central configuration file (since alot of configuration information is shared between mongrel, sphinx, rails, nginx, monit, etc.)
 * Use (erb) templates to generate configuration files and the capistrano configuration itself
-* Use rake tasks
-* Use capistrano with recipes
+* Use rake and capistrano (they aren't perfect but everyone uses them so..)
 
 
 == Creating image
 
-  cap centos:install (For centos image)
+From the configr directory:
+
+  cap install
+
+Help:  
+* You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
   
-You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
-    
     
 == Deploying (application)
 

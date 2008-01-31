@@ -1,29 +1,10 @@
 # Tasks for centos OS profiles
 namespace :centos do
     
-  desc "Install core for centos"
+  desc "Install centos profile"
   task :install do    
-    profile = choose_profile
-    
-    # Setup packager
-    setup_packager(profile["packager"])
-    
-    # These run after centos install task and install all the apps
-    profile["tasks"].each do |task_name|
-      after "centos:install", task_name
-    end
-    
-    # Remove packages          
-    package_remove(profile["packages"]["remove"])
-    
-    # Update all existing packages
-    package_update
-    
-    # Install packages
-    package_install(profile["packages"]["install"])
-    
-    # Setup    
-    script_install("centos/setup.sh",  { "centos/sudoers" => "/tmp/sudoers" })    
+    set :profile, choose_profile("centos")
+    after "centos:install", "install:default"
   end
     
   desc "Cleanup"
@@ -53,6 +34,12 @@ namespace :centos do
       
     end
         
-  end  
+  end
+  
+  desc "Sudoers"
+  task :install_sudoers do    
+    put load_file("centos/sudoers"), "/tmp/sudoers"
+    script_install("centos/setup.sh")
+  end
             
 end

@@ -8,10 +8,12 @@ module Configr::Helpers::PackageHelper
   end
   
   def ensure_packager    
-    puts "[WARNING] No packager defined, defaulting to yum." unless @packager
+    unless @packager
+      logger.important "No packager defined, defaulting to yum." 
     
-    # Currently only have 1 packager, so 
-    setup_packager(:yum)
+      # Currently only have 1 packager, so 
+      setup_packager(:yum)
+    end
   end
   
   def package_install(packages)

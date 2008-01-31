@@ -1,15 +1,13 @@
-packager: "yum"
-
-packages:
+namespace: "centos"
+packager:
+  type: "yum" 
   remove:
-    - "openoffice.org-*"
-    
+  - "openoffice.org-*"  
   install:
-    - "gcc"
-    - "kernel-devel"
-    - "libevent-devel"
-    - "libxml2-devel"
-    
+  - "gcc"
+  - "kernel-devel"
+  - "libevent-devel"
+  - "libxml2-devel"    
 tasks:
   - "ruby:install"
   - "nginx:install"
@@ -18,4 +16,7 @@ tasks:
   - "sphinx:install"
   - "monit:install"
   - "aspell:install"
-  - "centos:cleanup"    
+  - "centos:cleanup"      
+gems:
+  - "rake"
+  - "raspell"  

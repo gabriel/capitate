@@ -23,14 +23,14 @@ namespace :sphinx do
     sudo "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
     sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
     
-    run "mkdir -p #{shared_path}/var"    
+    run "mkdir -p #{shared_path}/var/index"    
   end
   
   desc "Update sphinx for application" 
   task :update_code do
     
     rails_root = current_path
-    index_root = "#{shared_path}/var";
+    index_root = "#{shared_path}/var/index";
     log_root = "#{shared_path}/log"
     pid_root = "#{shared_path}/pids"
     sphinx_host = config.sphinx_host
@@ -41,7 +41,7 @@ namespace :sphinx do
     db_host = config.db_host
     db_port = config.db_port
     
-    put load_project_template("config/sphinx.conf.erb", binding), "#{shared_path}/config/sphinx.conf"
+    put load_project_template("config/templates/sphinx.conf.erb", binding), "#{shared_path}/config/sphinx.conf"
     
     # Dont symlink in since we dont want to use sphinx rake tasks in deployed environment
     #run "ln -nfs #{shared_path}/config/sphinx.conf #{release_path}/config/sphinx.conf"

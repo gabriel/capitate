@@ -15,7 +15,16 @@ module Configr::Templates
   def load_template(path, binding, options = {})
     template_path = options[:project] ? "#{root}/#{path}" : full_template_path(path)
     
-    raise "Template not found: #{template_path}" unless File.exist?(template_path)
+    unless File.exist?(template_path)
+      raise <<-EOS 
+      
+      Template not found: #{template_path}
+      
+      For this recipe to work you should have a template available at that path. 
+      If you don't want to run this recipe, remove it from the configr.yml or Capfile.
+      
+      EOS
+    end
     
     template = ERB.new(IO.read(template_path))
     template.result(binding)

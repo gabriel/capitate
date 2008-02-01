@@ -23,8 +23,8 @@ class Configr::Config
     binding
   end
   
-  def ask(message, property, &block)
-    result = HighLine.new.ask(message) { |q| 
+  def ask(message, property, answer_type = String, &block)
+    result = HighLine.new.ask(message, answer_type) { |q| 
       q.default = send(property.to_sym)
       yield q if block_given?
     }
@@ -46,7 +46,7 @@ class Configr::Config
     ask("Application name: ", "application")
     set_default("user", application)
     ask("User (to run application as):", "user")
-    set_default("deploy_to", "/var/www/apps/#{config.application}")
+    set_default("deploy_to", "/var/www/apps/#{application}")
     ask("Deploy to:", "deploy_to")    
     ask("Web host:", "web_host")
     
@@ -54,27 +54,27 @@ class Configr::Config
     set_default("db_user", user)
     ask("Database user:", "db_user")
     ask("Database password:", "db_pass")
-    set_default("user", db_name)
+    set_default("db_name", application)
     ask("Database name:", "db_name")
     set_default("db_port", 3306)
-    ask("Database port:", "db_port")
+    ask("Database port:", "db_port", Integer) { |q| q.validate = /\d+/ }
     
     set_default("sphinx_host", "127.0.0.1")
     ask("Sphinx host:", "sphinx_host")
     set_default("sphinx_port", 3312)
-    ask("Sphinx port:", "sphinx_port")    
+    ask("Sphinx port:", "sphinx_port", Integer) { |q| q.validate = /\d+/ }
     
     default_repos = YAML.load(`svn info`)["URL"] rescue nil
     set_default("repository", default_repos)        
     ask("Repository uri:", "repository")
     
-    ask("Mongrel starting port:", "mongrel_port")
-    ask("Number of mongrels:", "mongrel_size")
+    ask("Mongrel starting port:", "mongrel_port", Integer) { |q| q.validate = /\d+/ }
+    ask("Number of mongrels:", "mongrel_size", Integer) { |q| q.validate = /\d+/ }
     
     ask("Domain name (for nginx vhost; no www prefix):", "domain_name")    
     
     # Load default recipes if not set
-    recipes ||= YAML.load_file(File.dirname(__FILE__) + "/recipes.yml")
+    set_default("recipes", YAML.load_file(File.dirname(__FILE__) + "/recipes.yml"))
     
     # Default recipes
     version = Configr::Config::Version

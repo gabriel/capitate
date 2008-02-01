@@ -6,7 +6,10 @@ module Configr::Helpers::GemHelper
     # If a single object, wrap in array
     gems = [ gems ] unless gems.is_a?(Array)
     
-    sudo "gem install --no-rdoc --no-ri --no-verbose #{gems.join(" ")}"
+    # Install one at a time because we may need to pass install args (e.g. mysql)
+    gems.each do |gem|
+      sudo "gem install --no-rdoc --no-ri --no-verbose #{gem}"
+    end
   end
   
 end

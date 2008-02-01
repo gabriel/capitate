@@ -22,5 +22,6 @@ tasks:
   - "centos:cleanup"      
 gems:
   - "rake"
+  - "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config"
   - "raspell"  
   - "rmagick"

@@ -47,4 +47,20 @@ namespace :sphinx do
     #run "ln -nfs #{shared_path}/config/sphinx.conf #{release_path}/config/sphinx.conf"
   end
   
+  desc "Rotate index"
+  task :rotate_all do
+    sphinx_prefix = fetch(:sphinx_prefix)    
+    run "#{sphinx_prefix}/bin/indexer --config #{shared_path}/config/sphinx.conf --rotate --all"
+  end
+  
+  desc "Build indexex"
+  task :index_all do
+    sphinx_prefix = fetch(:sphinx_prefix)    
+    run "#{sphinx_prefix}/bin/indexer --config #{shared_path}/config/sphinx.conf --all"
+  end
+  
+  desc "Start"
+  task :start do
+    sudo "/sbin/service sphinx_#{application} start"
+  end  
 end

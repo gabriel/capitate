@@ -13,6 +13,9 @@ Dir['vendor/plugins/*/recipes/bootstrap/patch.rb'].each { |patch| load(patch)}
 # Load recipes
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
 
+# Load project recipes
+Dir['lib/recipes/*.rb'].each { |plugin| load(plugin) }
+
 require 'erb'
 
 #

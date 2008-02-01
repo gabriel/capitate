@@ -36,8 +36,8 @@ set :deploy_to, config.deploy_to
 # your SCM below:
 # set :scm, :subversion
 
-role :web, config.web_server
-role :db,  config.db_server, :primary => true
+role :web, config.web_host
+role :db,  config.db_host, :primary => true
 
 # set :keep_releases, 3
 # set :use_sudo, false
@@ -45,7 +45,7 @@ role :db,  config.db_server, :primary => true
 #
 # Custom variables accessible in recipes
 #
-vars = [ :db_user, :db_pass, :db_name, :mongrel_port, :mongrel_size, :domain_name, :web_server ]
+vars = [ :db_user, :db_pass, :db_name, :mongrel_port, :mongrel_size, :domain_name, :web_host ]
 vars.each do |var|
   set var, config.send(var)
 end

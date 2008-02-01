@@ -10,13 +10,19 @@ module Configr::Templates
     File.join(template_root, template_path)
   end
   
-  # Load template at (full) path with binding
-  def load_template(path, binding)
-    template_path = full_template_path(path)
+  # Load template at (full) path with binding.
+  # If options[:project] is true will load template relative to project root.
+  def load_template(path, binding, options = {})
+    template_path = options[:project] ? "#{root}/#{path}" : full_template_path(path)
+    
     raise "Template not found: #{template_path}" unless File.exist?(template_path)
     
     template = ERB.new(IO.read(template_path))
     template.result(binding)
+  end
+  
+  def load_project_template(path, binding)
+    load_template(path, binding, { :project => true })
   end
   
   def load_file(path)

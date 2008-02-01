@@ -4,15 +4,16 @@ require 'highline'
 # Configuration class for composition of hash from yaml config
 class Configr::Config
   
-  attr_accessor :application, :user, :deploy_to, :web_server, :db_server
-  attr_accessor :db_user, :db_pass, :db_name
+  attr_accessor :application, :user, :deploy_to, :web_host
+  attr_accessor :db_host, :db_user, :db_pass, :db_name, :db_port
+  attr_accessor :sphinx_port, :sphinx_host
   attr_accessor :repository, :recipes
   attr_accessor :mongrel_port, :mongrel_size
   attr_accessor :domain_name
   attr_accessor :version
   
   # Increment this version whenever you make non-backwards compatible changes; It will force an configr update.
-  Version = 8
+  Version = 9
   
   def initialize
   end
@@ -38,6 +39,47 @@ class Configr::Config
   
   def save(path)
     File.open(path, "w") { |f| f.puts self.to_yaml(:UseHeader => false) }
+  end
+  
+  # Build config from asking
+  def ask_all(configr_yml_path)
+    ask("Application name: ", "application")
+    set_default("user", application)
+    ask("User (to run application as):", "user")
+    set_default("deploy_to", "/var/www/apps/#{config.application}")
+    ask("Deploy to:", "deploy_to")    
+    ask("Web host:", "web_host")
+    
+    ask("Database host:", "db_host")    
+    set_default("db_user", user)
+    ask("Database user:", "db_user")
+    ask("Database password:", "db_pass")
+    set_default("user", db_name)
+    ask("Database name:", "db_name")
+    set_default("db_port", 3306)
+    ask("Database port:", "db_port")
+    
+    set_default("sphinx_host", "127.0.0.1")
+    ask("Sphinx host:", "sphinx_host")
+    set_default("sphinx_port", 3312)
+    ask("Sphinx port:", "sphinx_port")    
+    
+    default_repos = YAML.load(`svn info`)["URL"] rescue nil
+    set_default("repository", default_repos)        
+    ask("Repository uri:", "repository")
+    
+    ask("Mongrel starting port:", "mongrel_port")
+    ask("Number of mongrels:", "mongrel_size")
+    
+    ask("Domain name (for nginx vhost; no www prefix):", "domain_name")    
+    
+    # Load default recipes if not set
+    recipes ||= YAML.load_file(File.dirname(__FILE__) + "/recipes.yml")
+    
+    # Default recipes
+    version = Configr::Config::Version
+    
+    save(configr_yml_path)
   end
   
   # Check the version.

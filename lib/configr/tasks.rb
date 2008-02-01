@@ -51,37 +51,7 @@ module Configr::Tasks
   #
   def task_bootstrap(config = nil, auto_default = false)
     config ||= Configr::Config.new
-        
-    config.ask("Application name: ", "application")
-    config.set_default("user", config.application)
-    config.ask("User (to run application as):", "user")
-    config.set_default("deploy_to", "/var/www/apps/#{config.application}")
-    config.ask("Deploy to:", "deploy_to")    
-    config.ask("Web server (ip):", "web_server")
-    config.ask("Database server (ip):", "db_server")
-    
-    config.set_default("db_user", config.user)
-    config.ask("Database user:", "db_user")
-    config.ask("Database password:", "db_pass")
-    config.set_default("user", config.db_name)
-    config.ask("Database name:", "db_name")
-    
-    default_repos = YAML.load(`svn info`)["URL"] rescue nil
-    config.set_default("repository", default_repos)        
-    config.ask("Repository uri:", "repository")
-    
-    config.ask("Mongrel starting port:", "mongrel_port")
-    config.ask("Number of mongrels:", "mongrel_size")
-    
-    config.ask("Domain name (for nginx vhost; no www prefix):", "domain_name")    
-    
-    # Load default recipes if not set
-    config.recipes ||= YAML.load_file(File.dirname(__FILE__) + "/recipes.yml")
-    
-    # Default recipes
-    config.version = Configr::Config::Version
-    
-    config.save(configr_yml_path)
+    config.ask_all(configr_yml_path)    
     puts "%10s %-40s" % [ "create", "config/configr.yml" ] 
   end
   

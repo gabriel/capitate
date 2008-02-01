@@ -16,7 +16,7 @@ namespace :mysql do
     set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') }
     
     # Locations can access from
-    locations_for_grant = [ "localhost", web_server ]
+    locations_for_grant = [ "localhost", web_host ]
     
     put load_template("mysql/install_db.sql.erb", binding), "/tmp/install_db_#{application}.sql"    
     

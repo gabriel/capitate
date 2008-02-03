@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Create web apps directory
 mkdir -p /var/www/apps
 

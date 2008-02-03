@@ -38,7 +38,7 @@ class Configr::Config
   end
   
   def save(path)
-    File.open(path, "w") { |f| f.puts self.to_yaml(:UseHeader => false) }
+    File.open(path, "w") { |f| f.puts self.to_yaml }
   end
   
   # Build config from asking
@@ -57,19 +57,19 @@ class Configr::Config
     set_default("db_name", application)
     ask("Database name:", "db_name")
     set_default("db_port", 3306)
-    ask("Database port:", "db_port", Integer) { |q| q.validate = /\d+/ }
+    ask("Database port:", "db_port", Integer)
     
     set_default("sphinx_host", "127.0.0.1")
     ask("Sphinx host:", "sphinx_host")
     set_default("sphinx_port", 3312)
-    ask("Sphinx port:", "sphinx_port", Integer) { |q| q.validate = /\d+/ }
+    ask("Sphinx port:", "sphinx_port", Integer)
     
     default_repos = YAML.load(`svn info`)["URL"] rescue nil
     set_default("repository", default_repos)        
     ask("Repository uri:", "repository")
     
-    ask("Mongrel starting port:", "mongrel_port", Integer) { |q| q.validate = /\d+/ }
-    ask("Number of mongrels:", "mongrel_size", Integer) { |q| q.validate = /\d+/ }
+    ask("Mongrel starting port:", "mongrel_port", Integer)
+    ask("Number of mongrels:", "mongrel_size", Integer)
     
     ask("Domain name (for nginx vhost; no www prefix):", "domain_name")    
     

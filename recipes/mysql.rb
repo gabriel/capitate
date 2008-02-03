@@ -1,6 +1,8 @@
 # Mysql recipes
 namespace :mysql do
   
+  after "mysql:setup", "mysql:setup_monit"
+  
   desc "Install mysql"
   task :install do    
     
@@ -23,4 +25,15 @@ namespace :mysql do
     run "mysql -u root -p#{mysql_admin_password} < /tmp/install_db_#{application}.sql"
   end
   
+  desc "Create monit configuration for mysql"
+  task :setup_monit do
+    
+    pid_path = "/var/run/mysqld/mysqld.pid"
+    db_port = config.db_port
+    
+    put load_template("mysql/mysql.monitrc.erb", binding), "/tmp/mysql.monitrc"    
+    
+    sudo "install -o root /tmp/mysql.monitrc /etc/monit/mysql.monitrc"
+    
+  end
 end

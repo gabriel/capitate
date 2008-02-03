@@ -1,6 +1,8 @@
 # Sphinx recipes
 namespace :sphinx do
   
+  after "sphinx:setup", "sphinx:setup_monit"
+  
   set :sphinx_prefix, "/usr/local/sphinx"
   
   desc "Install sphinx"
@@ -16,14 +18,22 @@ namespace :sphinx do
     application = config.application
     sphinx_bin_path = "#{sphinx_prefix}/bin"
     sphinx_conf_path = "#{shared_path}/config/sphinx.conf"
-    sphinx_pid_path = "#{shared_path}/pids/sphinx_#{application}.pid"
+    sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
     
-    put load_template("sphinx/sphinx_app.initd.erb", binding), "/tmp/sphinx.initd"
+    put load_template("sphinx/sphinx_app.initd.centos.erb", binding), "/tmp/sphinx.initd"
 
     sudo "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
     sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
     
     run "mkdir -p #{shared_path}/var/index"    
+  end
+  
+  desc "Create monit configuration for sphinx"
+  task :setup_monit do    
+    sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
+    put load_template("sphinx/sphinx.monitrc.erb", binding), "/tmp/sphinx_#{application}.monitrc"        
+    
+    sudo "install -o root /tmp/sphinx_#{application}.monitrc /etc/monit/sphinx_#{application}.monitrc"
   end
   
   desc "Update sphinx for application" 

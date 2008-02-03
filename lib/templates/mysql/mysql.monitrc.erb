@@ -1,0 +1,6 @@
+check process mysql with pidfile <%= pid_path %>
+   group database
+   start program = "/sbin/service mysqld start"
+   stop program = "/sbin/service mysqld stop"
+   if failed host 127.0.0.1 port <%= db_port %> then restart
+   if 5 restarts within 5 cycles then timeout

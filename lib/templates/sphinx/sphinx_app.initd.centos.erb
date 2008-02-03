@@ -1,64 +1,67 @@
 #! /bin/sh
-# sphinx Startup script for sphinx
+# sphinx: Sphinx search daemon for <%= application %>
 #
 # chkconfig: - 86 14
 # description: sphinx search daemon
+# processname: searchd
 #
 # Author: Gabriel Handford http://ducktyper.com
 
-set -e
+# Source function library
+. /etc/rc.d/init.d/functions
 
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DESC="sphinx daemon"
+RETVAL=0
+
+DESC="sphinx daemon (<%= application %>)"
 NAME=searchd
 DAEMON=<%= sphinx_bin_path %>/searchd
 CONFIGFILE=<%= sphinx_conf_path %>
 PIDFILE=<%= sphinx_pid_path %>
 
-d_start() {
-  $DAEMON --config $CONFIGFILE || echo -n " already running"
+start() {
+  daemon --user <%= user %> $DAEMON --config $CONFIGFILE
+  RETVAL=$?
+  echo
+  return $RETVAL;  
 }
 
-d_stop() {
+stop() {
   kill -QUIT `cat $PIDFILE` || echo -n " not running"
 }
 
-d_reload() {
+reload() {
   kill -HUP `cat $PIDFILE` || echo -n " can't reload"
 }
 
 case "$1" in
   start)
   	echo -n "Starting $DESC: $NAME"
-  	d_start
-  	echo "."
+  	start
+    RETVAL=$?;
 	;;
   stop)
   	echo -n "Stopping $DESC: $NAME"
-  	d_stop
-  	echo "."
+  	stop
+  	RETVAL=$?;
 	;;
   reload)
   	echo -n "Reloading $DESC configuration..."
-  	d_reload
+  	reload
+  	RETVAL=$?;
   	echo "reloaded."
   ;;
   restart)
   	echo -n "Restarting $DESC: $NAME"
-  	d_stop
-  	# One second might not be time enough for a daemon to stop, 
-  	# if this happens, d_start will fail (and dpkg will break if 
-  	# the package is being upgraded). Change the timeout if needed
-  	# be, or change d_stop to have start-stop-daemon use --retry. 
-  	# Notice that using --retry slows down the shutdown process somewhat.
+  	stop
+  	# Sleep after stop
   	sleep 1
-  	d_start
-  	echo "."
+  	start
+  	RETVAL=$?;
 	;;
   *)
 	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
-	  exit 3
+	  RETVAL=3;
 	;;
 esac
 
-exit 0
+exit $RETVAL;

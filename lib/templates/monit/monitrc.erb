@@ -1,26 +1,28 @@
-set daemon     60 
-set logfile    syslog
+set daemon  60
+set logfile syslog facility log_daemon
 set mailserver localhost
-set alert      gabrielh@gmail.com
+set mail-format { from: monit@localhost }
+set alert root@localhost
 
-
-# Monit http server settings:
+# Http settings
 # ---------------------------
 
-set httpd port 2814
-     ssl enable
-     pemfile /var/certs/monit.pem
-     allow admin:poop987
+set httpd port <%= monit_port %>
+  ssl enable  
+  pemfile /var/certs/monit.pem
+  allow admin:<%= monit_password %>
 
+# Core processes
+# ---------------------------
 
-check process mysql with pidfile /var/run/mysqld/mysqld.pid
-   group database
-   start program = "/sbin/service mysqld start"
-   stop program = "/sbin/service mysqld stop"
-   if failed host 127.0.0.1 port 3306 then restart
-   if 5 restarts within 5 cycles then timeout
+check process sshd with pidfile /var/run/sshd.pid
+  start program  "/sbin/service sshd start"
+  stop program  "/sbin/service sshd stop"
+  if failed port 22 protocol ssh then restart
+  if 5 restarts within 5 cycles then timeout
+  
+  
+# Includes
+# ---------------------------
 
-
-check process nginx with pidfile <%= nginx_pid_path %>
-   start program = "/etc/init.d/nginx start"
-   stop program = "/etc/init.d/nginx stop"
+include /etc/monit/*.monitrc

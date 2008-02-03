@@ -19,6 +19,7 @@ tasks:
   - "monit:install"
   - "aspell:install"
   - "imagemagick:install"
+  - "memcached:install"
   - "centos:cleanup"      
 gems:
   - "rake"

@@ -57,20 +57,21 @@ namespace :sphinx do
     #run "ln -nfs #{shared_path}/config/sphinx.conf #{release_path}/config/sphinx.conf"
   end
   
-  desc "Rotate index"
+  desc "Rotate sphinx index for application"
   task :rotate_all do
     sphinx_prefix = fetch(:sphinx_prefix)    
     run "#{sphinx_prefix}/bin/indexer --config #{shared_path}/config/sphinx.conf --rotate --all"
   end
   
-  desc "Build indexex"
+  desc "Build sphinx indexes for application"
   task :index_all do
     sphinx_prefix = fetch(:sphinx_prefix)    
     run "#{sphinx_prefix}/bin/indexer --config #{shared_path}/config/sphinx.conf --all"
   end
   
-  desc "Start"
+  desc "Start sphinx"
   task :start do
+    # TODO: Monit
     sudo "/sbin/service sphinx_#{application} start"
   end  
 end

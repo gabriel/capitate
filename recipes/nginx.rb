@@ -1,7 +1,7 @@
 # Nginx recipes
 namespace :nginx do
   
-  after "nginx:setup", "nginx:setup_monit"
+  after "nginx:install", "nginx:install_monit"
   
   # Conf variables
   set :nginx_bin_path, "/sbin/nginx"
@@ -24,6 +24,14 @@ namespace :nginx do
     script_install("nginx/install.sh.erb")  
   end
   
+  desc "Create monit configuration for nginx"
+  task :install_monit do
+    put load_template("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"
+    
+    sudo "install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc"
+  end
+  
+  
   desc "Create and update the nginx vhost include"
   task :setup do 
     
@@ -35,16 +43,10 @@ namespace :nginx do
     
     sudo "install -o root /tmp/nginx_#{application}.conf /etc/nginx/vhosts/#{application}.conf"        
   end
-  
-  desc "Create monit configuration for nginx"
-  task :setup_monit do
-    put load_template("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"
     
-    sudo "install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc"
-  end
-  
   # Restart nginx
   task :restart do
+    # TODO: Monit
     sudo "/sbin/service nginx restart"
   end
     

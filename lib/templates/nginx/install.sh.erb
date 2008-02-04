@@ -30,6 +30,8 @@ install -o root /tmp/nginx/nginx.initd /etc/init.d/nginx
 #/sbin/chkconfig --level 345 nginx on
 
 mkdir -p /etc/nginx/vhosts
+
+echo "# Blank nginx conf; work-around for nginx conf include issue" > /etc/nginx/vhosts/blank.conf
    
 install -o root -m 644 /tmp/nginx/nginx.conf $CONF_PATH
 

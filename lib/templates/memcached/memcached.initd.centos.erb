@@ -7,16 +7,13 @@
 #
 # Author: Gabriel Handford http://ducktyper.com
 
-set -e
-trap ERROR ERR
-
 # Source function library
 . /etc/rc.d/init.d/functions
 
 RETVAL=0
 
 DESC="memcached"
-NAME=memcached
+NAME="memcached"
 DAEMON=/usr/local/bin/memcached
 PIDFILE=<%= memcached_pid_path %>
 MEM=64

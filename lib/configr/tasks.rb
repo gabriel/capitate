@@ -51,7 +51,7 @@ module Configr::Tasks
   #
   def task_bootstrap(config = nil, auto_default = false)
     config ||= Configr::Config.new
-    config.ask_all(configr_yml_path)    
+    config.ask_all(configr_yml_path, auto_default)    
     puts "%10s %-40s" % [ "create", "config/configr.yml" ] 
   end
   

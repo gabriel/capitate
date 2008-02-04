@@ -23,13 +23,24 @@ class Configr::Config
     binding
   end
   
-  def ask(message, property, answer_type = String, &block)
-    result = HighLine.new.ask(message, answer_type) { |q| 
-      q.default = send(property.to_sym)
-      yield q if block_given?
-    }
+  def ask(message, property, options = {}, &block)    
+    # Options
+    default = options[:default] || nil    
+    answer_type = options[:answer_type] || String
+    auto_apply = options[:auto_apply]
     
-    send("#{property}=", result)
+    # Default to existing or default if set
+    existing = send(property.to_sym)
+    default = existing || default
+    
+    unless auto_apply and !existing.blank?
+      result = HighLine.new.ask(message, answer_type) { |q| 
+        q.default = default
+        yield q if block_given?
+      }
+  
+      send("#{property}=", result)
+    end
   end
   
   def set_default(property, value)
@@ -42,36 +53,33 @@ class Configr::Config
   end
   
   # Build config from asking
-  def ask_all(configr_yml_path)
-    ask("Application name: ", "application")
-    set_default("user", application)
-    ask("User (to run application as):", "user")
-    set_default("deploy_to", "/var/www/apps/#{application}")
-    ask("Deploy to:", "deploy_to")    
-    ask("Web host:", "web_host")
+  def ask_all(configr_yml_path, auto_apply = false)
     
-    ask("Database host:", "db_host")    
-    set_default("db_user", user)
-    ask("Database user:", "db_user")
-    ask("Database password:", "db_pass")
-    set_default("db_name", application)
-    ask("Database name:", "db_name")
-    set_default("db_port", 3306)
-    ask("Database port:", "db_port", Integer)
+    options = { :auto_apply => auto_apply }
     
-    set_default("sphinx_host", "127.0.0.1")
-    ask("Sphinx host:", "sphinx_host")
-    set_default("sphinx_port", 3312)
-    ask("Sphinx port:", "sphinx_port", Integer)
+    ask("Application name: ", "application", options)
+    ask("User (to run application as):", "user", options.merge({ :default => application }))
+    
+    ask("Deploy to:", "deploy_to", options.merge({ :default => "/var/www/apps/#{application}" }))  
+    ask("Web host:", "web_host", options)
+    
+    ask("Database host:", "db_host", options)    
+    ask("Database user:", "db_user", options.merge({ :default => user }))
+    ask("Database password:", "db_pass", options)
+    ask("Database name:", "db_name", options.merge({ :default => application }))
+
+    ask("Database port:", "db_port", options.merge({ :default => 3306, :answer_type => Integer }))
+    
+    ask("Sphinx host:", "sphinx_host", options.merge({ :default => "127.0.0.1" }))
+    ask("Sphinx port:", "sphinx_port", options.merge({ :default => 3312, :answer_type => Integer }))
     
     default_repos = YAML.load(`svn info`)["URL"] rescue nil
-    set_default("repository", default_repos)        
-    ask("Repository uri:", "repository")
+    ask("Repository uri:", "repository", options.merge({ :default => default_repos }))
     
-    ask("Mongrel starting port:", "mongrel_port", Integer)
-    ask("Number of mongrels:", "mongrel_size", Integer)
+    ask("Mongrel starting port:", "mongrel_port", options.merge({ :answer_type => Integer }))
+    ask("Number of mongrels:", "mongrel_size", options.merge({ :answer_type => Integer }))
     
-    ask("Domain name (for nginx vhost; no www prefix):", "domain_name")    
+    ask("Domain name (for nginx vhost; no www prefix):", "domain_name", options)    
     
     # Load default recipes if not set
     set_default("recipes", YAML.load_file(File.dirname(__FILE__) + "/recipes.yml"))

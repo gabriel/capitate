@@ -18,12 +18,14 @@ namespace :mongrel_cluster do
     
     pid_path = "#{shared_path}/pids"
     
-    put load_template("mongrel/mongrel_cluster.erb", binding), "/tmp/mongrel_cluster_#{application}"    
+    put load_template("mongrel/mongrel_cluster.initd.erb", binding), "/tmp/mongrel_cluster_#{application}.initd"    
     put load_template("mongrel/mongrel_cluster.yml.erb", binding), "#{mongrel_config_path}/mongrel_cluster.yml"
     
     # Setup the mongrel_cluster init script
-    sudo "install -o root /tmp/mongrel_cluster_#{application} /etc/init.d/mongrel_cluster_#{application}"
-    sudo "/sbin/chkconfig --level 345 mongrel_cluster_#{application} on"
+    sudo "install -o root /tmp/mongrel_cluster_#{application}.initd /etc/init.d/mongrel_cluster_#{application}"
+    
+    # Use monit to manage services
+    #sudo "/sbin/chkconfig --level 345 mongrel_cluster_#{application} on"
   end
   
   desc "Create monit configuration for mongrel cluster"

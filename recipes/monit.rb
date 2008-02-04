@@ -7,7 +7,7 @@ namespace :monit do
   desc "Install monit"
   task :install do
     package_install([ "flex", "byacc" ])
-    script_install("monit/install.sh")        
+    script_install("monit/install.sh")      
   end
   
   desc "Install monit RC"
@@ -19,7 +19,7 @@ namespace :monit do
   
     put load_template("monit/monitrc.erb", binding), "/tmp/monitrc"
   
-    sudo "install -o root -m 700 /tmp/monitrc /etc/monitrc"
+    sudo "install -o root -m 700 /tmp/monitrc /etc/monitrc && rm -f /tmp/monitrc"
   end
   
   desc "Install init.d"
@@ -27,10 +27,12 @@ namespace :monit do
     
     put load_template("monit/monit.initd.centos.erb", binding), "/tmp/monit.initd"
 
-    sudo "install -o root /tmp/monit.initd /etc/init.d/monit"
+    sudo "install -o root /tmp/monit.initd /etc/init.d/monit && rm -f /tmp/monit.initd"
 
     # I don't know if starting from init.d is such a great idea yet
     #sudo "/sbin/chkconfig --level 345 monit on"     
+    
+    script_install("monit/patch_inittab.sh")
   end
   
   

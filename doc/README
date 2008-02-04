@@ -13,7 +13,7 @@ From the configr directory:
 
   cap install
 
-Help:  
+=== Help:  
 * You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.
   
     

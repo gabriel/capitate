@@ -1,7 +1,7 @@
 #! /bin/sh
 
 set -e
-trap error ERR
+trap ERROR ERR
 
 cd /tmp
 wget -nv http://rubyforge.org/frs/download.php/29548/rubygems-1.0.1.tgz

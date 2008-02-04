@@ -21,14 +21,13 @@ namespace :nginx do
     put(load_template("nginx/nginx.initd.erb", binding), "/tmp/nginx/nginx.initd")
     put(load_template("nginx/nginx.conf.erb", binding), "/tmp/nginx/nginx.conf")
     
-    script_install("nginx/install.sh.erb")  
+    script_install("nginx/install.sh.erb")      
   end
   
   desc "Create monit configuration for nginx"
   task :install_monit do
     put load_template("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"
-    
-    sudo "install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc"
+    sudo "mkdir -p /etc/monit && install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc && rm -f /tmp/nginx.monitrc"
   end
   
   

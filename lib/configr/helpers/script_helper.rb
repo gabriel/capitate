@@ -21,6 +21,9 @@ module Configr::Helpers::ScriptHelper
     end
     
     sudo "sh -v #{dest}"
+    
+    # Cleanup
+    sudo "rm -rf /tmp/#{name}"    
   end
   
 end

@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+trap ERROR ERR
 
 openssl req -new -x509 -days 365 -nodes -config /var/certs/monit.cnf -out /var/certs/monit.pem -keyout /var/certs/monit.pem -batch
 openssl gendh 512 >> /var/certs/monit.pem

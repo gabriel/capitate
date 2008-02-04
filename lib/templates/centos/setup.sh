@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -e
+trap ERROR ERR
 
 # Create web apps directory
 mkdir -p /var/www/apps

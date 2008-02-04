@@ -1,26 +1,35 @@
 namespace :install do
   
+  set :profile, nil
+  
   task :default do
     profile = fetch(:profile) 
-    set :profile, choose_profile unless profile
+    profile = choose_profile unless profile
+    set :profile, profile 
+    
+    packager_type = profile["packager"]["type"]
+    packages_to_remove = profile["packager"]["remove"]
+    packages_to_add = profile["packager"]["install"]
+    tasks = profile["tasks"]
+    namespace = profile["namespace"]
     
     # Setup packager
-    setup_packager(profile["packager"]["type"])
+    setup_packager(packager_type)
     
     # Remove packages          
-    package_remove(profile["packager"]["remove"])
+    package_remove(packages_to_remove)
     
     # Update all existing packages
     package_update
     
     # Install packages
-    package_install(profile["packager"]["install"])
+    package_install(packages_to_add)
     
     set :gems, profile["gems"]
     
     # These run after install task and install all the apps
-    profile["tasks"].each do |task_name|
-      after "#{profile["namespace"]}:install", task_name
+    tasks.each do |task_name|
+      after "install", task_name
     end
   end
   

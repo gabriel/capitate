@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+trap ERROR ERR
 
 cd /usr/src
 wget -nv ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p110.tar.gz

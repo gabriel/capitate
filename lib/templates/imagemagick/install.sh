@@ -1,6 +1,7 @@
 #! /bin/sh
 
 set -e
+trap ERROR ERR
 
 cd /tmp
 

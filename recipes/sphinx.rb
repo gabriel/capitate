@@ -23,7 +23,9 @@ namespace :sphinx do
     put load_template("sphinx/sphinx_app.initd.centos.erb", binding), "/tmp/sphinx.initd"
 
     sudo "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
-    sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
+    
+    # Use monit to manage services
+    #sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
     
     run "mkdir -p #{shared_path}/var/index"    
   end

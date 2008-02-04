@@ -16,11 +16,11 @@ namespace :mysql do
   task :install_monit do
     
     pid_path = "/var/run/mysqld/mysqld.pid"
-    db_port = config.db_port
+    set :db_port, Proc.new { Capistrano::CLI.ui.ask('Mysql port: ') }
     
     put load_template("mysql/mysql.monitrc.erb", binding), "/tmp/mysql.monitrc"    
     
-    sudo "install -o root /tmp/mysql.monitrc /etc/monit/mysql.monitrc"    
+    sudo "install -o root /tmp/mysql.monitrc /etc/monit/mysql.monitrc && rm -f /tmp/mysql.monitrc"    
   end
   
   desc "Create database user, and database with appropriate permissions"

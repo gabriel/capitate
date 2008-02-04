@@ -10,9 +10,6 @@ namespace :ruby do
     
     # Install rubygems
     script_install("ruby/rubygems_install.sh")
-
-    gems = fetch(:gems)
-    gem_install(gems) if gems
   end
   
 end

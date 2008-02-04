@@ -3,9 +3,11 @@ namespace :install do
   set :profile, nil
   
   task :default do
+    # TODO: This sucks (mostly capistrano's fault)
     profile = fetch(:profile) 
     profile = choose_profile unless profile
     set :profile, profile 
+    set :gems, profile["gems"]
     
     packager_type = profile["packager"]["type"]
     packages_to_remove = profile["packager"]["remove"]
@@ -24,8 +26,6 @@ namespace :install do
     
     # Install packages
     package_install(packages_to_add)
-    
-    set :gems, profile["gems"]
     
     # These run after install task and install all the apps
     tasks.each do |task_name|

@@ -23,6 +23,7 @@ tasks:
   - "aspell:install"
   - "imagemagick:install"
   - "memcached:install"
+  - "gems:install"
   - "centos:cleanup"      
 gems:
   - "rake"

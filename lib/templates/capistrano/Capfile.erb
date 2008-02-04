@@ -48,7 +48,7 @@ role :db,  config.db_host, :primary => true
 #
 # Custom variables accessible in recipes
 #
-vars = [ :db_user, :db_pass, :db_name, :mongrel_port, :mongrel_size, :domain_name, :web_host ]
+vars = [ :db_user, :db_pass, :db_name, :mongrel_port, :mongrel_size, :domain_name, :web_host, :db_host ]
 vars.each do |var|
   set var, config.send(var)
 end

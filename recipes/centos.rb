@@ -1,11 +1,12 @@
 # Tasks for centos OS profiles
 namespace :centos do
     
-  desc "Install centos profile"
-  task :install do    
-    set :profile, choose_profile("centos")
-    after "centos:install", "install:default"
+  desc "Setup centos"
+  task :setup do
+    put load_file("centos/sudoers"), "/tmp/sudoers"
+    script_install("centos/setup.sh")    
   end
+  
     
   desc "Cleanup"
   task :cleanup do
@@ -35,11 +36,5 @@ namespace :centos do
     end
         
   end
-  
-  desc "Sudoers"
-  task :install_sudoers do    
-    put load_file("centos/sudoers"), "/tmp/sudoers"
-    script_install("centos/setup.sh")
-  end
-            
+              
 end

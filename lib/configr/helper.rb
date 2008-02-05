@@ -1,12 +1,12 @@
 require 'erb'
 require 'yaml'
 
-# == Configuration helpers
+# == Recipe helpers
 #
 # * Loads the configuration 
 # * Generates files from templates
 #
-module Configr::ConfigHelper
+module Configr::Helper
   
   include Configr::Templates
   include Configr::Profiles
@@ -20,9 +20,9 @@ module Configr::ConfigHelper
   def root
     if respond_to?(:fetch)
       return fetch(:project_root)
+    else
+      RAILS_ROOT
     end
-    
-    RAILS_ROOT
   end
     
   # Path relative to project root

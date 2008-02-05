@@ -1,4 +1,7 @@
 require 'active_support'
+require 'highline'
+
+HighLine.track_eof = false
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + "/lib"
 
@@ -14,7 +17,7 @@ require "configr/helpers/script_helper"
 require "configr/helpers/gem_helper"
 require "configr/templates"
 require "configr/profiles"
-require "configr/config_helper"
+require "configr/helper"
 
 require "configr/config"
 require "configr/tasks"

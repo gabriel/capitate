@@ -6,14 +6,14 @@ class Capistrano::Configuration::Namespaces::Namespace
   
   # Load config helper for use within recipes
   require File.dirname(__FILE__) + "/../../init"
-  include Configr::ConfigHelper
+  include Configr::Helper
       
 end
 
 class Capistrano::Configuration
   # Load config helper for use within Capfile
   require File.dirname(__FILE__) + "/../../init"
-  include Configr::ConfigHelper
+  include Configr::Helper
   
 end
 
@@ -73,15 +73,15 @@ end
 reset_password
 
 # Debug connections
-class Capistrano::SSH
-  
-  class << self  
-  
-    def connect_with_logging(server, options={}, &block)
-      connect_without_logging(server, options, &block)
-    end
-  
-    alias_method_chain :connect, :logging
-  
-  end
-end
+# class Capistrano::SSH
+#   
+#   class << self  
+#   
+#     def connect_with_logging(server, options={}, &block)
+#       connect_without_logging(server, options, &block)
+#     end
+#   
+#     alias_method_chain :connect, :logging
+#   
+#   end
+# end

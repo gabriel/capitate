@@ -1,7 +1,7 @@
 require 'yaml'
 require 'highline'
 
-# Configuration class for composition of hash from yaml config
+# Configuration
 class Configr::Config
   
   attr_accessor :application, :user, :deploy_to, :web_host
@@ -35,7 +35,7 @@ class Configr::Config
     
     unless auto_apply and !existing.blank?
       result = HighLine.new.ask(message, answer_type) { |q| 
-        q.default = default
+        q.default = default unless default.blank?
         yield q if block_given?
       }
   
@@ -58,28 +58,28 @@ class Configr::Config
     options = { :auto_apply => auto_apply }
     
     ask("Application name: ", "application", options)
-    ask("User (to run application as):", "user", options.merge({ :default => application }))
+    ask("User (to run application as): ", "user", options.merge({ :default => application }))
     
-    ask("Deploy to:", "deploy_to", options.merge({ :default => "/var/www/apps/#{application}" }))  
-    ask("Web host:", "web_host", options)
+    ask("Deploy to: ", "deploy_to", options.merge({ :default => "/var/www/apps/#{application}" }))  
+    ask("Web host: ", "web_host", options)
     
-    ask("Database host:", "db_host", options)    
-    ask("Database user:", "db_user", options.merge({ :default => user }))
-    ask("Database password:", "db_pass", options)
-    ask("Database name:", "db_name", options.merge({ :default => application }))
+    ask("Database host: ", "db_host", options)    
+    ask("Database user: ", "db_user", options.merge({ :default => user }))
+    ask("Database password: ", "db_pass", options)
+    ask("Database name: ", "db_name", options.merge({ :default => application }))
 
-    ask("Database port:", "db_port", options.merge({ :default => 3306, :answer_type => Integer }))
+    ask("Database port: ", "db_port", options.merge({ :default => 3306, :answer_type => Integer }))
     
-    ask("Sphinx host:", "sphinx_host", options.merge({ :default => "127.0.0.1" }))
-    ask("Sphinx port:", "sphinx_port", options.merge({ :default => 3312, :answer_type => Integer }))
+    ask("Sphinx host: ", "sphinx_host", options.merge({ :default => "127.0.0.1" }))
+    ask("Sphinx port: ", "sphinx_port", options.merge({ :default => 3312, :answer_type => Integer }))
     
     default_repos = YAML.load(`svn info`)["URL"] rescue nil
-    ask("Repository uri:", "repository", options.merge({ :default => default_repos }))
+    ask("Repository uri: ", "repository", options.merge({ :default => default_repos }))
     
-    ask("Mongrel starting port:", "mongrel_port", options.merge({ :answer_type => Integer }))
-    ask("Number of mongrels:", "mongrel_size", options.merge({ :answer_type => Integer }))
+    ask("Mongrel starting port: ", "mongrel_port", options.merge({ :answer_type => Integer }))
+    ask("Number of mongrels: ", "mongrel_size", options.merge({ :answer_type => Integer }))
     
-    ask("Domain name (for nginx vhost; no www prefix):", "domain_name", options)    
+    ask("Domain name (for nginx vhost; no www prefix): ", "domain_name", options)    
     
     # Load default recipes if not set
     set_default("recipes", YAML.load_file(File.dirname(__FILE__) + "/recipes.yml"))

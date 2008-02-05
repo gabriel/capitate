@@ -1,7 +1,7 @@
 # Configr tasks for setup, clean and bootstrap
 module Configr::Tasks
   
-  include Configr::ConfigHelper
+  include Configr::Helper
   
   # Run the configr setup task.
   # This generates your capistrano configuration, and any other local project specific stuff (like database.yml, sphinx.conf, etc)
@@ -40,7 +40,7 @@ module Configr::Tasks
   
   # Run the update task
   def task_update
-    defaults = File.exist?(configr_yml_path) ? YAML.load_file(configr_yml_path) : {}
+    defaults = File.exist?(configr_yml_path) ? YAML.load_file(configr_yml_path) : Configr::Config.new
     task_bootstrap(defaults, true)
   end
   

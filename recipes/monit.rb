@@ -29,7 +29,7 @@ namespace :monit do
 
     sudo "install -o root /tmp/monit.initd /etc/init.d/monit && rm -f /tmp/monit.initd"
 
-    # I don't know if starting from init.d is such a great idea yet
+    # Started from inittab
     #sudo "/sbin/chkconfig --level 345 monit on"     
     
     script_install("monit/patch_inittab.sh")

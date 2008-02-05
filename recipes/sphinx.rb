@@ -24,8 +24,7 @@ namespace :sphinx do
 
     sudo "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
     
-    # Use monit to manage services
-    #sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
+    sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
     
     run "mkdir -p #{shared_path}/var/index"    
   end

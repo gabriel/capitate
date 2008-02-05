@@ -17,8 +17,7 @@ namespace :memcached do
 
     sudo "install -o root /tmp/memcached.initd /etc/init.d/memcached && rm -f /tmp/memcached.initd"
     
-    # Use monit to manage services
-    #sudo "/sbin/chkconfig --level 345 memcached on"            
+    sudo "/sbin/chkconfig --level 345 memcached on"            
   end
   
   task :install_monit do

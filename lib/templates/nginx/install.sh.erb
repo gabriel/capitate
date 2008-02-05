@@ -26,8 +26,7 @@ rm -rf nginx-0.5.35*
 
 install -o root /tmp/nginx/nginx.initd /etc/init.d/nginx
 
-# Use monit to manage services
-#/sbin/chkconfig --level 345 nginx on
+/sbin/chkconfig --level 345 nginx on
 
 mkdir -p /etc/nginx/vhosts
 

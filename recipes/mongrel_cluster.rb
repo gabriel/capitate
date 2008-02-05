@@ -23,9 +23,8 @@ namespace :mongrel_cluster do
     
     # Setup the mongrel_cluster init script
     sudo "install -o root /tmp/mongrel_cluster_#{application}.initd /etc/init.d/mongrel_cluster_#{application}"
-    
-    # Use monit to manage services
-    #sudo "/sbin/chkconfig --level 345 mongrel_cluster_#{application} on"
+        
+    sudo "/sbin/chkconfig --level 345 mongrel_cluster_#{application} on"
   end
   
   desc "Create monit configuration for mongrel cluster"

@@ -1,0 +1,4 @@
+check process sphinx_<%= application %> with pidfile <%= sphinx_pid_path %>
+  group search
+  start program = "/sbin/service sphinx_<%= application %> start"
+  stop program = "/sbin/service sphinx_<%= application %> stop"

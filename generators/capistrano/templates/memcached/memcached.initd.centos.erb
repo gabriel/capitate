@@ -1,0 +1,70 @@
+#! /bin/sh
+# memcached: Memcached
+#
+# chkconfig: - 86 14
+# description: memcached
+# processname: memcached
+#
+# Author: Gabriel Handford http://ducktyper.com
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+DESC="memcached"
+NAME="memcached"
+DAEMON=/usr/local/bin/memcached
+PIDFILE=<%= memcached_pid_path %>
+MEM=<%= memcached_memory %>
+PORT=<%= memcached_port %>
+# Have to be root in order to save in /var/run
+USER=root
+
+start() {
+  daemon $DAEMON -d -m $MEM -p $PORT -u $USER -P $PIDFILE
+  RETVAL=$?
+  echo
+  return $RETVAL;  
+}
+
+stop() {
+  kill -QUIT `cat $PIDFILE` || echo -n " not running"
+}
+
+reload() {
+  kill -HUP `cat $PIDFILE` || echo -n " can't reload"
+}
+
+case "$1" in
+  start)
+  	echo -n "Starting $DESC: $NAME"
+  	start
+    RETVAL=$?;
+	;;
+  stop)
+  	echo "Stopping $DESC: $NAME"
+  	stop
+  	RETVAL=$?;
+	;;
+  reload)
+  	echo -n "Reloading $DESC configuration..."
+  	reload
+  	RETVAL=$?;
+  	echo "reloaded."
+  ;;
+  restart)
+  	echo -n "Restarting $DESC: $NAME"
+  	stop
+  	# Sleep after stop
+  	sleep 1
+  	start
+  	RETVAL=$?;
+	;;
+  *)
+	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+	  RETVAL=3;
+	;;
+esac
+
+exit $RETVAL;

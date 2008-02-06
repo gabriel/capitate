@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# Copyright (c) 2007 Bradley Taylor, bradley@railsmachine.com
+#
+# mongrel_cluster_<%= application %>   Startup script for Mongrel clusters (<%= application %>)
+#
+# chkconfig: - 85 15
+# description: mongrel_cluster_<%= application %> manages multiple Mongrel processes for use \
+#              behind a load balancer.
+#
+# Modified by: Gabriel Handford http://ducktyper.com
+#              
+
+set -e
+trap ERROR ERR
+
+CONF_DIR=<%= mongrel_config_path %>
+PID_DIR=<%= pid_path %>
+USER=<%= user %>
+
+RETVAL=0
+
+fail() {
+  echo "Failed to start: $1"
+  exit 1
+}
+
+# Gracefully exit if the controller is missing.
+which mongrel_cluster_ctl >/dev/null || fail "mongrel_cluster_ctl not found"
+
+# Go no further if config directory is missing.
+[ -d "$CONF_DIR" ] || fail "$CONF_DIR not found"
+
+case "$1" in
+    start)
+      # Create pid directory
+      mkdir -p $PID_DIR
+      chown $USER:$USER $PID_DIR
+
+      mongrel_cluster_ctl start -c $CONF_DIR --clean
+      RETVAL=$?
+  ;;
+    stop)
+      mongrel_cluster_ctl stop -c $CONF_DIR
+      RETVAL=$?
+  ;;
+    restart)
+      mongrel_cluster_ctl restart -c $CONF_DIR
+      RETVAL=$?
+  ;;
+    status)
+      mongrel_cluster_ctl status -c $CONF_DIR
+      RETVAL=$?
+  ;;
+    *)
+      echo "Usage: $0 {start|stop|restart|status}"
+      exit 1
+  ;;
+esac      
+
+exit $RETVAL

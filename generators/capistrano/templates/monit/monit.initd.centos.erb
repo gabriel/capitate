@@ -1,0 +1,68 @@
+#! /bin/sh
+# monit: Monit
+#
+# chkconfig: - 86 14
+# description: monit
+# processname: monit
+#
+# Author: Gabriel Handford http://ducktyper.com
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+DESC="monit"
+NAME=monit
+DAEMON=/usr/local/bin/monit
+CONFFILE=/etc/monitrc
+LOGFILE=/var/log/monit.log
+PIDFILE=/var/run/monit.pid
+
+start() {
+  daemon $DAEMON -l $LOGFILE -p $PIDFILE -c $CONFFILE
+  RETVAL=$?
+  echo
+  return $RETVAL;  
+}
+
+stop() {
+  kill -QUIT `cat $PIDFILE` || echo -n " not running"
+}
+
+reload() {
+  kill -HUP `cat $PIDFILE` || echo -n " can't reload"
+}
+
+case "$1" in
+  start)
+  	#echo -n "Starting $DESC: $NAME"
+  	start
+    RETVAL=$?;
+	;;
+  stop)
+  	echo "Stopping $DESC: $NAME"
+  	stop
+  	RETVAL=$?;
+	;;
+  reload)
+  	echo -n "Reloading $DESC configuration..."
+  	reload
+  	RETVAL=$?;
+  	echo "reloaded."
+  ;;
+  restart)
+  	echo -n "Restarting $DESC: $NAME"
+  	stop
+  	# Sleep after stop
+  	sleep 1
+  	start
+  	RETVAL=$?;
+	;;
+  *)
+	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+	  RETVAL=3;
+	;;
+esac
+
+exit $RETVAL;

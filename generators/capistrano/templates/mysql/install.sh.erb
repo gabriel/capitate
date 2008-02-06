@@ -1,0 +1,10 @@
+#! /bin/sh
+
+set -e
+trap ERROR ERR
+
+/sbin/chkconfig --level 345 mysqld on
+
+/sbin/service mysqld start
+
+/usr/bin/mysqladmin -u root password <%= mysql_admin_password %>

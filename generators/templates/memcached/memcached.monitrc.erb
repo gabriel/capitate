@@ -1,4 +1,0 @@
-check process memcached with pidfile <%= memcached_pid_path %>
-  start program = "/sbin/service memcached start" 
-  stop program =  "/sbin/service memcached stop" 
-  if failed host 127.0.0.1 port <%= memcached_port %> then restart

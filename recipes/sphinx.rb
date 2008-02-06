@@ -3,19 +3,15 @@ namespace :sphinx do
   
   after "sphinx:setup", "sphinx:setup_monit"
   
-  set :sphinx_prefix, "/usr/local/sphinx"
-  
   desc "Install sphinx"
   task :install do 
-    package_install([ "gcc-c++" ])
+    # Dependencies: gcc-c++
     script_install("sphinx/install.sh.erb")
   end
   
   desc "Setup sphinx for application"
   task :setup do 
     
-    sphinx_prefix = fetch(:sphinx_prefix)
-    application = config.application
     sphinx_bin_path = "#{sphinx_prefix}/bin"
     sphinx_conf_path = "#{shared_path}/config/sphinx.conf"
     sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
@@ -44,35 +40,23 @@ namespace :sphinx do
     index_root = "#{shared_path}/var/index";
     log_root = "#{shared_path}/log"
     pid_root = "#{shared_path}/pids"
-    sphinx_host = config.sphinx_host
-    sphinx_port = config.sphinx_port
-    db_name = config.db_name
-    db_user = config.db_user
-    db_pass = config.db_pass
-    db_host = config.db_host
-    db_port = config.db_port
     
     put load_project_template("config/templates/sphinx.conf.erb", binding), "#{shared_path}/config/sphinx.conf"
-    
-    # Dont symlink in since we dont want to use sphinx rake tasks in deployed environment
-    #run "ln -nfs #{shared_path}/config/sphinx.conf #{release_path}/config/sphinx.conf"
   end
   
   desc "Rotate sphinx index for application"
   task :rotate_all do
-    sphinx_prefix = fetch(:sphinx_prefix)    
     run "#{sphinx_prefix}/bin/indexer --config #{shared_path}/config/sphinx.conf --rotate --all"
   end
   
   desc "Build sphinx indexes for application"
   task :index_all do
-    sphinx_prefix = fetch(:sphinx_prefix)    
     run "#{sphinx_prefix}/bin/indexer --config #{shared_path}/config/sphinx.conf --all"
   end
   
   desc "Start sphinx"
   task :start do
     # TODO: Monit
-    sudo "/sbin/service sphinx_#{application} start"
+    sudo "/sbin/service monit restart sphinx_#{application}"
   end  
 end

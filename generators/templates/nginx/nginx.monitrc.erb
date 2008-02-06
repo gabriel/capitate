@@ -1,0 +1,4 @@
+check process nginx with pidfile <%= nginx_pid_path %>
+  group www
+  start program = "/sbin/service nginx start"
+  stop program = "/sbin/service nginx stop"

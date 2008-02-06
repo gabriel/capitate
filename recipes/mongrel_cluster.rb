@@ -2,12 +2,7 @@
 namespace :mongrel_cluster do
   
   after "mongrel_cluster:setup", "mongrel_cluster:setup_monit"
-  
-  desc "Install mongrel and mongrel_cluster"
-  task :install do 
-    sudo "gem install mongrel mongrel_cluster"
-  end
-  
+    
   desc "Create mongrel cluster"
   task :setup do 
     run "mkdir -p #{shared_path}/config"

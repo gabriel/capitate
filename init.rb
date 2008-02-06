@@ -20,4 +20,3 @@ require "configr/profiles"
 require "configr/helper"
 
 require "configr/config"
-require "configr/tasks"

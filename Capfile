@@ -1,3 +1,7 @@
+#
+# Capfile for running base install recipe
+#
+
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
 # Patches for capistrano
@@ -12,4 +16,7 @@ require 'erb'
 set :user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }
 
 # Roles
-role :app, Capistrano::CLI.ui.ask('Server: ')
+role :base, Capistrano::CLI.ui.ask('Server: ')
+
+
+set :profile, Proc.new { load choose_profile }

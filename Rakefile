@@ -1,7 +1,4 @@
-require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
+require 'config/requirements'
+require 'config/hoe' # setup Hoe + all gem configuration
 
-RAILS_ROOT = File.dirname(__FILE__) + "/test"
-
-Dir["tasks/*"].each { |task| load task }
+Dir['tasks/**/*.rake'].each { |rake| load rake }

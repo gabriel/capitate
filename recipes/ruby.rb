@@ -1,9 +1,8 @@
 namespace :ruby do
   
-  desc "Install ruby, rubygems and rake"
+  desc "Install ruby and rubygems"
   task :install do 
-  
-    package_install([ "ruby", "ruby-devel", "ruby-libs", "ruby-irb", "ruby-rdoc", "ruby-ri", "zlib", "zlib-devel" ])
+    # Dependencies: zlib, zlib-devel
     
     # Install ruby 1.8.6
     script_install("ruby/ruby_install.sh")

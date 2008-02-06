@@ -1,33 +1,23 @@
 # Nginx recipes
 namespace :nginx do
   
-  after "nginx:install", "nginx:install_monit"
-  
-  # Conf variables
-  set :nginx_bin_path, "/sbin/nginx"
-  set :nginx_conf_path, "/etc/nginx/nginx.conf"
-  set :nginx_pid_path, "/var/run/nginx.pid"
-  set :nginx_prefix_path, "/var/nginx"
-  
   # Callbacks
   after "nginx:setup", "nginx:restart"
     
   desc "Install nginx, conf, initscript, nginx user and service"
   task :install do
-    package_install([ "pcre-devel", "openssl", "openssl-devel" ])
+    # Dependencies: "pcre-devel", "openssl", "openssl-devel"
 
-    run("rm -rf /tmp/nginx && mkdir -p /tmp/nginx")
+    put(load_template("nginx/nginx.initd.erb", binding), "/tmp/nginx.initd")
+    put(load_template("nginx/nginx.conf.erb", binding), "/tmp/nginx.conf")
     
-    put(load_template("nginx/nginx.initd.erb", binding), "/tmp/nginx/nginx.initd")
-    put(load_template("nginx/nginx.conf.erb", binding), "/tmp/nginx/nginx.conf")
-    
-    script_install("nginx/install.sh.erb")      
+    script_install("nginx/install.sh.erb")          
   end
   
-  desc "Create monit configuration for nginx"
+  desc "Install nginx monit hooks"
   task :install_monit do
     put load_template("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"
-    sudo "mkdir -p /etc/monit && install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc && rm -f /tmp/nginx.monitrc"
+    script_install("nginx/install_monit.sh")
   end
   
   

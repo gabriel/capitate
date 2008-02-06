@@ -53,7 +53,7 @@ class Configr::Config
   end
   
   # Build config from asking
-  def ask_all(configr_yml_path, auto_apply = false)
+  def ask_all(auto_apply = false)
     
     options = { :auto_apply => auto_apply }
     
@@ -85,9 +85,7 @@ class Configr::Config
     set_default("recipes", YAML.load_file(File.dirname(__FILE__) + "/recipes.yml"))
     
     # Default recipes
-    version = Configr::Config::Version
-    
-    save(configr_yml_path)
+    version = Configr::Config::Version    
   end
   
   # Check the version.

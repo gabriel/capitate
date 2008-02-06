@@ -3,7 +3,7 @@ module Configr::Profiles
   ProfileDir = File.dirname(__FILE__) + "/../../recipes/profiles"
   
   def recipe_profiles(prefix = "")
-    Dir[ProfileDir + "/#{prefix}*.yml"].collect { |file| File.basename(file)[0...-4] }  
+    Dir[ProfileDir + "/#{prefix}*.rb"].collect { |file| File.basename(file)[0...-3] }  
   end
   
   def choose_profile(prefix = "")
@@ -11,7 +11,7 @@ module Configr::Profiles
       menu.header = "Choose recipe profile"
     end
     
-    YAML.load_file("#{ProfileDir}/#{profile}.yml")
+    "#{ProfileDir}/#{profile}.rb"
   end
   
 end

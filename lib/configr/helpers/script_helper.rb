@@ -20,10 +20,11 @@ module Configr::Helpers::ScriptHelper
       put load_file(name), dest
     end
     
-    sudo "sh -v #{dest}"
+    # If want verbose, -v
+    sudo "sh #{dest}"
     
     # Cleanup
-    sudo "rm -rf /tmp/#{name}"    
+    sudo "rm -rf #{File.dirname(dest)}"    
   end
   
 end

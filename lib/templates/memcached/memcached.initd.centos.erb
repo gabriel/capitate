@@ -16,7 +16,7 @@ DESC="memcached"
 NAME="memcached"
 DAEMON=/usr/local/bin/memcached
 PIDFILE=<%= memcached_pid_path %>
-MEM=64
+MEM=<%= memcached_memory %>
 PORT=<%= memcached_port %>
 # Have to be root in order to save in /var/run
 USER=root

@@ -10,8 +10,12 @@ wget -nv http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz
 tar zxpf sphinx-0.9.7.tar.gz
 
 cd sphinx-0.9.7
-./configure --with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql --prefix=<%= sphinx_prefix %>
-make && make install
+echo "Configuring sphinx..."
+./configure --with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql --prefix=<%= sphinx_prefix %> > configure.log
+echo "Compiling sphinx..."
+make > make.log
+echo "Installing sphinx..."
+make install > make_install.log
 
 cd ..
 rm -rf sphinx-0.9.7*

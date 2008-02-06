@@ -1,4 +1,4 @@
-check process mysql with pidfile <%= pid_path %>
+check process mysql with pidfile <%= mysql_pid_path %>
    group database
    start program = "/sbin/service mysqld start"
    stop program = "/sbin/service mysqld stop"

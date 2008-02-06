@@ -17,14 +17,18 @@ wget -nv http://sysoev.ru/nginx/nginx-0.5.35.tar.gz
 tar zxpf nginx-0.5.35.tar.gz
 
 cd nginx-0.5.35
-./configure --sbin-path=$BIN_PATH --conf-path=$CONF_PATH --pid-path=$PID_PATH --error-log-path=$ERROR_LOG_PATH --lock-path=$LOCK_PATH --prefix=$PREFIX_PATH --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module
-make
-make install
+echo "Configuring nginx..."
+./configure --sbin-path=$BIN_PATH --conf-path=$CONF_PATH --pid-path=$PID_PATH --error-log-path=$ERROR_LOG_PATH --lock-path=$LOCK_PATH --prefix=$PREFIX_PATH --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module > configure.log
+echo "Compiling nginx..."
+make > make.log
+echo "Installing nginx"
+make install > make_install.log
 
 cd ..
 rm -rf nginx-0.5.35*
 
-install -o root /tmp/nginx/nginx.initd /etc/init.d/nginx
+install -o root /tmp/nginx.initd /etc/init.d/nginx
+rm -f /tmp/nginx.initd
 
 /sbin/chkconfig --level 345 nginx on
 
@@ -32,6 +36,7 @@ mkdir -p /etc/nginx/vhosts
 
 echo "# Blank nginx conf; work-around for nginx conf include issue" > /etc/nginx/vhosts/blank.conf
    
-install -o root -m 644 /tmp/nginx/nginx.conf $CONF_PATH
+install -o root -m 644 /tmp/nginx.conf $CONF_PATH
+rm -f /tmp/nginx.conf
 
 id nginx || /usr/sbin/adduser -r nginx

@@ -1,4 +1,4 @@
-module Configr::Profiles
+module Capigen::Profiles
   
   ProfileDir = File.dirname(__FILE__) + "/../../recipes/profiles"
   

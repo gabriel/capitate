@@ -2,7 +2,7 @@ require 'yaml'
 require 'highline'
 
 # Configuration
-class Configr::Config
+class Capigen::Config
   
   attr_accessor :application, :user, :deploy_to, :web_host
   attr_accessor :db_host, :db_user, :db_pass, :db_name, :db_port

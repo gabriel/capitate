@@ -6,7 +6,7 @@ require 'yaml'
 # * Loads the configuration 
 # * Generates files from templates
 #
-module Configr::Helper
+module Capigen::Helper
   
   include Configr::Templates
   include Configr::Profiles

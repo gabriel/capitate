@@ -1,4 +1,4 @@
-module Configr::Templates
+module Capigen::Templates
   
   # Root of templates path
   def template_root

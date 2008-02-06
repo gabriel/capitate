@@ -1,5 +1,0 @@
-<% locations_for_grant.each do |location| %>
-GRANT ALL PRIVILEGES ON <%= db_name %>.* TO '<%= db_user %>'@'<%= location %>' IDENTIFIED BY '<%= db_pass %>';
-<% end %>
-
-CREATE DATABASE IF NOT EXISTS <%= db_name %>;

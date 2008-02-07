@@ -6,14 +6,14 @@ class Capistrano::Configuration::Namespaces::Namespace
   
   # Load config helper for use within recipes
   require File.dirname(__FILE__) + "/../../init"
-  include Configr::Helper
+  include Capigen::Helper
       
 end
 
 class Capistrano::Configuration
   # Load config helper for use within Capfile
   require File.dirname(__FILE__) + "/../../init"
-  include Configr::Helper
+  include Capigen::Helper
   
 end
 

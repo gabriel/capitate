@@ -1,9 +1,9 @@
 # Package, Yum capistrano helpers
-module Configr::Helpers::PackageHelper
+module Capigen::Helpers::PackageHelper
   
   def setup_packager(packager)
     @packager = case packager.to_sym
-    when :yum then Configr::Packagers::Yum.new(self)
+    when :yum then Capigen::Packagers::Yum.new(self)
     end      
   end
   

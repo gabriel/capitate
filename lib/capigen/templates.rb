@@ -2,7 +2,7 @@ module Capigen::Templates
   
   # Root of templates path
   def template_root
-    @template_root ||= File.expand_path(File.dirname(__FILE__) + "/../templates")
+    @template_root ||= File.expand_path(File.dirname(__FILE__) + "/../../templates")
   end
   
   # Get full template path
@@ -19,9 +19,6 @@ module Capigen::Templates
       raise <<-EOS 
       
       Template not found: #{template_path}
-      
-      For this recipe to work you should have a template available at that path. 
-      If you don't want to run this recipe, remove it from the configr.yml or Capfile.
       
       EOS
     end

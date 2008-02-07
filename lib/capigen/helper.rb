@@ -8,13 +8,13 @@ require 'yaml'
 #
 module Capigen::Helper
   
-  include Configr::Templates
-  include Configr::Profiles
+  include Capigen::Templates
+  include Capigen::Profiles
   
-  include Configr::Helpers::PackageHelper
-  include Configr::Helpers::WgetHelper
-  include Configr::Helpers::ScriptHelper
-  include Configr::Helpers::GemHelper
+  include Capigen::Helpers::PackageHelper
+  include Capigen::Helpers::WgetHelper
+  include Capigen::Helpers::ScriptHelper
+  include Capigen::Helpers::GemHelper
     
   # Project root (for rails)
   def root
@@ -39,34 +39,13 @@ module Capigen::Helper
         
         File not found: #{File.expand_path(root_path)}
         
-        This is loaded for the configr plugin. View the README in:
+        This is loaded for the capigen plugin. View the README in:
         #{File.expand_path(File.dirname(__FILE__) + "/../doc/README")}
       EOS
     end
     
     root_path
   end  
-  
-  # The default path to the configr yaml.
-  def configr_yml_path
-    @configr_yml_path ||= "#{root}/config/configr.yml"
-  end
-  
-  def config
-    @config ||= YAML.load_file(configr_yml_path)
-  end
-  
-  # Check for config file and a good version
-  def check_config
-    return load_config_yaml.check_version if File.exist?(configr_yml_path)
-    false
-  end
-  
-  # Load binding from the config object (generated from the configr yaml)
-  def load_binding_from_config(path)
-    config = YAML.load_file(path)
-    config.get_binding
-  end
-  
+    
 end
 

@@ -1,5 +1,5 @@
 # Gem capistrano helpers
-module Configr::Helpers::GemHelper
+module Capigen::Helpers::GemHelper
   
   # gem_install("raspell") or gem_install([ "raspell", "foo" ])
   def gem_install(gems)

@@ -1,5 +1,5 @@
 # Packages must respond to update, remove, install and clean
-class Configr::Packagers::Yum
+class Capigen::Packagers::Yum
   
   def initialize(cap)
     @cap = cap

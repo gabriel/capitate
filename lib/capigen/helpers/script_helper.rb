@@ -1,5 +1,5 @@
 # Installer capistrano helper
-module Configr::Helpers::ScriptHelper
+module Capigen::Helpers::ScriptHelper
   
   def script_install(script, files_to_put = {})
     

@@ -1,7 +1,7 @@
 require 'open-uri'
 
 # Wget capistrano helper
-module Configr::Helpers::WgetHelper
+module Capigen::Helpers::WgetHelper
   
   # Download the uri, then upload it into the remote destination directory
   def wget(uri, remote_dest_dir = "/tmp")

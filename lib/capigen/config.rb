@@ -10,10 +10,6 @@ class Capigen::Config
   attr_accessor :repository, :recipes
   attr_accessor :mongrel_port, :mongrel_size
   attr_accessor :domain_name
-  attr_accessor :version
-  
-  # Increment this version whenever you make non-backwards compatible changes; It will force an configr update.
-  Version = 9
   
   def initialize
   end
@@ -63,7 +59,7 @@ class Capigen::Config
     ask("Deploy to: ", "deploy_to", options.merge({ :default => "/var/www/apps/#{application}" }))  
     ask("Web host: ", "web_host", options)
     
-    ask("Database host: ", "db_host", options)    
+    ask("Database host: ", "db_host", options.merge({ :default => web_host }))
     ask("Database user: ", "db_user", options.merge({ :default => user }))
     ask("Database password: ", "db_pass", options)
     ask("Database name: ", "db_name", options.merge({ :default => application }))
@@ -82,23 +78,7 @@ class Capigen::Config
     ask("Domain name (for nginx vhost; no www prefix): ", "domain_name", options)    
     
     # Load default recipes if not set
-    set_default("recipes", YAML.load_file(File.dirname(__FILE__) + "/recipes.yml"))
-    
-    # Default recipes
-    version = Configr::Config::Version    
-  end
-  
-  # Check the version.
-  # If out of date, notify to run an update.
-  def check_version
-    if version.blank? || version < Version
-      puts <<-EOS
-
-      WARNING: The version of you configuration is out of date. Please run rake configr:update.
-
-      EOS
-      raise "Config file version of out date"
-    end
+    set_default("recipes", YAML.load_file(File.dirname(__FILE__) + "/recipes.yml"))    
   end
   
 end

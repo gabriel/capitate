@@ -7,7 +7,7 @@ load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 set :project_root, File.dirname(__FILE__)
 
 # Load bootstrapped patch.rb
-Dir['vendor/plugins/capgen*/recipes/bootstrap/patch.rb'].each { |patch| load(patch)}
+Dir['vendor/plugins/*/recipes/bootstrap/patch.rb'].each { |patch| load(patch)}
 
 # Load recipes from plugins
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }

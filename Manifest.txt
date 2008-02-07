@@ -19,7 +19,6 @@ lib/capigen/profiles.rb
 lib/capigen/recipes.yml
 lib/capigen/templates.rb
 lib/capigen/version.rb
-patch.diff
 recipes/README
 recipes/bootstrap/patch.rb
 recipes/centos.rb

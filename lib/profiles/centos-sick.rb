@@ -35,7 +35,11 @@ set :install_tasks, [
 set :gem_list, [ 
   "rake", 
   "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config", 
-  "raspell", "rmagick", "mongrel", "mongrel_cluster" 
+  "raspell", 
+  "rmagick", 
+  "mongrel", 
+  "mongrel_cluster",
+  "json"
 ]
 
 # Monit

@@ -1,5 +1,5 @@
 set :namespace, "centos"
-set :description, "Install based on thoughtpolice centos 5.1 image"
+set :description, "Install based on default centos 5.1 image"
 set :packager_type, "yum" 
 set :packages_to_remove, [ "openoffice.org-*", "ImageMagick" ]
 set :packages_to_add, [ 
@@ -16,13 +16,14 @@ set :packages_to_add, [
 ]
   
 set :install_tasks, [ 
-  #"centos:setup", 
-  #"ruby:install", 
-  #"nginx:install", 
-  #"nginx:install_monit", 
-  #"mysql:install", 
-  #"mysql:install_monit", 
-  #"sphinx:install", 
+  "centos:setup",
+  "packages:install",
+  "ruby:install", 
+  "nginx:install", 
+  "nginx:install_monit", 
+  "mysql:install", 
+  "mysql:install_monit", 
+  "sphinx:install", 
   "monit:install",
   "imagemagick:install", 
   "memcached:install", 
@@ -31,7 +32,7 @@ set :install_tasks, [
   "centos:cleanup" 
 ]
 
-set :gems, [ 
+set :gem_list, [ 
   "rake", 
   "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config", 
   "raspell", "rmagick", "mongrel", "mongrel_cluster" 

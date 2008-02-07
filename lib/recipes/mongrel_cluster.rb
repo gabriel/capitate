@@ -13,8 +13,8 @@ namespace :mongrel_cluster do
     
     pid_path = "#{shared_path}/pids"
     
-    put load_template("mongrel/mongrel_cluster.initd.erb", binding), "/tmp/mongrel_cluster_#{application}.initd"    
-    put load_template("mongrel/mongrel_cluster.yml.erb", binding), "#{mongrel_config_path}/mongrel_cluster.yml"
+    put template.load("mongrel/mongrel_cluster.initd.erb", binding), "/tmp/mongrel_cluster_#{application}.initd"    
+    put template.load("mongrel/mongrel_cluster.yml.erb", binding), "#{mongrel_config_path}/mongrel_cluster.yml"
     
     # Setup the mongrel_cluster init script
     sudo "install -o root /tmp/mongrel_cluster_#{application}.initd /etc/init.d/mongrel_cluster_#{application}"
@@ -41,7 +41,7 @@ namespace :mongrel_cluster do
       processes << { :port => port, :start_options => start_options, :stop_options => stop_options, :name => "/usr/bin/mongrel_rails", :pid_path => pid_path }
     end
     
-    put load_template("mongrel/mongrel_cluster.monitrc.erb", binding), "/tmp/mongrel_cluster_#{application}.monitrc"
+    put template.load("mongrel/mongrel_cluster.monitrc.erb", binding), "/tmp/mongrel_cluster_#{application}.monitrc"
     
     sudo "install -o root /tmp/mongrel_cluster_#{application}.monitrc /etc/monit/mongrel_cluster_#{application}.monitrc"
   end

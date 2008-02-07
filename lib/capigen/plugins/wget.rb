@@ -1,10 +1,14 @@
 require 'open-uri'
 
-# Wget capistrano helper
-module Capigen::Helpers::WgetHelper
+module Capigen::Plugins::Wget
   
   # Download the uri, then upload it into the remote destination directory
-  def wget(uri, remote_dest_dir = "/tmp")
+  # 
+  # ==== Options
+  # +uri+:: URI to get
+  # +remote_dest_dir+:: Remote destination directory
+  #
+  def uri(uri, remote_dest_dir = "/tmp")
     
     uri = uri = URI.parse(uri)
     name = uri.path.split("/").last
@@ -15,3 +19,5 @@ module Capigen::Helpers::WgetHelper
   end
   
 end
+
+Capistrano.plugin :wget, Capigen::Plugins::Wget

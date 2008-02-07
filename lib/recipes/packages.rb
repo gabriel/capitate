@@ -2,18 +2,23 @@ namespace :packages do
   
   task :install do
     
-    # Setup packager
-    setup_packager(packager_type)
+    # Settings
+    packages = profile.get(:packages)
+    
+    packages_to_remove = packages[:remove]
+    packages_to_add = packages[:add]
+    
+    # Set package type
+    package.type = packages[:type]
     
     # Remove packages          
-    package_remove(packages_to_remove)
+    package.remove(packages_to_remove) unless packages_to_remove.blank?
     
     # Update all existing packages
-    package_update
+    package.update
     
     # Install packages
-    package_install(packages_to_add)
-    
+    package.install(packages_to_add) unless packages_to_add.blank?
   end
   
 end

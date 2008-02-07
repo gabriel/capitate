@@ -7,28 +7,23 @@ HighLine.track_eof = false
 $:.unshift File.dirname(__FILE__)
 
 module Capigen
- module Helpers
+ module Plugins
  end  
- 
- module Packagers
- end
 end
 
-require "capigen/packagers/yum"
-
-require "capigen/helpers/package_helper"
-require "capigen/helpers/wget_helper"
-require "capigen/helpers/script_helper"
-require "capigen/helpers/gem_helper"
-require "capigen/templates"
-require "capigen/profiles"
-require "capigen/helper"
+require 'capigen/plugins/base'
+require 'capigen/plugins/gem'
+require 'capigen/plugins/package'
+require 'capigen/plugins/profiles'
+require 'capigen/plugins/script'
+require 'capigen/plugins/templates'
+require 'capigen/plugins/wget'
+require 'capigen/plugins/yum'
 
 require "capigen/config"
 
-require "capigen/cap_ext/configuration"
-require "capigen/cap_ext/namespace"
 require "capigen/cap_ext/connections"
+require "capigen/cap_ext/extension_proxy"
         
 
 

@@ -2,14 +2,13 @@ namespace :memcached do
   
   desc "Install memcached"
   task :install do
-    put load_template("memcached/memcached.initd.centos.erb", binding), "/tmp/memcached.initd"    
-    script_install("memcached/install.sh")   
+    script.install("memcached/install.sh", :file => "memcached/memcached.initd.centos.erb", :dest => "/tmp/memcached.initd")   
   end
 
   desc "Install memcached monit hooks"
   task :install_monit do
-    put load_template("memcached/memcached.monitrc.erb", binding), "/tmp/memcached.monitrc"    
-    script_install("memcached/install_monit.sh")    
+    put template.load("memcached/memcached.monitrc.erb", binding), "/tmp/memcached.monitrc"    
+    sudo "install -o root /tmp/memcached.monitrc /etc/monit/memcached.monitrc"
   end
   
 end

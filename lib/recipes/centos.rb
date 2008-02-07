@@ -3,14 +3,12 @@ namespace :centos do
     
   desc "Setup centos"
   task :setup do
-    put load_file("centos/sudoers"), "/tmp/sudoers"
-    script_install("centos/setup.sh")    
-  end
-  
+    script.install("centos/setup.sh", :file => "centos/sudoers", :dest => "/tmp/sudoers")
+  end  
     
   desc "Cleanup"
   task :cleanup do
-    package_clean
+    yum.clean
   end
   
   # Add user for an application

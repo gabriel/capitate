@@ -4,7 +4,7 @@ namespace :rails do
   desc "Create database yaml in shared path" 
   task :setup do    
     run "mkdir -p #{shared_path}/config"
-    put load_template("rails/database.yml.erb", binding), "#{shared_path}/config/database.yml"
+    put template.load("rails/database.yml.erb", binding), "#{shared_path}/config/database.yml"
   end
 
   desc "Make symlink for database yaml" 

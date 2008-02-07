@@ -4,13 +4,16 @@ namespace :monit do
   task :install do
     # Dependencies: "flex", "byacc"
     
-    put load_template("monit/monit.initd.centos.erb", binding), "/tmp/monit.initd"
-    put load_template("monit/monitrc.erb", binding), "/tmp/monitrc"
-    put load_file("monit/monit.cnf"), "/tmp/monit.cnf"
+    install_files = [ 
+      { :file => "monit/monit.initd.centos.erb", :dest => "/tmp/monit.initd" },
+      { :file => "monit/monitrc.erb", :dest => "/tmp/monitrc" } 
+    ]
     
-    script_install("monit/install.sh")      
-    script_install("monit/patch_inittab.sh")
-    script_install("monit/cert.sh")
+    script.install("monit/install.sh", install_files)  
+        
+    script.install("monit/patch_inittab.sh")
+    
+    script.install("monit/cert.sh", :file => "monit/monit.cnf", :dest => "/tmp/monit.cnf")
   end
       
 end

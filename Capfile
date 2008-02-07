@@ -17,8 +17,8 @@ set :user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }
 # Roles
 role :base, Capistrano::CLI.ui.ask('Server: ')
 
-# Profile
-set :profile, Proc.new { load choose_profile }
+# Choose a profile
+set :profile, Proc.new { load profile.choose }
 
 # Reset the password var
 reset_password

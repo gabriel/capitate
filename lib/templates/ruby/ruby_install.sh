@@ -4,7 +4,8 @@ set -e
 trap ERROR ERR
 
 cd /usr/src
-#wget -nv ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p110.tar.gz
+wget -nv http://capigen.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz
+# ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-1.8.6-p110.tar.gz
 tar xzf ruby-1.8.6-p110.tar.gz
 cd ruby-1.8.6-p110
 echo "Configuring ruby..."

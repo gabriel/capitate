@@ -5,7 +5,7 @@ namespace :install do
     fetch(:profile)
         
     # These run after install task and install all the apps
-    install_tasks.each do |task_name|
+    recipes.each do |task_name|
       after "install", task_name
     end
   end

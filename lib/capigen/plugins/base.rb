@@ -6,16 +6,8 @@ require 'yaml'
 # * Loads the configuration 
 # * Generates files from templates
 #
-module Capigen::Helper
+module Capigen::Plugins::Base
   
-  include Capigen::Templates
-  include Capigen::Profiles
-  
-  include Capigen::Helpers::PackageHelper
-  include Capigen::Helpers::WgetHelper
-  include Capigen::Helpers::ScriptHelper
-  include Capigen::Helpers::GemHelper
-    
   # Project root (for rails)
   def root
     if respond_to?(:fetch)
@@ -49,3 +41,4 @@ module Capigen::Helper
     
 end
 
+Capistrano.plugin :capigen, Capigen::Plugins::Base

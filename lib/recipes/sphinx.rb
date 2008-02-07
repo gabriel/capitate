@@ -6,7 +6,7 @@ namespace :sphinx do
   desc "Install sphinx"
   task :install do 
     # Dependencies: gcc-c++
-    script_install("sphinx/install.sh.erb")
+    script.install("sphinx/install.sh.erb")
   end
   
   desc "Setup sphinx for application"
@@ -16,7 +16,7 @@ namespace :sphinx do
     sphinx_conf_path = "#{shared_path}/config/sphinx.conf"
     sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
     
-    put load_template("sphinx/sphinx_app.initd.centos.erb", binding), "/tmp/sphinx.initd"
+    put template.load("sphinx/sphinx_app.initd.centos.erb"), "/tmp/sphinx.initd"
 
     sudo "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
     
@@ -28,7 +28,7 @@ namespace :sphinx do
   desc "Create monit configuration for sphinx"
   task :setup_monit do    
     sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
-    put load_template("sphinx/sphinx.monitrc.erb", binding), "/tmp/sphinx_#{application}.monitrc"        
+    put template.load("sphinx/sphinx.monitrc.erb"), "/tmp/sphinx_#{application}.monitrc"        
     
     sudo "install -o root /tmp/sphinx_#{application}.monitrc /etc/monit/sphinx_#{application}.monitrc"
   end
@@ -36,12 +36,12 @@ namespace :sphinx do
   desc "Update sphinx for application" 
   task :update_code do
     
-    rails_root = current_path
-    index_root = "#{shared_path}/var/index";
-    log_root = "#{shared_path}/log"
-    pid_root = "#{shared_path}/pids"
+    set :rails_root, current_path
+    set :index_root, "#{shared_path}/var/index";
+    set :log_root, "#{shared_path}/log"
+    set :pid_root, "#{shared_path}/pids"
     
-    put load_project_template("config/templates/sphinx.conf.erb", binding), "#{shared_path}/config/sphinx.conf"
+    put template.project("config/templates/sphinx.conf.erb"), "#{shared_path}/config/sphinx.conf"
   end
   
   desc "Rotate sphinx index for application"

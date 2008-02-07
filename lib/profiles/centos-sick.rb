@@ -2,19 +2,19 @@ set :namespace, "centos"
 set :description, "Install based on default centos 5.1 image"
 
 set :recipes, [ 
-  # "centos:setup",
-  # "packages:install",
-  # "ruby:install", 
-  # "nginx:install", 
-  # "nginx:install_monit", 
-  # "mysql:install", 
-  # "mysql:install_monit", 
-  # "sphinx:install", 
-  # "monit:install",
-  # "imagemagick:install", 
-  # "memcached:install", 
-  # "memcached:install_monit", 
-  # "gems:install", 
+  "centos:setup",
+  "packages:install",
+  "ruby:install", 
+  "nginx:install", 
+  "nginx:install_monit", 
+  "mysql:install", 
+  "mysql:install_monit", 
+  "sphinx:install", 
+  "monit:install",
+  "imagemagick:install", 
+  "memcached:install", 
+  "memcached:install_monit", 
+  "gems:install", 
   "centos:cleanup" 
 ]
 

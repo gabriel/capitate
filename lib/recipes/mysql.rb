@@ -15,7 +15,7 @@ namespace :mysql do
   desc "Create database user, and database with appropriate permissions"
   task :setup do    
     # Add localhost to grant locations
-    locations_for_grant = [ "localhost", web_host ]
+    locations_for_grant = [ "localhost", web_host, db_host ]
     
     put template.load("mysql/install_db.sql.erb", binding), "/tmp/install_db_#{application}.sql"    
     run "mysql -u root -p#{mysql_admin_password} < /tmp/install_db_#{application}.sql"

@@ -3,3 +3,5 @@ GRANT ALL PRIVILEGES ON <%= db_name %>.* TO '<%= db_user %>'@'<%= location %>' I
 <% end %>
 
 CREATE DATABASE IF NOT EXISTS <%= db_name %>;
+
+FLUSH PRIVILEGES;

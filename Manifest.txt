@@ -22,6 +22,7 @@ lib/capigen/recipes.rb
 lib/capigen/recipes.yml
 lib/capigen/templates.rb
 lib/capigen/version.rb
+lib/profiles/centos-sick.rb
 lib/recipes/README
 lib/recipes/centos.rb
 lib/recipes/deploy.rb
@@ -34,7 +35,6 @@ lib/recipes/monit.rb
 lib/recipes/mysql.rb
 lib/recipes/nginx.rb
 lib/recipes/packages.rb
-lib/recipes/profiles/centos-sick.rb
 lib/recipes/rails.rb
 lib/recipes/ruby.rb
 lib/recipes/sphinx.rb

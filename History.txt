@@ -1,3 +1,7 @@
+== 0.1.2 2008-02-06
+
+* Loading recipes from gem
+
 == 0.1.1 2008-02-06
 
 * Initial import

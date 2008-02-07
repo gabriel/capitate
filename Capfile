@@ -4,11 +4,10 @@
 
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
-# Patches for capistrano
-load "recipes/bootstrap/patch.rb"
+require 'lib/capigen'
 
 # Load recipes
-Dir['recipes/*.rb'].each { |plugin| load(plugin) }
+Dir["lib/recipes/**/*.rb"].each { |recipe| load recipe }
 
 require 'erb'
 
@@ -18,5 +17,8 @@ set :user, Proc.new { Capistrano::CLI.ui.ask('Bootstrap user: ') }
 # Roles
 role :base, Capistrano::CLI.ui.ask('Server: ')
 
-
+# Profile
 set :profile, Proc.new { load choose_profile }
+
+# Reset the password var
+reset_password

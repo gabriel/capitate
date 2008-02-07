@@ -2,7 +2,7 @@ module Capigen::Templates
   
   # Root of templates path
   def template_root
-    @template_root ||= File.expand_path(File.dirname(__FILE__) + "/../../templates")
+    @template_root ||= File.expand_path(File.dirname(__FILE__) + "/../templates")
   end
   
   # Get full template path

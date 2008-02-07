@@ -1,6 +1,6 @@
 module Capigen::Profiles
   
-  ProfileDir = File.dirname(__FILE__) + "/../../profiles"
+  ProfileDir = File.dirname(__FILE__) + "/../profiles"
   
   def recipe_profiles(prefix = "")
     Dir[ProfileDir + "/#{prefix}*.rb"].collect { |file| File.basename(file)[0...-3] }  

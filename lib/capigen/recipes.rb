@@ -3,3 +3,6 @@ recipes = Dir[File.dirname(__FILE__) + "/../recipes/**/*.rb"].collect { |recipe|
 recipes.each do |recipe|
   Capistrano::Configuration.instance.load recipe
 end
+
+# Reset the password var
+Capistrano::Configuration.instance.load(:string => "reset_password")

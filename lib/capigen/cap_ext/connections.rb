@@ -47,7 +47,7 @@ module Capistrano::Configuration::Connections
       Capistrano::CLI.password_prompt("Password (for #{user}): ")
     }
   end
-  
+    
 end
 
 # Debug connections

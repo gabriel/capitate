@@ -1,9 +1,10 @@
 #
-# Uses cache directory configured for public/cache
-# Re-writes url for iphone user agent to /iphone (so as not to conflict with cache)
-# TODO-gabe: Same for mobile user agents
+# Nginx virtual host conf
 #
-# Redirects domain.com to www.domain.com (IMO should be the other way around; ie. www is deprecated)
+# * Uses cache directory configured for public/cache
+# * Re-writes url for iphone user agent to /iphone (so as not to conflict with cache)
+# * TODO-gabe: Same for mobile user agents
+# * Redirects domain.com to www.domain.com (IMO should be the other way around; www is deprecated)
 #
 
 upstream mongrel-cluster-<%= application %> {

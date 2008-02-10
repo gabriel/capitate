@@ -1,6 +1,12 @@
-##
-# See http://brainspl.at/articles/2007/01/03/new-nginx-conf-with-optimizations
-# See http://topfunky.net/svn/shovel/nginx
+#
+# Nginx conf
+#
+# See vhost conf for site specific stuff.
+#
+# ==== References:
+# http://brainspl.at/articles/2007/01/03/new-nginx-conf-with-optimizations
+# http://topfunky.net/svn/shovel/nginx
+# http://robsanheim.com/2008/02/07/beware-the-default-nginx-config-old-ie6-hates-gzip/
 #
 
 # user and group to run as
@@ -46,7 +52,12 @@ http {
   gzip_http_version 1.0;
   gzip_comp_level 2;
   gzip_proxied any;
+  gzip_buffers 16 8k;
   gzip_types      text/plain text/html text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+  
+  # GZip fails on pre SP2 IE6 browsers (even though is says it can)
+  # Thanks, http://robsanheim.com/2008/02/07/beware-the-default-nginx-config-old-ie6-hates-gzip/
+  gzip_disable "MSIE [1-6]\.";
   
   # Auto include
   include /etc/nginx/vhosts/*.conf;

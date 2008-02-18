@@ -6,7 +6,7 @@ module Capigen::Plugins::Wget
   # 
   # ==== Options
   # +uri+:: URI to get
-  # +remote_dest_dir+:: Remote destination directory
+  # +remote_dest_dir+:: Remote destination directory, defaults to /tmp
   #
   def uri(uri, remote_dest_dir = "/tmp")
     

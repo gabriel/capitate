@@ -1,12 +1,5 @@
 = Recipes
-
-Install tasks are one time tasks (per image).
-
-Setup tasks are one time tasks (per application).
-
-Update code tasks are called after each deploy (per application).
-
-
-The bootstrap/patch.rb is not a recipe but is to include Capigen helpers for use within recipes.
-
-Scripts and templates are in ./templates
+* Install tasks are one time tasks (per OS).
+* Setup tasks are one time tasks (per application).
+* Update code tasks are called after each deploy (per application).
+* Scripts and templates are in capigen/lib/templates.

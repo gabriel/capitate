@@ -6,8 +6,8 @@ HighLine.track_eof = false
 
 $:.unshift File.dirname(__FILE__)
 
-module Capigen
- module Plugins
+module Capigen # :nodoc:
+ module Plugins # :nodoc:
  end  
 end
 

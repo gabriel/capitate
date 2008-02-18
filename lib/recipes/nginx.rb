@@ -4,20 +4,12 @@ namespace :nginx do
   # Callbacks
   after "nginx:setup", "nginx:restart"
     
-  desc "Install nginx, conf, initscript, nginx user and service"
-  task :install do
-    # Dependencies: "pcre-devel", "openssl", "openssl-devel"
-
-    files = [ 
-      { :file => "nginx/nginx.initd.erb", :dest => "/tmp/nginx.initd" },
-      { :file => "nginx/nginx.conf.erb", :dest => "/tmp/nginx.conf" }
-    ]
-    
-    script.install("nginx/install.sh.erb", files, binding)
-  end
-  
   desc "Install nginx monit hooks"
   task :install_monit do
+    
+    # Settings
+    nginx_pid_path = profile.get_or_default(:nginx_pid_path, "/var/run/nginx.pid")
+    
     put template.load("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"    
     sudo "install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc"
   end

@@ -1,3 +1,9 @@
+== 0.1.5 ?
+
+* Moving centos specific recipes into separate namespace
+* Plugin: script.make_install
+* Documentation and explicitly fetching vars (for install tasks), showing useful error messages
+
 == 0.1.4 2008-02-07
 
 * Using capistrano's plugin architecture instead of hacking around

@@ -1,7 +1,9 @@
 require 'yaml'
 require 'highline'
 
-# Configuration
+# Application configuration for helping generate Capfile and deploy.rb.
+# This isn't used for recipes or profiles.
+#
 class Capigen::Config
   
   attr_accessor :application, :user, :deploy_to, :web_host
@@ -14,11 +16,24 @@ class Capigen::Config
   def initialize
   end
 
-  # Expose the binding
+  # Expose the binding.
   def get_binding
     binding
   end
   
+  # Ask for property.
+  # 
+  # ==== Options
+  # +message+:: Prompt
+  # +property+:: Property
+  # +options+:: Options
+  # - :default, Default value, defaults to nil
+  # - :answer_type, Highline answer type, defaults to String
+  # - :auto_apply, If true and property is set don't ask for it
+  #
+  # ==== Examples
+  #   ask("Database port: ", "db_port", { :default => 3306, :answer_type => Integer })
+  #
   def ask(message, property, options = {}, &block)    
     # Options
     default = options[:default] || nil    
@@ -39,16 +54,22 @@ class Capigen::Config
     end
   end
   
+  # For property, set to value if blank.
   def set_default(property, value)
     v = send(property.to_sym)
     send("#{property}=", value) if v.blank?
   end
-  
+
+  # Save to yaml.
   def save(path)
     File.open(path, "w") { |f| f.puts self.to_yaml }
   end
   
-  # Build config from asking
+  # Build config from asking.
+  # 
+  # ==== Options
+  # +auto_apply+:: For values, if set, then don't ask for it
+  #
   def ask_all(auto_apply = false)
     
     options = { :auto_apply => auto_apply }

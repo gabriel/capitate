@@ -1,14 +1,10 @@
 require 'erb'
 require 'yaml'
 
-# == Recipe helpers
-#
-# * Loads the configuration 
-# * Generates files from templates
-#
+# Capigen base capistrano plugin
 module Capigen::Plugins::Base
   
-  # Project root (for rails)
+  # Project root
   def root
     if respond_to?(:fetch)
       return fetch(:project_root)

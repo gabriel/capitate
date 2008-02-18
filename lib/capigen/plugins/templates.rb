@@ -1,11 +1,17 @@
 module Capigen::Plugins::Templates
   
-  # Root of templates path
+  # Get the absolute base templates path.
   def gem_templates_root
     File.expand_path(File.dirname(__FILE__) + "/../../templates")
   end
   
-  # Get full template path
+  # Get full template path from relative path.
+  #
+  # Something like <tt>monit/monit.cnf => /usr/lib/..../capigen/lib/templates/monit/monit.cnf</tt>.
+  #
+  # ==== Options 
+  # +template_path+:: Relative path
+  #
   def gem_template_path(template_path)
     File.join(gem_templates_root, template_path)
   end
@@ -14,7 +20,11 @@ module Capigen::Plugins::Templates
   # 
   # ==== Options
   # +path+:: If starts with '/', absolute path, otherwise relative path to templates dir
-  # +binding+:: Binding
+  # +override_binding+:: Binding to override, otherwise uses current (task) binding
+  #
+  # ==== Examples
+  #   template.load("memcached/memcached.monitrc.erb")
+  #   put template.load("memcached/memcached.monitrc.erb"), "/tmp/memcached.monitrc"
   #
   def load(path, override_binding = nil)
     template_paths = [ path, gem_template_path(path) ]
@@ -41,7 +51,17 @@ module Capigen::Plugins::Templates
     data
   end
   
-  # Load template from project
+  # Load template from project.
+  # If extension is erb will be evaluated with binding.
+  # 
+  # ==== Options
+  # +path+:: If starts with '/', absolute path, otherwise relative path to templates dir
+  # +override_binding+:: Binding to override, otherwise uses current (task) binding
+  #
+  # ==== Examples
+  #   template.project("config/templates/sphinx.conf.erb")
+  #   put template.project("config/templates/sphinx.conf.erb"), "#{shared_path}/config/sphinx.conf"
+  #
   def project(path, override_binding = nil)
     load(project_root + "/" + path, override_binding || binding)
   end
@@ -50,7 +70,14 @@ module Capigen::Plugins::Templates
   #
   # ==== Options
   # +template_path+:: Path to template relative to templates path
+  # +binding+:: Binding
+  # +dest_path+:: Local destination path to write to
+  # +overwrite+:: Force overwrite
+  # +verbose+:: Verbose output
   #
+  # ==== Examples
+  #   template.write("config/templates/sphinx.conf.erb", binding, "config/sphinx.conf")
+  #  
   def write(template_path, binding, dest_path, overwrite = false, verbose = true)    
     # This is gnarly!
     relative_dest_path = Pathname.new(File.expand_path(dest_path)).relative_path_from(Pathname.new(File.expand_path(".")))  

@@ -1,13 +1,13 @@
 module Capigen::Plugins::Gem
   
-  # Installl a gem.
+  # Install a gem.
   #
   # ==== Options
   # +gems+:: List of gem names, or a single gem
   #
-  # ==== Examples
-  #   install("raspell") 
-  #   install([ "raspell", "foo" ])
+  # ==== Examples (in capistrano task)
+  #   gemc.install("raspell") 
+  #   gemc.install([ "raspell", "foo" ])
   #
   def install(gems)
     # If a single object, wrap in array

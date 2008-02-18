@@ -1,30 +1,6 @@
 # Sphinx recipes
 namespace :sphinx do
   
-  after "sphinx:setup", "sphinx:setup_monit"
-  
-  desc "Install sphinx"
-  task :install do 
-    # Dependencies: gcc-c++
-    script.install("sphinx/install.sh.erb")
-  end
-  
-  desc "Setup sphinx for application"
-  task :setup do 
-    
-    sphinx_bin_path = "#{sphinx_prefix}/bin"
-    sphinx_conf_path = "#{shared_path}/config/sphinx.conf"
-    sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
-    
-    put template.load("sphinx/sphinx_app.initd.centos.erb"), "/tmp/sphinx.initd"
-
-    sudo "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
-    
-    sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
-    
-    run "mkdir -p #{shared_path}/var/index"    
-  end
-  
   desc "Create monit configuration for sphinx"
   task :setup_monit do    
     sphinx_pid_path = "#{shared_path}/pids/searchd.pid"

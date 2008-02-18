@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>
-      capigen
+      Capistrano plugins, recipes and templates
   </title>
   <script src="javascripts/rounded_corners_lite.inc.js" type="text/javascript"></script>
 <style>
@@ -30,15 +30,18 @@
 <body>
 <div id="main">
 
-    <h1>capigen</h1>
+    <h1>Capistrano plugins, recipes and templates</h1>
     <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/capigen"; return false'>
       <p>Get Version</p>
-      <a href="http://rubyforge.org/projects/capigen" class="numbers">0.1.4</a>
+      <a href="http://rubyforge.org/projects/capigen" class="numbers">0.1.5</a>
     </div>
     <h1>&#x2192; &#8216;capigen&#8217;</h1>
 
 
 	<h2>What</h2>
+
+
+	<p>Capistrano plugins, recipes and templates.</p>
 
 
 	<h2>Installing</h2>
@@ -50,7 +53,78 @@
 	<h2>The basics</h2>
 
 
+	<p>Capigen has recipes for:</p>
+
+
+	<ul>
+	<li>Installing applications, via yum or manual building with make.</li>
+		<li>Common deployment setup and update_code tasks, such as symlinking in database.yml and more advanced recipes such as sphinx configuration.</li>
+		<li><span class="caps">ERB</span> templates for application configuration files, init scripts, monit configuration, etc.</li>
+		<li>And more&#8230;</li>
+	</ul>
+
+
 	<h2>Demonstration of usage</h2>
+
+
+	<h3>Install recipes</h3>
+
+
+	<p>To install an application, use the install recipes. For example:</p>
+
+
+	<pre><code>cap nginx:install</code></pre>
+
+
+	<p>Recipes may have settings that are required, or defaults that can be overriden. These are usually set in &#8220;profiles&#8221;.</p>
+
+
+	<p>To install a group of applications based on a <a href="</p">profile</a>&gt;
+
+
+	<pre><code>cap install</code></pre>
+
+
+	<p><em>You may need to comment out &#8220;Defaults requiretty&#8221; in /etc/sudoders on the image before capistrano recipes will work.</em></p>
+
+
+	<h3>Profiles</h3>
+
+
+	<p>Profiles store lists of recipes to run, and settings for those recipes.</p>
+
+
+	<p>Profiles are capistrano configuration like a Capfile or deploy.rb. See capigen/lib/profiles for more info.</p>
+
+
+	<h3>Generating a Capfile and deploy.rb</h3>
+
+
+	<p>From a rails project:</p>
+
+
+	<pre><code>rake capigen</code></pre>
+
+
+	<h3>Deploying (application)</h3>
+
+
+	<p>If this is the first time you&#8217;ve deployed you&#8217;ll need to run:</p>
+
+
+	<pre><code>cap deploy:setup</code></pre>
+
+
+	<p>Otherwise, your standard deploy options:</p>
+
+
+	<pre><code>cap deploy</code></pre>
+
+
+	<pre><code>cap deploy:migrations (deploys and does migration)</code></pre>
+
+
+	<pre><code>cap deploy:migrate (only does migration on existing deployment)</code></pre>
 
 
 	<h2>Forum</h2>
@@ -59,16 +133,13 @@
 	<p><a href="http://groups.google.com/group/capigen">http://groups.google.com/group/capigen</a></p>
 
 
-	<p><span class="caps">TODO</span> &#8211; create Google Group &#8211; capigen</p>
-
-
 	<h2>How to submit patches</h2>
 
 
 	<p>Read the <a href="http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/">8 steps for fixing other people&#8217;s code</a> and for section <a href="http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups">8b: Submit patch to Google Groups</a>, use the Google Group above.</p>
 
 
-	<p>The trunk repository is <code>svn://rubyforge.org/var/svn/capigen/trunk</code> for anonymous access.</p>
+	<p>The trunk repository is <code>http://svn.ducktyper.com/var/svn/capigen/trunk</code> for anonymous access.</p>
 
 
 	<h2>License</h2>
@@ -80,9 +151,9 @@
 	<h2>Contact</h2>
 
 
-	<p>Comments are welcome. Send an email to <a href="mailto:FIXME">Gabriel Handford</a> email via the <a href="http://groups.google.com/group/capigen">forum</a></p>
+	<p>Comments are welcome. Send an email to <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a> via the <a href="http://groups.google.com/group/capigen">forum</a></p>
     <p class="coda">
-      <a href="FIXME email">Gabriel Handford</a>, 6th February 2008<br>
+      <a href="FIXME email">Gabriel Handford</a>, 18th February 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

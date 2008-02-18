@@ -1,18 +1,54 @@
 # Packages must respond to update, remove, install and clean
 module Capigen::Plugins::Yum
   
-  # Update all installed packages
+  # Update all installed packages.
+  #
+  # ==== Options
+  # +packages+:: Packages to update, or empty to update all
+  #
+  # ==== Examples
+  #   yum.update
+  #   yum.update([ "aspell" ])
+  #
+  # Also can use package plugin with package.type = :yum, and then:
+  #   package.update
+  #   package.update([ "aspell" ])
+  #
   def update(packages = [])
     sudo "yum -y update #{packages.join(" ")}"
   end
     
   # Remove via yum.
+  #
+  # ==== Options
+  # +packages+:: Packages to remove
+  #
+  # ==== Examples
+  #   yum.remove
+  #   yum.remove([ "aspell" ])
+  #
+  # Also can use package plugin with package.type = :yum, and then:
+  #   package.remove
+  #   package.remove([ "aspell" ])
+  #  
   def remove(packages)
     sudo "yum -y remove #{packages.join(" ")}"    
   end
   
   # Install via yum.
-  # If package already exists, it will be updated (unless update_existing = false).
+  # 
+  # ==== Options
+  # +packages+:: Packages to install, either String (for single package) or Array
+  # +update_existing+:: If package exists, where to yum update it, defaults to true
+  #  
+  # ==== Examples
+  #   yum.install
+  #   yum.install([ "aspell" ])
+  #
+  # Also can use package plugin with package.type = :yum, and then:
+  #   package.install
+  #   package.install([ "aspell" ])
+  #    
   def install(packages, update_existing = true)    
     
     # If a single object, wrap in array
@@ -34,7 +70,14 @@ module Capigen::Plugins::Yum
     sudo "yum -y install #{packages.join(" ")}" unless packages.blank?
   end
   
-  # Clean yum
+  # Clean yum.
+  #
+  # ==== Examples
+  #   yum.clean
+  #
+  # Also can use package plugin with package.type = :yum, and then:
+  #   package.clean
+  #
   def clean
     sudo "yum -y clean all"
   end

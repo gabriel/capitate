@@ -1,14 +1,16 @@
-# Tasks for centos OS profiles
+# Custom tasks for centos OS profiles
 namespace :centos do
     
-  desc "Setup centos"
-  task :setup do
-    script.install("centos/setup.sh", :file => "centos/sudoers", :dest => "/tmp/sudoers")
+  desc "Setup centos for web"
+  task :setup_for_web do
+    put template.file("centos/sudoers"), "/tmp/sudoers"
+    script.sh("centos/setup_for_web.sh")
   end  
     
   desc "Cleanup"
   task :cleanup do
     yum.clean
+    # TODO: Add cleanup tasks here
   end
   
   # Add user for an application

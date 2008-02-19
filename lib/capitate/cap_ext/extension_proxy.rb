@@ -6,7 +6,7 @@ class Capistrano::ExtensionProxy
   # +mod+:: Module
   #
   # ==== Examples
-  #   include Capigen::Plugins::Yum
+  #   include Capitate::Plugins::Yum
   #
   def include(mod)
     self.class.send(:include, mod)

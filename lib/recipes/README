@@ -2,4 +2,4 @@
 * Install tasks are one time tasks (per OS).
 * Setup tasks are one time tasks (per application).
 * Update code tasks are called after each deploy (per application).
-* Scripts and templates are in capigen/lib/templates.
+* Scripts and templates are in capitate/lib/templates.

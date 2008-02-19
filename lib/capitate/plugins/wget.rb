@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module Capigen::Plugins::Wget
+module Capitate::Plugins::Wget
   
   # Download the uri, then upload it into the remote destination directory
   # 
@@ -20,4 +20,4 @@ module Capigen::Plugins::Wget
   
 end
 
-Capistrano.plugin :wget, Capigen::Plugins::Wget
+Capistrano.plugin :wget, Capitate::Plugins::Wget

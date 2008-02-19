@@ -4,7 +4,7 @@
 
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
-require 'lib/capigen'
+require 'lib/capitate'
 
 # Load recipes
 Dir["lib/recipes/**/*.rb"].each { |recipe| load recipe }

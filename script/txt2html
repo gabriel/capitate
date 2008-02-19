@@ -11,10 +11,10 @@ end
 require 'redcloth'
 require 'syntax/convertors/html'
 require 'erb'
-require File.dirname(__FILE__) + '/../lib/capigen/version.rb'
+require File.dirname(__FILE__) + '/../lib/capitate/version.rb'
 
-version  = Capigen::VERSION::STRING
-download = 'http://rubyforge.org/projects/capigen'
+version  = Capitate::VERSION::STRING
+download = 'http://rubyforge.org/projects/capitate'
 
 class Fixnum
   def ordinal

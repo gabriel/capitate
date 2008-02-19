@@ -6,7 +6,7 @@ namespace :centos do
     task :install do 
     
       ruby_options = {
-        :url => "http://capigen.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz",
+        :url => "http://capitate.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz",
         :build_dest => "/usr/src",
         :configure_options => "--prefix=/usr",       
         :clean => false, 

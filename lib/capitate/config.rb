@@ -1,10 +1,11 @@
 require 'yaml'
 require 'highline'
 
-# Application configuration for helping generate Capfile and deploy.rb.
-# This isn't used for recipes or profiles.
+# DEPRECATED, not in use.
 #
-class Capigen::Config
+# Application configuration for helping generate Capfile and deploy.rb.
+#
+class Capitate::Config
   
   attr_accessor :application, :user, :deploy_to, :web_host
   attr_accessor :db_host, :db_user, :db_pass, :db_name, :db_port

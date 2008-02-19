@@ -1,4 +1,4 @@
-module Capigen #:nodoc:
+module Capitate #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 0
     MINOR = 1

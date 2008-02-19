@@ -1,14 +1,14 @@
 #
-# This file is auto-generated from Capigen
+# This file is auto-generated from Capitate
 #
-require 'capigen'
+require 'capitate'
 
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
 set :project_root, File.dirname(__FILE__)
 
-# Require capigen recipes
-require 'capigen/recipes'
+# Require capitate recipes
+require 'capitate/recipes'
 
 # Load recipes from plugins
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }

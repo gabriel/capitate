@@ -1,4 +1,4 @@
-module Capigen::Plugins::Templates
+module Capitate::Plugins::Templates
   
   # Get the absolute base templates path.
   def gem_templates_root
@@ -7,7 +7,7 @@ module Capigen::Plugins::Templates
   
   # Get full template path from relative path.
   #
-  # Something like <tt>monit/monit.cnf => /usr/lib/..../capigen/lib/templates/monit/monit.cnf</tt>.
+  # Something like <tt>monit/monit.cnf => /usr/lib/..../capitate/lib/templates/monit/monit.cnf</tt>.
   #
   # ==== Options 
   # +template_path+:: Relative path
@@ -94,4 +94,4 @@ module Capigen::Plugins::Templates
     
 end
 
-Capistrano.plugin :template, Capigen::Plugins::Templates
+Capistrano.plugin :template, Capitate::Plugins::Templates

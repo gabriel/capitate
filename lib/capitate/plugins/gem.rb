@@ -1,4 +1,4 @@
-module Capigen::Plugins::Gem
+module Capitate::Plugins::Gem
   
   # Install a gem.
   #
@@ -22,4 +22,4 @@ module Capigen::Plugins::Gem
   
 end
 
-Capistrano.plugin :gemc, Capigen::Plugins::Gem
+Capistrano.plugin :gemc, Capitate::Plugins::Gem

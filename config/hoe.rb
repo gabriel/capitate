@@ -1,10 +1,10 @@
-require 'capigen/version'
+require 'capitate/version'
 
 AUTHOR = 'Gabriel Handford'  # can also be an array of Authors
 EMAIL = "gabrielh@gmail.com"
 DESCRIPTION = "Capistrano recipe library for all types of remote tasks."
-GEM_NAME = 'capigen' # what ppl will type to install your gem
-RUBYFORGE_PROJECT = 'capigen' # The unix name for your project
+GEM_NAME = 'capitate' # what ppl will type to install your gem
+RUBYFORGE_PROJECT = 'capitate' # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
 DOWNLOAD_PATH = "http://rubyforge.org/projects/#{RUBYFORGE_PROJECT}"
 
@@ -31,8 +31,8 @@ end
 REV = nil 
 # UNCOMMENT IF REQUIRED: 
 # REV = `svn info`.each {|line| if line =~ /^Revision:/ then k,v = line.split(': '); break v.chomp; else next; end} rescue nil
-VERS = Capigen::VERSION::STRING + (REV ? ".#{REV}" : "")
-RDOC_OPTS = ['--quiet', '--title', 'capigen documentation',
+VERS = Capitate::VERSION::STRING + (REV ? ".#{REV}" : "")
+RDOC_OPTS = ['--quiet', '--title', 'capitate documentation',
     "--opname", "index.html",
     "--line-numbers", 
     "--main", "README",

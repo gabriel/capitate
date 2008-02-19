@@ -1,4 +1,4 @@
-module Capigen::Plugins::Package
+module Capitate::Plugins::Package
   
   # Setup packager.
   #
@@ -15,7 +15,7 @@ module Capigen::Plugins::Package
   def type=(packager_type)
     case packager_type.to_sym
     when :yum
-      include Capigen::Plugins::Yum
+      include Capitate::Plugins::Yum
     else
       raise "Invalid packager type: #{packager_type}"
     end    
@@ -23,4 +23,4 @@ module Capigen::Plugins::Package
     
 end
 
-Capistrano.plugin :package, Capigen::Plugins::Package
+Capistrano.plugin :package, Capitate::Plugins::Package

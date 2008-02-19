@@ -1,8 +1,8 @@
 require 'erb'
 require 'yaml'
 
-# Capigen base capistrano plugin
-module Capigen::Plugins::Base
+# Capitate base capistrano plugin
+module Capitate::Plugins::Base
   
   # Project root
   def root
@@ -27,7 +27,7 @@ module Capigen::Plugins::Base
         
         File not found: #{File.expand_path(root_path)}
         
-        This is loaded for the capigen plugin. View the README in:
+        This is loaded for the capitate plugin. View the README in:
         #{File.expand_path(File.dirname(__FILE__) + "/../doc/README")}
       EOS
     end
@@ -38,7 +38,7 @@ module Capigen::Plugins::Base
   # Documentation (yaml) for current task (namespace).
   # 
   # ==== Examples
-  #   capigen.current_task_docs => { "task_name" => { "variable" => "The usage docs" } }
+  #   capitate.current_task_docs => { "task_name" => { "variable" => "The usage docs" } }
   #
   def current_task_doc
     path = File.dirname(__FILE__) + "/../../doc/" + current_task.namespace.fully_qualified_name.to_s.gsub(":", "/") + ".yml"
@@ -81,4 +81,4 @@ module Capigen::Plugins::Base
     
 end
 
-Capistrano.plugin :capigen, Capigen::Plugins::Base
+Capistrano.plugin :capitate, Capitate::Plugins::Base

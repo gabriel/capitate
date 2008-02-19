@@ -1,10 +1,10 @@
-module Capigen
+module Capitate
   module CapExt
     module Variables
 
       def self.included(base) #:nodoc:
-        base.send :alias_method, :fetch_without_capigen, :fetch
-        base.send :alias_method, :fetch, :fetch_with_capigen
+        base.send :alias_method, :fetch_without_capitate, :fetch
+        base.send :alias_method, :fetch, :fetch_with_capitate
       end
     
       # Fetch (alias method chained) variable.
@@ -14,11 +14,11 @@ module Capigen
       #
       # Recipe docs are in lib/doc/the_namespace.yml
       #
-      def fetch_with_capigen(variable, *args)
+      def fetch_with_capitate(variable, *args)
         begin
-          fetch_without_capigen(variable, *args)
+          fetch_without_capitate(variable, *args)
         rescue IndexError
-          message = capigen.usage(variable)
+          message = capitate.usage(variable)
 
           if message.blank?
             message = <<-EOS

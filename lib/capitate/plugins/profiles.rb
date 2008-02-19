@@ -1,4 +1,4 @@
-module Capigen::Plugins::Profiles
+module Capitate::Plugins::Profiles
   
   ProfileDir = File.dirname(__FILE__) + "/../../profiles"
   
@@ -32,4 +32,4 @@ module Capigen::Plugins::Profiles
 end
     
     
-Capistrano.plugin :profile, Capigen::Plugins::Profiles
+Capistrano.plugin :profile, Capitate::Plugins::Profiles

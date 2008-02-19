@@ -66,4 +66,37 @@ set :memcached_memory, 64
 set :memcached_port, 11211
 
 
+#
+# Settings for generating project Capfile
+#
 
+set :application, "sick"
+set :user, "sick"
+set :deploy_to, "/var/www/apps/sick"
+set :web_host, "WEB_HOST"
+set :db_host, "DB_HOST"
+set :db_pass, ""
+set :db_name, "sick"
+set :sphinx_host, "SPHINX_HOST"
+set :sphinx_port, 3312
+set :repository, "REPOSITORY"
+set :mongrel_port, 12000
+set :mongrel_size, 3
+set :domain_name, "localhost"
+
+# Callbacks 
+
+set :before_setup, [ 
+  "centos:add_user_for_app" 
+]  
+set :after_setup, [ 
+  "mysql:setup",
+  "rails:setup",
+  "mongrel_cluster:setup",
+  "nginx:setup_mongrel",
+  "sphinx:setup"
+] 
+set :after_update_code, [
+  "rails:update_code",
+  "sphinx:update_code"
+]

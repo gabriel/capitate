@@ -1,10 +1,10 @@
-task :capigen => :environment do 
+task :capitate => :environment do 
   
-  include Capigen::Helper
+  include Capitate::Helper
   
   # auto_default = false
   
-  config = Capigen::Config.new
+  config = Capitate::Config.new
   config.ask_all
       
   config_binding = config.get_binding

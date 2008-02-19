@@ -1,5 +1,5 @@
 # Packages must respond to update, remove, install and clean
-module Capigen::Plugins::Yum
+module Capitate::Plugins::Yum
   
   # Update all installed packages.
   #
@@ -84,4 +84,4 @@ module Capigen::Plugins::Yum
   
 end
 
-Capistrano.plugin :yum, Capigen::Plugins::Yum
+Capistrano.plugin :yum, Capitate::Plugins::Yum

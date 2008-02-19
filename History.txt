@@ -1,5 +1,6 @@
 == 0.1.5 ?
 
+* Renamed to 'capitate'
 * Moving centos specific recipes into separate namespace
 * Plugin: script.make_install
 * Documentation and explicitly fetching vars (for install tasks), showing useful error messages

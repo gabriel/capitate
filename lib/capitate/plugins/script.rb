@@ -1,4 +1,4 @@
-module Capigen::Plugins::Script
+module Capitate::Plugins::Script
   
   # Configure, make, make install.
   #
@@ -108,4 +108,4 @@ module Capigen::Plugins::Script
   
 end
 
-Capistrano.plugin :script, Capigen::Plugins::Script
+Capistrano.plugin :script, Capitate::Plugins::Script

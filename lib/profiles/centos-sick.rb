@@ -23,15 +23,13 @@ set :recipes, [
 #
 
 # For packages:install
-set :packages, { 
-  :type => "yum",
-  :remove => [ "openoffice.org-*", "ImageMagick" ],
-  :add => [ 
+set :packages_type, :yum
+set :packages_remove, [ "openoffice.org-*", "ImageMagick" ]
+set :packages_add, [
   "gcc", "kernel-devel", "libevent-devel", "libxml2-devel", 
   "openssl", "openssl-devel",
   "aspell", "aspell-devel", "aspell-en", "aspell-es",
   ]
-}
   
 # For gem:install
 set :gem_list, [ 

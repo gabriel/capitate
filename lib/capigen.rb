@@ -24,6 +24,9 @@ require "capigen/config"
 
 require "capigen/cap_ext/connections"
 require "capigen/cap_ext/extension_proxy"
+require "capigen/cap_ext/variables"
         
-
+class Capistrano::Configuration   
+  include Capigen::CapExt::Variables
+end
 

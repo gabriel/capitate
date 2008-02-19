@@ -4,10 +4,14 @@ namespace :mongrel_cluster do
   desc "Create monit configuration for mongrel cluster"
   task :setup_monit do
     
-    # see http://www.igvita.com/2006/11/07/monit-makes-mongrel-play-nice/
+    # See http://www.igvita.com/2006/11/07/monit-makes-mongrel-play-nice/
     
     # TODO: For depends on memcached setting
-    # see http://blog.labratz.net/articles/2007/5/1/monit-for-your-uptime 
+    # See http://blog.labratz.net/articles/2007/5/1/monit-for-your-uptime 
+    
+    # Settings
+    fetch(:mongrel_size)
+    fetch(:mongrel_port)
     
     processes = []
     ports = (0...mongrel_size).collect { |i| mongrel_port + i }
@@ -20,7 +24,7 @@ namespace :mongrel_cluster do
       processes << { :port => port, :start_options => start_options, :stop_options => stop_options, :name => "/usr/bin/mongrel_rails", :pid_path => pid_path }
     end
     
-    put template.load("mongrel/mongrel_cluster.monitrc.erb", binding), "/tmp/mongrel_cluster_#{application}.monitrc"
+    put template.load("mongrel/mongrel_cluster.monitrc.erb"), "/tmp/mongrel_cluster_#{application}.monitrc"
     
     sudo "install -o root /tmp/mongrel_cluster_#{application}.monitrc /etc/monit/mongrel_cluster_#{application}.monitrc"
   end

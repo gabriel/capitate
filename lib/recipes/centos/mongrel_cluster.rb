@@ -6,6 +6,11 @@ namespace :centos do
     
     desc "Create mongrel cluster"
     task :setup do 
+      
+      # Settings
+      fetch(:mongrel_size)
+      fetch(:mongrel_port)
+      
       run "mkdir -p #{shared_path}/config"
 
       # Mongrel cluster config needs its own config directory

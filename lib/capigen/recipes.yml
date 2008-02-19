@@ -6,7 +6,7 @@ after_setup:
   - "mysql:setup"
   - "rails:setup"
   - "mongrel_cluster:setup"
-  - "nginx:setup"
+  - "nginx:setup_mongrel"
   - "sphinx:setup"
   
 after_update_code:

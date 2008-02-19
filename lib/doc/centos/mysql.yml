@@ -1,0 +1,6 @@
+install:
+  mysql_admin_password: |
+    Mysql admin password (to set).
+    Defaults to password prompt.
+    
+    set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') }

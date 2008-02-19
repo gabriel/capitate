@@ -1,0 +1,14 @@
+install:  
+  sphinx_prefix: |
+    Sphinx install prefix.
+    Defaults to "/usr/local/sphinx"
+    
+    set :sphinx_prefix, "/usr/local/sphinx"
+    
+setup:
+  sphinx_prefix: |
+    Sphinx install prefix.
+    Defaults to "/usr/local/sphinx"
+    
+    set :sphinx_prefix, "/usr/local/sphinx"
+    

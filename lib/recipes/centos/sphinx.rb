@@ -6,7 +6,7 @@ namespace :centos do
     task :install do 
       
       # Settings
-      sphinx_prefix = profile.get_or_default(:sphinx_prefix, "/usr/local/sphinx")
+      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
       
       # Build options
       sphinx_options = {

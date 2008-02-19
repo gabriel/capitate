@@ -1,35 +1,24 @@
 namespace :packages do
   
-  desc "Packages to install"
+  desc "Remove, update and install packages"
   task :install do
     
     # Settings
-    packages = profile.get(:packages, <<-EOS)
-      
-      To use this recipe, set the :packages variable (in a profile, Capfile or deploy.rb), for example:
-      
-      set :packages, { 
-        :type => "yum",
-        :remove => [ "openoffice.org-*", "ImageMagick" ],
-        :add => [ "gcc", "kernel-devel", "libevent-devel", "libxml2-devel" ]
-      }
-      
-    EOS
-    
-    packages_to_remove = packages[:remove]
-    packages_to_add = packages[:add]
+    fetch(:packages_type)
+    fetch(:packages_add)
+    fetch(:pacakges_remove)
     
     # Set package type
-    package.type = packages[:type]
+    package.type = packages_type
     
     # Remove packages          
-    package.remove(packages_to_remove) unless packages_to_remove.blank?
+    package.remove(packages_remove) unless packages_remove.blank?
     
     # Update all existing packages
     package.update
     
     # Install packages
-    package.install(packages_to_add) unless packages_to_add.blank?
+    package.install(packages_to_add) unless packages_add.blank?
   end
   
 end

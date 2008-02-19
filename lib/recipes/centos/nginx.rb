@@ -6,10 +6,10 @@ namespace :centos do
     task :install do
       
       # Settings
-      nginx_bin_path = profile.get_or_default(:nginx_bin_path, "/sbin/nginx")
-      nginx_conf_path = profile.get_or_default(:nginx_conf_path, "/etc/nginx/nginx.conf")
-      nginx_pid_path = profile.get_or_default(:nginx_pid_path, "/var/run/nginx.pid")
-      nginx_prefix_path = profile.get_or_default(:nginx_prefix_path, "/var/nginx")      
+      fetch_or_default(:nginx_bin_path, "/sbin/nginx")
+      fetch_or_default(:nginx_conf_path, "/etc/nginx/nginx.conf")
+      fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
+      fetch_or_default(:nginx_prefix_path, "/var/nginx")      
       
       # Build options
       nginx_options = {
@@ -24,7 +24,7 @@ namespace :centos do
       script.make_install("nginx", nginx_options)
 
       # Install initscript, and turn it on
-      put template.load("nginx/nginx.initd.erb", binding), "/tmp/nginx.initd"
+      put template.load("nginx/nginx.initd.erb"), "/tmp/nginx.initd"
       sudo "install -o root /tmp/nginx.initd /etc/init.d/nginx && rm -f /tmp/nginx.initd"
       sudo "/sbin/chkconfig --level 345 nginx on"
 

@@ -1,0 +1,25 @@
+install:
+  nginx_bin_path: |
+    Nginx sbin path.
+    Defaults to /sbin/nginx
+    
+    set :nginx_bin_path, "/sbin/nginx"
+    
+  nginx_conf_path: |
+    Path to nginx conf.
+    Defaults to /etc/nginx/nginx.conf
+    
+    set :nginx_conf_path, "/etc/nginx/nginx.conf"
+    
+  nginx_pid_path: |
+    Path to nginx pid file.
+    Defaults to /var/run/nginx.pid
+    
+    set :nginx_pid_path, "/var/run/nginx.pid"
+    
+  nginx_prefix_path: |
+    Nginx install prefix.
+    Defaults to /var/nginx
+    
+    set :nginx_prefix_path, "/var/nginx"
+  

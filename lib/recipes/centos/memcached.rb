@@ -6,9 +6,9 @@ namespace :centos do
     task :install do
 
       # Settings
-      memcached_pid_path = profile.get_or_default(:memcached_pid_path, "/var/run/memcached.pid")
-      memcached_memory = profile.get(:memcached_memory)
-      memcached_port = profile.get_or_default(:memcached_port, 11211)
+      fetch_or_default(:memcached_pid_path, "/var/run/memcached.pid")
+      fetch_or_default(:memcached_port, 11211)
+      fetch(:memcached_memory)      
 
       # Build options
       memcached_options = {

@@ -1,5 +1,11 @@
-set :namespace, "centos"
-set :description, "Install based on default centos 5.1 image"
+#
+# This is an EXAMPLE profile.
+#
+# Profile for sick rails app on centos 5.1
+# Profiles are basically a beefed up deploy.rb
+#
+
+set :description, "Sick project deployment for centos 5.1 image"
 
 set :recipes, [ 
   "centos:setup_for_web",
@@ -77,6 +83,7 @@ set :web_host, "WEB_HOST"
 set :db_host, "DB_HOST"
 set :db_pass, ""
 set :db_name, "sick"
+# db_port set already
 set :sphinx_host, "SPHINX_HOST"
 set :sphinx_port, 3312
 set :repository, "REPOSITORY"
@@ -84,19 +91,17 @@ set :mongrel_port, 12000
 set :mongrel_size, 3
 set :domain_name, "localhost"
 
-# Callbacks 
+set :deploy_via, :copy
+set :copy_strategy, :export
 
-set :before_setup, [ 
-  "centos:add_user_for_app" 
-]  
-set :after_setup, [ 
-  "mysql:setup",
-  "rails:setup",
-  "mongrel_cluster:setup",
-  "nginx:setup_mongrel",
-  "sphinx:setup"
-] 
-set :after_update_code, [
-  "rails:update_code",
-  "sphinx:update_code"
-]
+
+# Callbacks 
+before "deploy:setup", "centos:add_user_for_app"
+
+after "deploy:setup", "mysql:setup", "rails:setup", "mongrel_cluster:setup", 
+  "nginx:setup_mongrel", "sphinx:setup"
+
+after "deploy:update_code", "rails:update_code", "sphinx:update_code"
+
+# Auto cleanup after deploy
+after "deploy", "deploy:cleanup"

@@ -7,7 +7,7 @@ load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
 set :project_root, File.dirname(__FILE__)
 
-# Require capitate recipes
+# Load capitate recipes
 require 'capitate/recipes'
 
 # Load recipes from plugins

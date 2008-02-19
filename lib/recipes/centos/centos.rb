@@ -3,7 +3,7 @@ namespace :centos do
     
   desc "Setup centos for web"
   task :setup_for_web do
-    put template.file("centos/sudoers"), "/tmp/sudoers"
+    put template.load("centos/sudoers"), "/tmp/sudoers"
     script.sh("centos/setup_for_web.sh")
   end  
     

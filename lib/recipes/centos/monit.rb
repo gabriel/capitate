@@ -31,7 +31,7 @@ namespace :centos do
       script.sh("monit/patch_inittab.sh")
 
       # Build cert
-      put template.file("monit/monit.cnf"), "/tmp/monit.cnf"
+      put template.load("monit/monit.cnf"), "/tmp/monit.cnf"
       script.sh("monit/cert.sh")
     end
 

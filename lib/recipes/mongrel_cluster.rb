@@ -1,7 +1,16 @@
 # Create init script
 namespace :mongrel_cluster do
 
-  desc "Create monit configuration for mongrel cluster"
+  desc <<-DESC
+  Create monit configuration for mongrel cluster.
+  
+  mongrel_size: Number of mongrels.
+    <tt>set :mongrel_size, 3</tt>
+
+  mongrel_port: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances 
+    will be at 9000, 9001, and 9002
+    <tt>set :mongrel_port, 9000</tt>
+  DESC
   task :setup_monit do
     
     # See http://www.igvita.com/2006/11/07/monit-makes-mongrel-play-nice/

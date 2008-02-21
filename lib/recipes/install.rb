@@ -1,5 +1,14 @@
 namespace :install do
   
+  desc <<-DESC
+  Run install recipes, as user.
+  
+  recipes: Recipes to run as part of install.    
+    <tt>set :recipes, [ "centos:setup_for_web", "packages:install", "centos:ruby:install" ]</tt>
+    
+  install_user: The user to run as for install recipes. Defaults to root.
+    <tt>set :install_user, "root"</tt>
+  DESC
   task :default do
       
     # Settings

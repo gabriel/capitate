@@ -2,7 +2,12 @@ namespace :centos do
   
   namespace :sphinx do
     
-    desc "Install sphinx"
+    desc <<-DESC
+    Install sphinx.
+    
+    sphinx_prefix: Sphinx install prefix. Defaults to "/usr/local/sphinx"
+      set :sphinx_prefix, "/usr/local/sphinx"
+    DESC
     task :install do 
       
       # Settings
@@ -22,7 +27,12 @@ namespace :centos do
       script.make_install("sphinx", sphinx_options)
     end
         
-    desc "Setup sphinx for application"
+    desc <<-DESC
+    Setup sphinx for application.
+    
+    sphinx_prefix: Sphinx install prefix. Defaults to "/usr/local/sphinx"
+      set :sphinx_prefix, "/usr/local/sphinx"
+    DESC
     after "centos:sphinx:setup", "sphinx:setup_monit"
     task :setup do 
       

@@ -1,6 +1,14 @@
 namespace :memcached do
   
-  desc "Install memcached monit hooks"
+  desc <<-DESC
+  Install memcached monit hooks.
+  
+  memcached_pid_path: Path to memcached pid file. Defaults to /var/run/memcached.pid    
+    <tt>set :memcached_pid_path, "/var/run/memcached.pid"</tt>
+  
+  memcached_port: Memcached port. Defaults to 11211.    
+    <tt>set :memcached_port, 11211</tt>
+  DESC
   task :install_monit do
     
     # Settings

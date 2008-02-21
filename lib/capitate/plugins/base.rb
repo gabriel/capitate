@@ -33,44 +33,26 @@ module Capitate::Plugins::Base
     end
     
     root_path
-  end  
+  end    
   
-  # Documentation (yaml) for current task (namespace).
-  # 
-  # ==== Examples
-  #   capitate.current_task_docs => { "task_name" => { "variable" => "The usage docs" } }
-  #
-  def current_task_doc
-    path = File.dirname(__FILE__) + "/../../doc/" + current_task.namespace.fully_qualified_name.to_s.gsub(":", "/") + ".yml"
-    puts "Current task doc: #{path}"
-    return YAML.load_file(path) if File.exist?(path)
-    nil
-  end
-  
-  # Usage for variable from current task documentation.
+  # Usage for current task.
   #
   # ==== Options
-  # +var+:: Variable
-  # 
+  # +variable+:: Missing variable setting
+  #
   # ==== Examples
-  #   usage(:gem_list) => "The usage for gem_list variable from the doc/the_namespace.yml file."
+  #   usage(:gem_list) => "Description from task definition."
   # 
-  def usage(var)
-    task_doc = current_task_doc
-    task_name = current_task.name.to_s
-    var_name = var.to_s
-    if task_doc and task_doc.has_key?(task_name)    
-      var_usage = task_doc[task_name][var_name] 
-      return <<-EOS
-      
-      Please set :#{var_name} variable in your Capfile, deploy.rb or profile.
-      
-      Usage: 
-      
-#{indent_doc(var_usage)}
-      
-      EOS
-    end
+  def usage(variable)
+  return <<-EOS
+    
+    Error: :#{variable} not set.
+    
+    Usage: 
+    
+#{indent_doc(current_task.desc)}
+    
+    EOS
   end
   
   

@@ -1,5 +1,5 @@
 body {
-  background-color: #E1D1F1;
+  background-color: #EFECCA;
   font-family: "Georgia", sans-serif;
   font-size: 16px;
   line-height: 1.6em;
@@ -23,8 +23,8 @@ li {
   list-style-type: square;
 }
 a {
-  color: #5E5AFF;
-	background-color: #DAC;
+  color: #046380;
+	background-color: #E6E2AF;
   font-weight: normal;
   text-decoration: underline;
 }
@@ -101,8 +101,8 @@ pre, code {
   text-align: right;
   font-family: sans-serif;
   font-weight: normal;
-  background-color: #B3ABFF;
-  color: #141331;
+  background-color: #A7A37E;
+  color: #000;
   padding: 15px 20px 10px 20px;
   margin: 0 auto;
 	margin-top: 15px;
@@ -119,16 +119,16 @@ pre, code {
 
 #version p {
   text-decoration: none;
-	color: #141331;
-	background-color: #B3ABFF;
+	color: #000;
+	background-color: #A7A37E;
 	margin: 0;
 	padding: 0;
 }
 
 #version a {
   text-decoration: none;
-	color: #141331;
-	background-color: #B3ABFF;
+	color: #000;
+	background-color: #A7A37E;
 }
 
 .clickable {

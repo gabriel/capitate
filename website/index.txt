@@ -1,5 +1,3 @@
-h1. Capistrano plugins, recipes and templates
-
 h1. &#x2192; 'capitate'
 
 
@@ -17,7 +15,7 @@ Create a Capfile (in your project):
 
 Create and set a profile in you Capfile:
 
-<pre syntax="ruby"># load "config/deployment/centos-sick.rb"</pre>
+<pre syntax="ruby">load "config/deployment/centos-sick.rb"</pre>
 
 <em>See profiles section below for more info</em>
 

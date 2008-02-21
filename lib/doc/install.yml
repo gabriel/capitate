@@ -1,0 +1,5 @@
+default:
+  recipes: |
+    Recipes to run as part of install.
+    
+    set :recipes, [ "centos:setup_for_web", "packages:install", "centos:ruby:install" ]

@@ -42,13 +42,13 @@ module Capitate::Plugins::Templates
     # Use first
     template_path = template_paths.first
     
-    data = IO.read(template_path)
+    template_data = IO.read(template_path)
     
     if File.extname(template_path) == ".erb"    
-      template = ERB.new(data)
-      data = template.result(override_binding || binding)
+      template = ERB.new(template_data)
+      template_data = template.result(override_binding || binding)
     end
-    data
+    template_data
   end
   
   # Load template from project.
@@ -70,15 +70,15 @@ module Capitate::Plugins::Templates
   #
   # ==== Options
   # +template_path+:: Path to template relative to templates path
-  # +binding+:: Binding
   # +dest_path+:: Local destination path to write to
+  # +overwrite_binding+:: Binding  
   # +overwrite+:: Force overwrite
   # +verbose+:: Verbose output
   #
   # ==== Examples
   #   template.write("config/templates/sphinx.conf.erb", binding, "config/sphinx.conf")
   #  
-  def write(template_path, binding, dest_path, overwrite = false, verbose = true)    
+  def write(template_path, dest_path, override_binding = nil, overwrite = false, verbose = true)    
     # This is gnarly!
     relative_dest_path = Pathname.new(File.expand_path(dest_path)).relative_path_from(Pathname.new(File.expand_path(".")))  
     
@@ -88,8 +88,8 @@ module Capitate::Plugins::Templates
     end
     
     puts "%10s %-40s" % [ "create", relative_dest_path ] if verbose
-        
-    File.open(dest_path, "w") { |file| file.puts(load(template_path, binding)) }
+    template_data = load(template_path, override_binding)
+    File.open(dest_path, "w") { |file| file.puts(load(template_path, override_binding)) }
   end
     
 end

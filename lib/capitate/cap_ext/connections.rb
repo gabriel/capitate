@@ -74,7 +74,7 @@ module Capistrano::Configuration::Connections
   # Display the current user that is asking for the password.
   def reset_password
     set :password, Proc.new {
-      Capistrano::CLI.password_prompt("Password (for #{user}): ")
+      Capistrano::CLI.password_prompt("Password (for user: #{user}): ")
     }
   end
     

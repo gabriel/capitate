@@ -71,6 +71,8 @@ set :memcached_pid_path, "/var/run/memcached.pid"
 set :memcached_memory, 64
 set :memcached_port, 11211
 
+set :install_user, "root"
+
 
 #
 # Settings for generating project Capfile
@@ -93,6 +95,9 @@ set :domain_name, "localhost"
 
 set :deploy_via, :copy
 set :copy_strategy, :export
+
+role :web, "WEB_URL", :primary => true
+role :db,  "DB_URL"
 
 
 # Callbacks 

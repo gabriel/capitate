@@ -75,6 +75,7 @@ module Capitate::Plugins::Base
   
   
   def indent_doc(s, amount = 8)
+    return nil if s.blank?
     indentation = (0..amount).collect { |n| " " }.join
     s.split("\n").collect { |sp| "#{indentation}#{sp}"}.join("\n")
   end

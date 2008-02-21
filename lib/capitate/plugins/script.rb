@@ -73,7 +73,7 @@ module Capitate::Plugins::Script
     end
     
     # If want verbose, -v
-    sudo "sh #{dest}"
+    sudo "sh -v #{dest}"
     
     # Cleanup
     sudo "rm -rf #{File.dirname(dest)}"    

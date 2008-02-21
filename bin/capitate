@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+APP_ROOT = File.join(File.dirname(__FILE__), '..')
+
+begin
+  require 'capitate'
+rescue LoadError
+  require 'rubygems'
+  require 'capitate'
+end
+
+def usage
+  puts <<-EOS
+  
+    Capitate your project.
+    
+    Usage:
+    
+      #{$0} bootstrap
+    
+  EOS
+    
+  exit 1
+end
+
+class CapitateBin
+  class << self
+    include Capitate::Plugins::Templates    
+  end
+end
+
+puts <<-EOS
+
+  Generating capistrano configuration...
+  
+EOS
+  
+# Write Capfile
+CapitateBin.write("capistrano/Capfile", "Capfile")
+
+puts <<-EOS
+
+  You now need to create and set you deployment "profile" in the Capfile.
+  This is currently a manual process, see the documentation on profiles 
+  for more information.
+  
+EOS

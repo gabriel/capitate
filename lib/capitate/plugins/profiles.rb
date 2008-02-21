@@ -1,3 +1,6 @@
+# == Profiles
+# Useful for starting a profile, but your mileage may vary.
+#
 module Capitate::Plugins::Profiles
   
   ProfileDir = File.dirname(__FILE__) + "/../../profiles"
@@ -23,12 +26,7 @@ module Capitate::Plugins::Profiles
     
     "#{ProfileDir}/#{profile}.rb"
   end
-  
-  # Fetch the profile, see local gem Capfile for implementation details.
-  def ask
-    fetch(:profile)
-  end
-    
+
 end
     
     

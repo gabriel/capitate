@@ -6,7 +6,7 @@ namespace :packages do
     # Settings
     fetch(:packages_type)
     fetch(:packages_add)
-    fetch(:pacakges_remove)
+    fetch(:packages_remove)
     
     # Set package type
     package.type = packages_type
@@ -18,7 +18,7 @@ namespace :packages do
     package.update
     
     # Install packages
-    package.install(packages_to_add) unless packages_add.blank?
+    package.install(packages_add) unless packages_add.blank?
   end
   
 end

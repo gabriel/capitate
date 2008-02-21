@@ -61,7 +61,7 @@ set :nginx_pid_path, "/var/run/nginx.pid"
 set :nginx_prefix_path, "/var/nginx"
 
 # For mysql:install
-set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') }
+set :mysql_admin_password_set, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') }
 set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"
 set :db_port, 3306 # Capistrano::CLI.ui.ask('Mysql port: ')
 
@@ -83,6 +83,7 @@ set :user, "sick"
 set :deploy_to, "/var/www/apps/sick"
 set :web_host, "WEB_HOST"
 set :db_host, "DB_HOST"
+set :db_user, "sick"
 set :db_pass, ""
 set :db_name, "sick"
 # db_port set already
@@ -92,19 +93,20 @@ set :repository, "REPOSITORY"
 set :mongrel_port, 12000
 set :mongrel_size, 3
 set :domain_name, "localhost"
+set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') }
 
 set :deploy_via, :copy
 set :copy_strategy, :export
 
-role :web, "WEB_URL", :primary => true
-role :db,  "DB_URL"
+role :web, "WEB_URL"
+role :db,  "DB_URL", :primary => true
 
 
 # Callbacks 
 before "deploy:setup", "centos:add_user_for_app"
 
-after "deploy:setup", "mysql:setup", "rails:setup", "mongrel_cluster:setup", 
-  "nginx:setup_mongrel", "sphinx:setup"
+after "deploy:setup", "mysql:setup", "rails:setup", "mongrel_cluster:setup_monit", 
+  "nginx:setup_mongrel", "sphinx:setup_monit"
 
 after "deploy:update_code", "rails:update_code", "sphinx:update_code"
 

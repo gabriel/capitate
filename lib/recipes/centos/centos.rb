@@ -17,14 +17,18 @@ namespace :centos do
   desc "Add user (adds to admin group)"
   task :add_user_for_app do
     
-    with_user(bootstrap_user) do |user_to_add|
+    # Settings
+    user = fetch(:user)
+    fetch_or_default(:install_user, "root")
     
-      sudo "id sick || /usr/sbin/adduser -d #{deploy_to} -G admin #{user_to_add}"
+    with_user(install_user) do
+    
+      sudo "id sick || /usr/sbin/adduser -d #{deploy_to} -G admin #{user}"
       sudo "chmod a+rx #{deploy_to}"
   
-      new_password = Capistrano::CLI.password_prompt("Password for user (#{user_to_add}): ")
+      new_password = Capistrano::CLI.password_prompt("Password for user (#{user}): ")
   
-      sudo "passwd #{user_to_add}" do |channel, stream, data|
+      sudo "passwd #{user}" do |channel, stream, data|
         logger.info data
     
         if data =~ /password:/i

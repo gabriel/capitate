@@ -3,7 +3,7 @@ namespace :sphinx do
   
   desc "Create monit configuration for sphinx"
   task :setup_monit do    
-    sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
+    set :sphinx_pid_path, "#{shared_path}/pids/searchd.pid"
     put template.load("sphinx/sphinx.monitrc.erb"), "/tmp/sphinx_#{application}.monitrc"        
     
     sudo "install -o root /tmp/sphinx_#{application}.monitrc /etc/monit/sphinx_#{application}.monitrc"

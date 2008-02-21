@@ -24,6 +24,8 @@ namespace :mongrel_cluster do
       processes << { :port => port, :start_options => start_options, :stop_options => stop_options, :name => "/usr/bin/mongrel_rails", :pid_path => pid_path }
     end
     
+    set :processes, processes
+    
     put template.load("mongrel/mongrel_cluster.monitrc.erb"), "/tmp/mongrel_cluster_#{application}.monitrc"
     
     sudo "install -o root /tmp/mongrel_cluster_#{application}.monitrc /etc/monit/mongrel_cluster_#{application}.monitrc"

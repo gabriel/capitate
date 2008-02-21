@@ -11,6 +11,17 @@ h2. Installing
 
 <pre syntax="ruby">sudo gem install capitate</pre>
 
+Create a Capfile (in your project):
+
+<pre syntax="ruby">capitate</pre>
+
+Create and set a profile in you Capfile:
+
+<pre syntax="ruby"># load "config/deployment/centos-sick.rb"</pre>
+
+<em>See profiles section below for more info</em>
+
+
 h2. The basics
 
 Capitate has recipes for:
@@ -21,36 +32,23 @@ Capitate has recipes for:
 * And more...
 
 
-h2. Demonstration of usage
+h3. Profiles
+
+Profiles are capfiles which store lists of recipes to run for cap install and deploy and settings for those recipes.
+
+For an example profile, see "centos-sick.rb":http://svn.ducktyper.com/capitate/trunk/lib/profiles/centos-sick.rb
+
+TODO: More on profiles...
+
 
 h3. Install recipes
 
-To install an application, use the install recipes. For example:
-
-  cap nginx:install
-  
-Recipes may have settings that are required, or defaults that can be overriden. These are usually set in "profiles".
-
-To install a group of applications based on a profile:
+To install a group of applications based on a profile (see Profiles section below):
 
   cap install
 
 <em>You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.</em>
 
-
-h3. Profiles
-
-Profiles store lists of recipes to run, and settings for those recipes.
-
-Profiles are capistrano configuration like a Capfile or deploy.rb. See capitate/lib/profiles for more info.
-
-
-h3. Generating a Capfile and deploy.rb
-
-From a rails project:
-
-  rake capitate
-  
   
 h3. Deploying (application)
 

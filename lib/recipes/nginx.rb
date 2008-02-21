@@ -22,8 +22,8 @@ namespace :nginx do
     fetch(:mongrel_port)
     fetch(:domain_name)
     
-    ports = (0...mongrel_size).collect { |i| mongrel_port + i }
-    public_path = current_path + "/public"
+    set :ports, (0...mongrel_size).collect { |i| mongrel_port + i }
+    set :public_path, current_path + "/public"
     
     run "mkdir -p #{shared_path}/config"
     put template.load("nginx/nginx_vhost.conf.erb"), "/tmp/nginx_#{application}.conf"    

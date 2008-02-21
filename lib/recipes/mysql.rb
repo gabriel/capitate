@@ -24,7 +24,7 @@ namespace :mysql do
     fetch(:web_host, nil)
         
     # Add localhost to grant locations
-    locations_for_grant = [ "localhost", web_host, db_host ].compact
+    set :locations_for_grant, [ "localhost", web_host, db_host ].compact
     
     put template.load("mysql/install_db.sql.erb"), "/tmp/install_db_#{application}.sql"    
     run "mysql -u root -p#{mysql_admin_password} < /tmp/install_db_#{application}.sql"

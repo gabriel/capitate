@@ -57,7 +57,8 @@ http {
   
   # GZip fails on pre SP2 IE6 browsers (even though is says it can)
   # Thanks, http://robsanheim.com/2008/02/07/beware-the-default-nginx-config-old-ie6-hates-gzip/
-  gzip_disable "MSIE [1-6]\.";
+  # TODO: This doesn't work with our version of nginx
+  #gzip_disable "MSIE [1-6]\.";
   
   # Auto include
   include /etc/nginx/vhosts/*.conf;

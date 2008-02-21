@@ -34,7 +34,8 @@ module Capitate::Plugins::Templates
     if template_paths.empty?
       raise <<-EOS 
       
-      Template not found: #{template_paths.join("\n\t")}
+      
+      Template not found: #{path}
       
       EOS
     end

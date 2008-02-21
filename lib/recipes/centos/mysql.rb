@@ -6,7 +6,7 @@ namespace :centos do
     task :install do    
       
       # Settings
-      fetch(:mysql_admin_password_set, 
+      fetch_or_default(:mysql_admin_password_set, 
         Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') })      
 
       # Install through package manager

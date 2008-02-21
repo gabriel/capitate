@@ -6,10 +6,10 @@ namespace :centos do
     task :install do
       
       # Settings
-      fetch(:nginx_bin_path, "/sbin/nginx")
-      fetch(:nginx_conf_path, "/etc/nginx/nginx.conf")
-      fetch(:nginx_pid_path, "/var/run/nginx.pid")
-      fetch(:nginx_prefix_path, "/var/nginx")      
+      fetch_or_default(:nginx_bin_path, "/sbin/nginx")
+      fetch_or_default(:nginx_conf_path, "/etc/nginx/nginx.conf")
+      fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
+      fetch_or_default(:nginx_prefix_path, "/var/nginx")      
             
       # Install dependencies
       yum.install([ "pcre-devel", "openssl", "openssl-devel" ]) 

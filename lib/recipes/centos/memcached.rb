@@ -6,8 +6,8 @@ namespace :centos do
     task :install do
 
       # Settings
-      fetch(:memcached_pid_path, "/var/run/memcached.pid")
-      fetch(:memcached_port, 11211)
+      fetch_or_default(:memcached_pid_path, "/var/run/memcached.pid")
+      fetch_or_default(:memcached_port, 11211)
       fetch(:memcached_memory)      
 
       # Build options

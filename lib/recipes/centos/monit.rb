@@ -6,8 +6,8 @@ namespace :centos do
     task :install do
       
       # Settings
-      fetch(:monit_port, 2812)
-      fetch(:monit_password, 
+      fetch_or_default(:monit_port, 2812)
+      fetch_or_default(:monit_password, 
         Proc.new { Capistrano::CLI.ui.ask('Monit admin password (to set): ') })
         
       # Install dependencies

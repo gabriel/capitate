@@ -6,7 +6,7 @@ namespace :centos do
     task :install do 
       
       # Settings
-      fetch(:sphinx_prefix, "/usr/local/sphinx")
+      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
       
       # Install dependencies
       yum.install([ "gcc-c++" ])
@@ -27,12 +27,12 @@ namespace :centos do
     task :setup do 
       
       # Settings
-      sphinx_prefix = profile.get_or_default(:sphinx_prefix, "/usr/local/sphinx")
+      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
 
       # Derived settings
-      sphinx_bin_path = "#{sphinx_prefix}/bin"
-      sphinx_conf_path = "#{shared_path}/config/sphinx.conf"
-      sphinx_pid_path = "#{shared_path}/pids/searchd.pid"
+      set :sphinx_bin_path, "#{sphinx_prefix}/bin"
+      set :sphinx_conf_path, "#{shared_path}/config/sphinx.conf"
+      set :sphinx_pid_path, "#{shared_path}/pids/searchd.pid"
 
       # Install initscript
       put template.load("sphinx/sphinx_app.initd.centos.erb"), "/tmp/sphinx.initd"

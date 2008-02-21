@@ -106,7 +106,7 @@ role :db,  "DB_URL", :primary => true
 before "deploy:setup", "centos:add_user_for_app"
 
 after "deploy:setup", "mysql:setup", "rails:setup", "mongrel_cluster:setup_monit", 
-  "nginx:setup_mongrel", "sphinx:setup_monit"
+  "nginx:setup_mongrel", "centos:sphinx:setup"
 
 after "deploy:update_code", "rails:update_code", "sphinx:update_code"
 

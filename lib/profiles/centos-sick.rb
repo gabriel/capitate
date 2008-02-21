@@ -7,18 +7,20 @@
 
 set :description, "Sick project deployment for centos 5.1 image"
 
+#set :install_user, "root"
+
 set :recipes, [ 
   "centos:setup_for_web",
   "packages:install",
   "centos:ruby:install", 
   "centos:nginx:install", 
-  "nginx:install_monit", 
   "centos:mysql:install", 
-  "mysql:install_monit", 
   "centos:sphinx:install", 
   "centos:monit:install",
   "centos:imagemagick:install", 
   "centos:memcached:install", 
+  "nginx:install_monit",   
+  "mysql:install_monit",     
   "memcached:install_monit", 
   "gems:install", 
   "centos:cleanup" 
@@ -70,8 +72,6 @@ set :sphinx_prefix, "/usr/local/sphinx"
 set :memcached_pid_path, "/var/run/memcached.pid"
 set :memcached_memory, 64
 set :memcached_port, 11211
-
-set :install_user, "root"
 
 
 #

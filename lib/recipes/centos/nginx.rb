@@ -6,18 +6,20 @@ namespace :centos do
     task :install do
       
       # Settings
-      fetch_or_default(:nginx_bin_path, "/sbin/nginx")
-      fetch_or_default(:nginx_conf_path, "/etc/nginx/nginx.conf")
-      fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
-      fetch_or_default(:nginx_prefix_path, "/var/nginx")      
-      
+      fetch(:nginx_bin_path, "/sbin/nginx")
+      fetch(:nginx_conf_path, "/etc/nginx/nginx.conf")
+      fetch(:nginx_pid_path, "/var/run/nginx.pid")
+      fetch(:nginx_prefix_path, "/var/nginx")      
+            
+      # Install dependencies
+      yum.install([ "pcre-devel", "openssl", "openssl-devel" ]) 
+            
       # Build options
       nginx_options = {
         :url => "http://sysoev.ru/nginx/nginx-0.5.35.tar.gz",
         :configure_options => "--sbin-path=#{nginx_bin_path} --conf-path=#{nginx_conf_path} \
 --pid-path=#{nginx_pid_path} --error-log-path=/var/log/nginx_master_error.log --lock-path=/var/lock/nginx \
---prefix=#{nginx_prefix_path} --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module",
-        :dependencies => [ "pcre-devel", "openssl", "openssl-devel" ]
+--prefix=#{nginx_prefix_path} --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module"
       }
 
       # Build

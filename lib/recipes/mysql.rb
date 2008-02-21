@@ -5,8 +5,8 @@ namespace :mysql do
   task :install_monit do
     
     # Settings 
-    fetch_or_default(:mysql_pid_path, "/var/run/mysqld/mysqld.pid")
-    fetch_or_default(:db_port, 3306)    
+    fetch(:mysql_pid_path, "/var/run/mysqld/mysqld.pid")
+    fetch(:db_port, 3306)    
     
     put template.load("mysql/mysql.monitrc.erb", binding), "/tmp/mysql.monitrc"    
     sudo "install -o root /tmp/mysql.monitrc /etc/monit/mysql.monitrc"
@@ -20,8 +20,8 @@ namespace :mysql do
     fetch(:db_user)
     fetch(:db_pass)
     fetch(:db_host)
-    fetch_or_default(:mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') })
-    fetch_or_default(:web_host, nil)
+    fetch(:mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') })
+    fetch(:web_host, nil)
         
     # Add localhost to grant locations
     locations_for_grant = [ "localhost", web_host, db_host ].compact

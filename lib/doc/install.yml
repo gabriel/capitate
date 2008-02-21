@@ -3,3 +3,9 @@ default:
     Recipes to run as part of install.
     
     set :recipes, [ "centos:setup_for_web", "packages:install", "centos:ruby:install" ]
+    
+  install_user: |
+    The user to run as for install recipes.
+    Defaults to root.
+    
+    set :install_user, "root"

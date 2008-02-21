@@ -14,15 +14,15 @@ module Capitate::Plugins::Script
   #   script.make_install("nginx", { :url => "http://sysoev.ru/nginx/nginx-0.5.35.tar.gz", ... })
   #
   def make_install(name, options)
-    install(name, options) do 
+    install(name, options) do |dir|
       configure_options = options[:configure_options] || ""
-      sudo "echo 'Configuring #{name}...' && ./configure #{configure_options} > configure.log"
-      sudo "echo 'Compiling #{name}...' && make > make.log"
-      sudo "echo 'Installing #{name}...' && make install > make_install.log"        
+      sudo "echo 'Configuring #{name}...' && cd #{dir} && ./configure #{configure_options} > configure.log"
+      sudo "echo 'Compiling #{name}...' && cd #{dir} && make > make.log"
+      sudo "echo 'Installing #{name}...' && cd #{dir} && make install > make_install.log"        
     end
   end
   
-  # Download, unpack and yield.
+  # Download, unpack and yield (unpacked source director).
   # 
   # ==== Options
   # +name+:: Name for app
@@ -31,8 +31,8 @@ module Capitate::Plugins::Script
   # - +url+:: URL to download package from
   # 
   # ==== Examples (in capistrano task)
-  #   script.make("rubygems", { :url => :url => "http://rubyforge.org/frs/download.php/29548/rubygems-1.0.1.tgz" }) do 
-  #     sudo "ruby setup.rb"
+  #   script.make("rubygems", { :url => :url => "http://rubyforge.org/frs/download.php/29548/rubygems-1.0.1.tgz" }) do |dir|
+  #     sudo "echo 'Running setup...' && cd #{dir} && ruby #{dir}/setup.rb"
   #   end
   #
   def install(name, options, &block)
@@ -43,8 +43,8 @@ module Capitate::Plugins::Script
     
     package.install(dependencies) if dependencies
     
-    unpack(url, build_dest, options[:clean], options[:unpack_dir]) do 
-      yield if block_given?
+    unpack(url, build_dest, options[:clean], options[:unpack_dir]) do |dir|
+      yield(dir) if block_given?
     end      
   end
     
@@ -80,6 +80,7 @@ module Capitate::Plugins::Script
   end
   
   # Download and unpack URL.
+  # Yields path to unpacked source.
   #
   # ==== Options
   # +url+:: URL to download
@@ -94,15 +95,21 @@ module Capitate::Plugins::Script
   #
   def unpack(url, dest, clean = true, unpack_dir = nil, &block)        
     file = url.split("/").last
-    unpack_dir ||= file.gsub(/\.tar\.gz|tgz/, "")
     
-    sudo "mkdir -p #{dest} && cd #{dest} && wget -nv #{url}"
-    sudo "tar xzf #{file} && cd #{unpack_dir}"
+    # TODO: Support other types
+    if file !~ /\.tar\.gz\Z|\.tgz\Z/
+      raise "Can't unpack this file: #{file}; only support tar.gz and tgz formats"
+    end
+    
+    unpack_dir ||= file.gsub(/\.tar\.gz|\.tgz/, "")
+    
+    sudo "echo 'Getting #{url}...' && mkdir -p #{dest} && cd #{dest} && wget -nv #{url}"
+    sudo "echo 'Unpacking...' && cd #{dest} && tar zxf #{file}"
     
     if block_given?
-      yield 
+      yield("#{dest}/#{unpack_dir}")
       sudo "rm -f #{dest}/#{file}"
-      sudo "rm -rf #{unpack_dir}" if clean
+      sudo "rm -rf #{dest}" if clean
     end
   end
   

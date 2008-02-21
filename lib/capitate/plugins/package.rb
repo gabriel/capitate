@@ -1,3 +1,7 @@
+# Package plugin.
+#
+# TODO: If type not set silently fails. NOT GOOD :(
+#
 module Capitate::Plugins::Package
   
   # Setup packager.
@@ -19,7 +23,7 @@ module Capitate::Plugins::Package
     else
       raise "Invalid packager type: #{packager_type}"
     end    
-  end
+  end  
     
 end
 

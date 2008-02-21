@@ -6,14 +6,16 @@ namespace :centos do
     task :install do
       
       # Settings
-      fetch_or_default(:monit_port, 2812)
-      fetch_or_default(:monit_password, 
+      fetch(:monit_port, 2812)
+      fetch(:monit_password, 
         Proc.new { Capistrano::CLI.ui.ask('Monit admin password (to set): ') })
-
+        
+      # Install dependencies
+      yum.install([ "flex", "byacc" ])
+        
       # Build options
       monit_options = {
-        :url => "http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz",
-        :dependencies => [ "flex", "byacc" ]      
+        :url => "http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz"
       }
 
       # Build

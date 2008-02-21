@@ -5,16 +5,18 @@ namespace :centos do
     desc "Install ruby and rubygems"
     task :install do 
     
+      # Install dependencies
+      yum.install([ "zlib", "zlib-devel" ])
+    
       ruby_options = {
-        :url => "http://capitate.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz",
+        :url => "http://capigen.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz",
         :build_dest => "/usr/src",
         :configure_options => "--prefix=/usr",       
-        :clean => false, 
-        :dependencies => [ "zlib", "zlib-devel" ]
+        :clean => false
       }
     
       # Install ruby 1.8.6
-      script.make_install(ruby_options)
+      script.make_install("ruby", ruby_options)
     
       # Fix openssl
       script.sh("ruby/fix_openssl.sh")    
@@ -24,8 +26,8 @@ namespace :centos do
       }
     
       # Install rubygems
-      script.install("rubygems", rubygems_options) do 
-        sudo "ruby setup.rb > install.log"
+      script.install("rubygems", rubygems_options) do |dir|
+        sudo "echo 'Running setup...' && cd #{dir} && ruby setup.rb > install.log"
       end
     
     end

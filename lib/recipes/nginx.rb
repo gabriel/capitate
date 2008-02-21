@@ -8,7 +8,7 @@ namespace :nginx do
   task :install_monit do
     
     # Settings
-    fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
+    fetch(:nginx_pid_path, "/var/run/nginx.pid")
     
     put template.load("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"    
     sudo "install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc"

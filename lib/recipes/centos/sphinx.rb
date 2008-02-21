@@ -6,14 +6,16 @@ namespace :centos do
     task :install do 
       
       # Settings
-      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
+      fetch(:sphinx_prefix, "/usr/local/sphinx")
+      
+      # Install dependencies
+      yum.install([ "gcc-c++" ])
       
       # Build options
       sphinx_options = {
         :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz",
         :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql \
-  --prefix=#{sphinx_prefix}",
-        :dependencies => [ "gcc-c++" ]
+  --prefix=#{sphinx_prefix}"
       }
       
       # Build

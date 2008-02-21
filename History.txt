@@ -1,4 +1,4 @@
-== 0.1.5 ?
+== 0.1.7 2008-02-21
 
 * Renamed to 'capitate'
 * Moving centos specific recipes into separate namespace

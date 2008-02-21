@@ -29,6 +29,7 @@ lib/doc/centos/mysql.yml
 lib/doc/centos/nginx.yml
 lib/doc/centos/sphinx.yml
 lib/doc/gems.yml
+lib/doc/install.yml
 lib/doc/memcached.yml
 lib/doc/mongrel_cluster.yml
 lib/doc/mysql.yml

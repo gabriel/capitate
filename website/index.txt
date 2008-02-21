@@ -43,7 +43,7 @@ TODO: More on profiles...
 
 h3. Install recipes
 
-To install a group of applications based on a profile (see Profiles section below):
+To install a group of applications based on a profile:
 
   cap install
 

@@ -19,7 +19,7 @@ namespace :centos do
       }
       
       # Build
-      script.make_install(sphinx_options)
+      script.make_install("sphinx", sphinx_options)
     end
         
     desc "Setup sphinx for application"

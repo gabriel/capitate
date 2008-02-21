@@ -17,7 +17,7 @@ namespace :centos do
       }
 
       # Build
-      script.make_install(memcached_options, "/tmp/memcached.initd")
+      script.make_install("memcached", memcached_options)
 
       # Install initscript, service
       put template.load("memcached/memcached.initd.centos.erb"), "/tmp/memcached.initd"

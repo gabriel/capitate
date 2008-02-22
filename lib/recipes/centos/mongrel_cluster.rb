@@ -1,6 +1,6 @@
-namespace :centos do 
+namespace :mongrel_cluster do 
   
-  namespace :mongrel_cluster do
+  namespace :centos do
     
     desc <<-DESC
     Create mongrel cluster.
@@ -16,8 +16,7 @@ namespace :centos do
       
     DESC
     task :setup do 
-      after "centos:mongrel_cluster:setup", "mongrel_cluster:setup_monit"
-      
+
       # Settings
       fetch(:mongrel_size)
       fetch(:mongrel_port)

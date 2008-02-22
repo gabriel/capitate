@@ -1,6 +1,6 @@
-namespace :centos do
+namespace :monit do
   
-  namespace :monit do
+  namespace :centos do
 
     desc <<-DESC
     Install monit.

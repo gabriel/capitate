@@ -1,6 +1,6 @@
-namespace :centos do
+namespace :mysql do
   
-  namespace :mysql do
+  namespace :centos do
     
     desc <<-DESC
     Install mysql.

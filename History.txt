@@ -1,3 +1,10 @@
+== 0.1.8 2008-02-22
+
+* Fixing up documentation
+* Creating recipe documentation recipe
+* New website generation
+* Moved some recipes around
+
 == 0.1.7 2008-02-21
 
 * Renamed to 'capitate'

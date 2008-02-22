@@ -36,7 +36,6 @@ namespace :nginx do
     
   DESC
   task :setup_mongrel do 
-    after "nginx:setup_mongrels", "nginx:restart"
     
     # Settings
     fetch(:mongrel_size)
@@ -51,11 +50,5 @@ namespace :nginx do
     
     sudo "install -o root /tmp/nginx_#{application}.conf /etc/nginx/vhosts/#{application}.conf"        
   end
-    
-  # Restart nginx
-  task :restart do
-    # TODO: Monit
-    sudo "/sbin/service nginx restart"
-  end
-    
+        
 end

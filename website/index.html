@@ -21,17 +21,33 @@
           antiAlias: true,
           autoPad: true,
           validTags: ["div"]
-      }
-      var versionBox = new curvyCorners(settings, document.getElementById("version"));
-      versionBox.applyCornersToAll();
+      };
+      
+      curvy_ids = [ "version", "recipes" ];
+      for(id in curvy_ids) {        
+        var box = new curvyCorners(settings, document.getElementById(curvy_ids[id]));
+        box.applyCornersToAll();
+      }      
     }
   </script>
 </head>
 <body>
-<div id="main">
+<div id="main" class="landing">
 
     <h1>&#x2192; &#8216;capitate&#8217;</h1>
+
+    <div id="version" class="clickable box" onclick='document.location = "http://rubyforge.org/projects/capitate"; return false'>
+      <p>Get Version</p>
+      <a href="http://rubyforge.org/projects/capitate" class="numbers">0.1.8</a>
+    </div>
     
+    <div id="recipes" class="box">
+      <a href="recipes/index.html">Recipes</a> &#x2192;
+      <a href="http://svn.ducktyper.com/capitate/trunk/lib/capitate/plugins/">Plugins</a> &#x2192;
+      <a href="http://svn.ducktyper.com/capitate/trunk/lib/templates/">Templates</a>
+    </div>
+
+    <div style="clear:both">
     <h2>What</h2>
 
 
@@ -41,22 +57,19 @@
 	<h2>Installing</h2>
 
 
-	<p><pre class='syntax'><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">capitate</span></pre></p>
+<pre>sudo gem install capitate</pre>
+
+	<h2>Running</h2>
 
 
-	<p>Create a Capfile (in your project):</p>
+	<p>Add capitate to your Capfile. Copy this somewhere near the top:</p>
 
 
-	<p><pre class='syntax'><span class="ident">capitate</span> <span class="punct">.</span></pre></p>
-
-
-	<p>Create and set a profile in you Capfile:</p>
-
-
-	<p><pre class='syntax'><span class="ident">load</span> <span class="punct">&quot;</span><span class="string">config/deployment/centos-sick.rb</span><span class="punct">&quot;</span></pre></p>
-
-
-	<p><em>See profiles section below for more info</em></p>
+	<p><pre class='syntax'>
+  <span class="ident">set</span> <span class="symbol">:project_root</span><span class="punct">,</span> <span class="constant">File</span><span class="punct">.</span><span class="ident">dirname</span><span class="punct">(</span><span class="constant">__FILE__</span><span class="punct">)</span>
+  <span class="ident">require</span> <span class="punct">'</span><span class="string">capitate</span><span class="punct">'</span>  
+  <span class="ident">require</span> <span class="punct">'</span><span class="string">capitate/recipes</span><span class="punct">'</span>
+</pre></p>
 
 
 	<h2>The basics</h2>
@@ -73,49 +86,43 @@
 	</ul>
 
 
-	<h3>Profiles</h3>
+	<h3>Beefing up your deploy</h3>
 
 
-	<p>Profiles are capfiles which store lists of recipes to run for cap install and deploy and settings for those recipes.</p>
+	<p>For an example deploy, see <a href="http://svn.ducktyper.com/capitate/trunk/lib/profiles/centos-sick.rb">centos-sick.rb</a></p>
 
 
-	<p>For an example profile, see <a href="http://svn.ducktyper.com/capitate/trunk/lib/profiles/centos-sick.rb">centos-sick.rb</a></p>
+	<p>You could copy this profile into config/deployment/ and add it to your Capfile:</p>
 
 
-	<p><span class="caps">TODO</span>: More on profiles&#8230;</p>
+	<pre><code>load "config/deployment/centos-sick.rb"</code></pre>
 
 
-	<h3>Install recipes</h3>
+	<h3>Use recipes</h3>
 
 
-	<p>To install a group of applications based on a profile:</p>
+	<p><a href="recipes/index.html">View recipes documentation</a></p>
 
 
-	<pre><code>cap install</code></pre>
+	<p>For example, to script the install of a group of applications as root, use <a href="recipes/recipes.html">recipes:run</a>:</p>
 
 
-	<p><em>You may need to comment out &#8220;Defaults requiretty&#8221; in /etc/sudoders on the image before capistrano recipes will work.</em></p>
+	<p>Configure your Capfile to run it:</p>
 
 
-	<h3>Deploying (application)</h3>
+	<p><pre class='syntax'>
+<span class="ident">set</span> <span class="symbol">:recipes_run</span><span class="punct">,</span> <span class="punct">[</span> <span class="punct">&quot;</span><span class="string">ruby:centos:install</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">memcached:centos:install</span><span class="punct">&quot;</span> <span class="punct">]</span>
+<span class="ident">set</span> <span class="symbol">:recipes_user</span><span class="punct">,</span> <span class="punct">&quot;</span><span class="string">root</span><span class="punct">&quot;</span>
+</pre></p>
 
 
-	<p>If this is the first time you&#8217;ve deployed you&#8217;ll need to run:</p>
+	<p>Then run:</p>
 
 
-	<pre><code>cap deploy:setup</code></pre>
+	<pre><code>cap recipes:run</code></pre>
 
 
-	<p>Otherwise, your standard deploy options:</p>
-
-
-	<pre><code>cap deploy</code></pre>
-
-
-	<pre><code>cap deploy:migrations (deploys and does migration)</code></pre>
-
-
-	<pre><code>cap deploy:migrate (only does migration on existing deployment)</code></pre>
+	<p>This is just a basic example.</p>
 
 
 	<h2>Forum</h2>
@@ -143,6 +150,7 @@
 
 
 	<p>Comments are welcome. Send an email to <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a> via the <a href="http://groups.google.com/group/capitate">forum</a></p>
+    </div>
     <p class="coda">
       <a href="FIXME email">Gabriel Handford</a>, 21st February 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>

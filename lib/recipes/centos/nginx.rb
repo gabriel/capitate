@@ -1,6 +1,6 @@
-namespace :centos do 
+namespace :nginx do 
   
-  namespace :nginx do
+  namespace :centos do
     
     desc <<-DESC
     Install nginx, conf, initscript, nginx user and service.
@@ -57,6 +57,14 @@ namespace :centos do
       # Create nginx user
       sudo "id nginx || /usr/sbin/adduser -r nginx"
     end
+    
+    # Restart nginx
+    desc "Restart nginx (service)"
+    task :restart do
+      # TODO: Monit
+      sudo "/sbin/service nginx restart"
+    end
+    
     
   end
   

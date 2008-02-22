@@ -21,23 +21,35 @@
           antiAlias: true,
           autoPad: true,
           validTags: ["div"]
-      }
-      var versionBox = new curvyCorners(settings, document.getElementById("version"));
-      versionBox.applyCornersToAll();
+      };
+      
+      curvy_ids = [ "version", "recipes" ];
+      for(id in curvy_ids) {        
+        var box = new curvyCorners(settings, document.getElementById(curvy_ids[id]));
+        box.applyCornersToAll();
+      }      
     }
   </script>
 </head>
 <body>
-<div id="main">
+<div id="main" class="landing">
 
     <h1><%= title %></h1>
-    <% if title == 'capigen' %>
-    <div id="version" class="clickable" onclick='document.location = "<%= download %>"; return false'>
+
+    <div id="version" class="clickable box" onclick='document.location = "<%= download %>"; return false'>
       <p>Get Version</p>
       <a href="<%= download %>" class="numbers"><%= version %></a>
     </div>
-    <% end %>
+    
+    <div id="recipes" class="box">
+      <a href="recipes/index.html">Recipes</a> &#x2192;
+      <a href="http://svn.ducktyper.com/capitate/trunk/lib/capitate/plugins/">Plugins</a> &#x2192;
+      <a href="http://svn.ducktyper.com/capitate/trunk/lib/templates/">Templates</a>
+    </div>
+
+    <div style="clear:both">
     <%= body %>
+    </div>
     <p class="coda">
       <a href="FIXME email">Gabriel Handford</a>, <%= modified.pretty %><br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>

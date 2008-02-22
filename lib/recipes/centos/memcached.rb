@@ -1,6 +1,6 @@
-namespace :centos do 
+namespace :memcached do 
   
-  namespace :memcached do
+  namespace :centos do
     
     desc <<-DESC
     Install memcached.

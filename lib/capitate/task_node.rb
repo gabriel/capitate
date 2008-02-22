@@ -1,3 +1,4 @@
+# TODO: Document this class
 class Capitate::TaskNode
   
   include Capitate::Plugins::Base
@@ -30,39 +31,87 @@ class Capitate::TaskNode
     nodes.sort_by(&:name)
   end
   
-  def full_name
+  # Depth first iteration
+  def each_node(level = 0, &block)
+    sorted_nodes.each do |node|
+      yield(node, level)
+      node.each_node(level + 1, &block)
+    end
+  end
+  
+  def full_name(delimeter = "-")
     if parent
       parent_name = parent.full_name
-      return [ parent_name, name ].compact.join("_")
+      return [ parent_name, name ].compact.join(delimeter)
     end
     
     # Return nil for top node
     name == "top" ? nil : name
   end
   
-  # Write doc for current node
-  def write_doc(dir)
+  # Write doc for node (recursively)
+  def write_doc(dir, file_name = nil, title = nil, options = {}, &block)
     
-    path = "#{dir}/#{full_name}.txt"
+    file_name ||= full_name
+    title ||= full_name(":")
+    
+    path = "#{dir}/#{file_name}.txt"
     puts "%10s %-30s" % [ "create", path ]
     
     File.open(path, "w") do |file|
-      file.puts "h1. Recipes: #{name}\n\n"      
-    
-      sub_namespaces = sorted_nodes.collect(&:name)
-      file.puts "h2. Namespaces\n"
-      sorted_nodes.each do |snode|
-        file.puts "#{snode.name}\n"
+      file.puts "h1. #{title}\n\n"      
+      
+      #
+      # Breadcrumb generate
+      #
+      bc_full_name = full_name(":")
+      links = []
+      if bc_full_name
+        names = bc_full_name.split(":")
+        links << " #{names.pop} " # Pop off current
         
+        while(!names.empty?) do          
+          links << %{ "#{names.last}":#{names.join("-")}.html }
+          names.pop
+        end
+      end
+      # Write breadcrumb
+      file.puts %{ "home":../index.html > "recipes":index.html > #{links.reverse.join(" > ")} }
+    
+      #
+      # Namespace
+      #
+      unless sorted_nodes.empty?
+        file.puts "h2. Namespaces\n\n"
+        each_node do |snode, level|
+          li_level = (0..level).collect { "*" }.join
+          file.puts %{#{li_level} "#{snode.full_name(":")}":#{snode.full_name}.html \n}                  
+        end        
+      end
+      
+      #
+      # Tasks
+      #
+      unless tasks.empty?
+        file.puts "\n\n"
+        file.puts "h2. Tasks\n\n"        
+        tasks.each do |task|
+          file.puts "h3. #{task.fully_qualified_name}\n\n"
+          file.puts "#{unindent(task.desc)}\n\n\n\n"
+        end
+      end
+      
+      #
+      # Write doc (recursively for "child" namespace)
+      sorted_nodes.each do |snode|
         snode.write_doc(dir)
       end
       
-      file.puts "\n\n"
-      file.puts "h2. Tasks\n"        
-      tasks.each do |task|
-        file.puts "h2. #{task.fully_qualified_name}\n\n"
-        file.puts "#{unindent(task.desc)}\n\n\n\n"
-      end
+      # If block then let it do stuff with open file
+      if block_given?
+        file.puts "\n\n"
+        yield(file) 
+      end      
     end
   end
   

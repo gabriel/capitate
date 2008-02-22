@@ -2,7 +2,8 @@ namespace :packages do
   
   desc <<-DESC
   Remove, update and install packages.
-  packages_type: Package manager type. Currently can only be :yum. TODO: Support more package managers.
+  
+  packages_type: Package manager type. Currently can only be :yum. \n\nTODO: Support more package managers.
   
     set :packages_type, :yum
     

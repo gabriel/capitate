@@ -6,17 +6,18 @@ Capistrano plugins, recipes and templates.
 
 h2. Installing
 
-<pre syntax="ruby">sudo gem install capitate</pre>
+<pre>sudo gem install capitate</pre>
 
-Create a Capfile (in your project):
 
-<pre syntax="ruby">capitate .</pre>
+h2. Running
 
-Create and set a profile in you Capfile:
+Add capitate to your Capfile. Copy this somewhere near the top:
 
-<pre syntax="ruby">load "config/deployment/centos-sick.rb"</pre>
-
-<em>See profiles section below for more info</em>
+<pre syntax="ruby">
+  set :project_root, File.dirname(__FILE__)
+  require 'capitate'  
+  require 'capitate/recipes'
+</pre>
 
 
 h2. The basics
@@ -29,39 +30,34 @@ Capitate has recipes for:
 * And more...
 
 
-h3. Profiles
+h3. Beefing up your deploy
 
-Profiles are capfiles which store lists of recipes to run for cap install and deploy and settings for those recipes.
+For an example deploy, see "centos-sick.rb":http://svn.ducktyper.com/capitate/trunk/lib/profiles/centos-sick.rb
 
-For an example profile, see "centos-sick.rb":http://svn.ducktyper.com/capitate/trunk/lib/profiles/centos-sick.rb
+You could copy this profile into config/deployment/ and add it to your Capfile:
 
-TODO: More on profiles...
-
-
-h3. Install recipes
-
-To install a group of applications based on a profile:
-
-  cap install
-
-<em>You may need to comment out "Defaults requiretty" in /etc/sudoders on the image before capistrano recipes will work.</em>
-
-  
-h3. Deploying (application)
-
-If this is the first time you've deployed you'll need to run:
-
-  cap deploy:setup
-
-Otherwise, your standard deploy options:
-  
-  cap deploy
-
-  cap deploy:migrations (deploys and does migration)
-  
-  cap deploy:migrate (only does migration on existing deployment)
+  load "config/deployment/centos-sick.rb"
 
 
+
+h3. Use recipes
+
+"View recipes documentation":recipes/index.html
+
+For example, to script the install of a group of applications as root, use "recipes:run":recipes/recipes.html:
+
+Configure your Capfile to run it:
+
+<pre syntax="ruby">
+set :recipes_run, [ "ruby:centos:install", "memcached:centos:install" ]
+set :recipes_user, "root"
+</pre>
+
+Then run:
+
+  cap recipes:run
+
+This is just a basic example.
 
 h2. Forum
 

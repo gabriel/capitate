@@ -1,6 +1,6 @@
-namespace :centos do 
+namespace :ruby do 
   
-  namespace :ruby do
+  namespace :centos do
   
     desc "Install ruby and rubygems"
     task :install do 

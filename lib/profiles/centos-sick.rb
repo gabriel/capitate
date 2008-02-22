@@ -2,23 +2,20 @@
 # This is an EXAMPLE profile.
 #
 # Profile for sick rails app on centos 5.1
-# Profiles are basically a beefed up deploy.rb
 #
 
 set :description, "Sick project deployment for centos 5.1 image"
 
-#set :install_user, "root"
-
-set :recipes, [ 
+set :recipes_run, [ 
   "centos:setup_for_web",
   "packages:install",
-  "centos:ruby:install", 
-  "centos:nginx:install", 
-  "centos:mysql:install", 
-  "centos:sphinx:install", 
-  "centos:monit:install",
-  "centos:imagemagick:install", 
-  "centos:memcached:install", 
+  "ruby:centos:install", 
+  "nginx:centos:install", 
+  "mysql:centos:install", 
+  "sphinx:centos:install", 
+  "monit:centos:install",
+  "imagemagick:centos:install", 
+  "memcached:centos:install", 
   "nginx:install_monit",   
   "mysql:install_monit",     
   "memcached:install_monit", 
@@ -75,7 +72,7 @@ set :memcached_port, 11211
 
 
 #
-# Settings for generating project Capfile
+# Settings for project
 #
 
 set :application, "sick"
@@ -84,7 +81,7 @@ set :deploy_to, "/var/www/apps/sick"
 set :web_host, "WEB_HOST"
 set :db_host, "DB_HOST"
 set :db_user, "sick"
-set :db_pass, ""
+set :db_pass, "sick"
 set :db_name, "sick"
 # db_port set already
 set :sphinx_host, "SPHINX_HOST"
@@ -99,14 +96,19 @@ set :deploy_via, :copy
 set :copy_strategy, :export
 
 role :web, "WEB_URL"
-role :db,  "DB_URL", :primary => true
+role :db, "DB_URL", :primary => true
 
 
 # Callbacks 
 before "deploy:setup", "centos:add_user_for_app"
 
-after "deploy:setup", "mysql:setup", "rails:setup", "mongrel_cluster:setup_monit", 
-  "nginx:setup_mongrel", "centos:sphinx:setup"
+after "deploy:setup", "mysql:setup", "rails:setup", "mongrel_cluster:centos:setup",
+  "nginx:setup_mongrel", "sphinx:centos:setup"
+  
+after "sphinx:centos:setup", "sphinx:setup_monit"
+after "mongrel_cluster:centos:setup", "mongrel_cluster:setup_monit"
+
+after "nginx:setup_mongrels", "nginx:centos:restart"
 
 after "deploy:update_code", "rails:update_code", "sphinx:update_code"
 

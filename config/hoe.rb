@@ -2,7 +2,7 @@ require 'capitate/version'
 
 AUTHOR = 'Gabriel Handford'  # can also be an array of Authors
 EMAIL = "gabrielh@gmail.com"
-DESCRIPTION = "Capistrano recipe library for all types of remote tasks."
+DESCRIPTION = "Capistrano recipes, plugins and templates."
 GEM_NAME = 'capitate' # what ppl will type to install your gem
 RUBYFORGE_PROJECT = 'capitate' # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
@@ -55,10 +55,12 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   p.rubyforge_name = RUBYFORGE_PROJECT if RUBYFORGE_PROJECT
   p.test_globs = ["test/**/test_*.rb"]
   p.clean_globs |= ['**/.*.sw?', '*.gem', '.config', '**/.DS_Store']  #An array of file patterns to delete on clean.
+  p.clean_globs += ['website/recipes/**', 'docs/recipes/**']
   
   # == Optional
   p.changes = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   #p.extra_deps = []     # An array of rubygem dependencies [name, version], e.g. [ ['active_support', '>= 1.3.1'] ]
+  p.extra_deps = [ [ "capistrano", ">=2.1.0" ] ]
   
   #p.spec_extras = {}    # A hash of extra values to set in the gemspec.
   

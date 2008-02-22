@@ -1,5 +1,5 @@
-namespace :centos do 
-  namespace :imagemagick do
+namespace :imagemagick do 
+  namespace :centos do
   
     desc "Install imagemagick"
     task :install do

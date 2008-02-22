@@ -44,7 +44,16 @@ elsif ARGV.length > 1
 end
 
 base = ARGV.shift
-files.each do |file, content|
+
+puts <<-EOS
+
+  Generating capistrano configuration...
+
+EOS
+
+files = { "Capfile" => "capistrano/Capfile" }
+
+files.each do |file, template|
   file = File.join(base, file)
   if File.exists?(file)
     warn "`#{file}' already exists"
@@ -53,24 +62,17 @@ files.each do |file, content|
   elsif !File.exists?(File.dirname(file))
     warn "Directory `#{File.dirname(file)}' does not exist"
   else
-    puts <<-EOS
-
-      Generating capistrano configuration...
-
-    EOS
-
     # Write Capfile
-    CapitateBin.write("capistrano/Capfile", "Capfile")
-
-    puts <<-EOS
-
-      You now need to create and set you deployment "profile" in the Capfile.
-      This is currently a manual process, see the documentation on profiles 
-      for more information.
-
-    EOS
-    
+    CapitateBin.write(template, file)
   end
 end
+
+puts <<-EOS
+
+  You now need to create and set you deployment "profile" in the Capfile.
+  This is currently a manual process, see the documentation on profiles 
+  for more information.
+
+EOS
 
 

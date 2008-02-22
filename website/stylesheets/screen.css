@@ -97,9 +97,8 @@ pre, code {
 .number { color: #F99; }
 .expr { color: #227; }
 
-#version {
-  float: right;
-  text-align: right;
+
+.box {
   font-family: sans-serif;
   font-weight: normal;
   background-color: #A7A37E;
@@ -108,6 +107,21 @@ pre, code {
   margin: 0 auto;
 	margin-top: 15px;
   border: 3px solid #141331;
+}
+
+.landing h1 {
+  float: left;
+}
+
+#recipes {
+  float: right;
+  margin-right: 10px;
+}
+
+#version {
+  float: right;
+  text-align: right;
+  clear:right;
 }
 
 #version .numbers {
@@ -126,10 +140,14 @@ pre, code {
 	padding: 0;
 }
 
-#version a {
-  text-decoration: none;
+#version a,
+#recipes a {
 	color: #000;
 	background-color: #A7A37E;
+}
+
+#version a {
+  text-decoration: none;
 }
 
 .clickable {

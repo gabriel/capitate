@@ -38,7 +38,7 @@
 
     <div id="version" class="clickable box" onclick='document.location = "http://rubyforge.org/projects/capitate"; return false'>
       <p>Get Version</p>
-      <a href="http://rubyforge.org/projects/capitate" class="numbers">0.1.8</a>
+      <a href="http://rubyforge.org/projects/capitate" class="numbers">0.1.9</a>
     </div>
     
     <div id="recipes" class="box">
@@ -65,10 +65,9 @@
 	<p>Add capitate to your Capfile. Copy this somewhere near the top:</p>
 
 
-	<p><pre class='syntax'>
-  <span class="ident">set</span> <span class="symbol">:project_root</span><span class="punct">,</span> <span class="constant">File</span><span class="punct">.</span><span class="ident">dirname</span><span class="punct">(</span><span class="constant">__FILE__</span><span class="punct">)</span>
-  <span class="ident">require</span> <span class="punct">'</span><span class="string">capitate</span><span class="punct">'</span>  
-  <span class="ident">require</span> <span class="punct">'</span><span class="string">capitate/recipes</span><span class="punct">'</span>
+	<p><pre class='syntax'><span class="ident">require</span> <span class="punct">'</span><span class="string">capitate</span><span class="punct">'</span>  
+<span class="ident">require</span> <span class="punct">'</span><span class="string">capitate/recipes</span><span class="punct">'</span>
+<span class="ident">set</span> <span class="symbol">:project_root</span><span class="punct">,</span> <span class="constant">File</span><span class="punct">.</span><span class="ident">dirname</span><span class="punct">(</span><span class="constant">__FILE__</span><span class="punct">)</span>
 </pre></p>
 
 
@@ -152,7 +151,7 @@
 	<p>Comments are welcome. Send an email to <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a> via the <a href="http://groups.google.com/group/capitate">forum</a></p>
     </div>
     <p class="coda">
-      <a href="FIXME email">Gabriel Handford</a>, 21st February 2008<br>
+      <a href="FIXME email">Gabriel Handford</a>, 22nd February 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

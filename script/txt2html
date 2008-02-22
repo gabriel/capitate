@@ -40,35 +40,41 @@ def convert_syntax(syntax, source)
   return Syntax::Convertors::HTML.for_syntax(syntax).convert(source).gsub(%r!^<pre>|</pre>$!,'')
 end
 
-if ARGV.length >= 1
-  src, template = ARGV
-  template ||= File.join(File.dirname(__FILE__), '/../website/template.rhtml')
-  
+if ARGV.length >= 3
+  src_glob, template, output_dir = ARGV  
+  src_files = Dir[src_glob]
 else
-  puts("Usage: #{File.split($0).last} source.txt [template.rhtml] > output.html")
+  puts("Usage: #{File.split($0).last} path/to/source*.txt template.rhtml output_dir")
   exit!
 end
 
 template = ERB.new(File.open(template).read)
 
-title = nil
-body = nil
-File.open(src) do |fsrc|
-  title_text = fsrc.readline
-  body_text = fsrc.read
-  syntax_items = []
-  body_text.gsub!(%r!<(pre|code)[^>]*?syntax=['"]([^'"]+)[^>]*>(.*?)</\1>!m){
-    ident = syntax_items.length
-    element, syntax, source = $1, $2, $3
-    syntax_items << "<#{element} class='syntax'>#{convert_syntax(syntax, source)}</#{element}>"
-    "syntax-temp-#{ident}"
-  }
-  title = RedCloth.new(title_text).to_html.gsub(%r!<.*?>!,'').strip
-  body = RedCloth.new(body_text).to_html
-  body.gsub!(%r!(?:<pre><code>)?syntax-temp-(\d+)(?:</code></pre>)?!){ syntax_items[$1.to_i] }
-end
-stat = File.stat(src)
-created = stat.ctime
-modified = stat.mtime
+src_files.each do |src|
+  title = nil
+  body = nil
+  File.open(src) do |fsrc|
+    title_text = fsrc.readline
+    body_text = fsrc.read
+    syntax_items = []
+    body_text.gsub!(%r!<(pre|code)[^>]*?syntax=['"]([^'"]+)[^>]*>(.*?)</\1>!m){
+      ident = syntax_items.length
+      element, syntax, source = $1, $2, $3
+      syntax_items << "<#{element} class='syntax'>#{convert_syntax(syntax, source)}</#{element}>"
+      "syntax-temp-#{ident}"
+    }
+    title = RedCloth.new(title_text).to_html.gsub(%r!<.*?>!,'').strip
+    body = RedCloth.new(body_text).to_html
+    body.gsub!(%r!(?:<pre><code>)?syntax-temp-(\d+)(?:</code></pre>)?!){ syntax_items[$1.to_i] }
+  end
+  stat = File.stat(src)
+  created = stat.ctime
+  modified = stat.mtime
 
-$stdout << template.result(binding)
+  #$stdout << template.result(binding)
+  output_file_path = src.split("/").last.gsub(/txt$/, "html")
+  output_path = output_dir + "/" + output_file_path
+  puts "    create #{output_path}"
+  File.open(output_path, "w") { |file| file.puts template.result(binding) }
+  
+end

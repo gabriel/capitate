@@ -4,8 +4,6 @@ namespace :docs do
   task :recipes do
     top_node = capitate.task_tree
     
-    puts "Tree:\n#{}"
-    
     dir = "docs/recipes"
     FileUtils.rm_rf(dir)
     FileUtils.mkdir_p(dir)

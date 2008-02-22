@@ -22,6 +22,8 @@ require 'capitate/plugins/templates'
 require 'capitate/plugins/wget'
 require 'capitate/plugins/yum'
 
+require 'capitate/plugins/upload'
+
 require "capitate/cap_ext/connections"
 require "capitate/cap_ext/extension_proxy"
 require "capitate/cap_ext/variables"

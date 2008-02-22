@@ -13,10 +13,9 @@ h2. Running
 
 Add capitate to your Capfile. Copy this somewhere near the top:
 
-<pre syntax="ruby">
-  set :project_root, File.dirname(__FILE__)
-  require 'capitate'  
-  require 'capitate/recipes'
+<pre syntax="ruby">require 'capitate'  
+require 'capitate/recipes'
+set :project_root, File.dirname(__FILE__)
 </pre>
 
 

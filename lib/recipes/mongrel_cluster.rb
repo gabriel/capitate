@@ -13,6 +13,10 @@ namespace :mongrel_cluster do
     
     set :mongrel_port, 9000
     
+  mongrel_config_script: Config script to load with mongrel.
+  
+    set :mongrel_config_script, "config/mongrel_handler.rb"
+    
   DESC
   task :setup_monit do
     
@@ -24,13 +28,30 @@ namespace :mongrel_cluster do
     # Settings
     fetch(:mongrel_size)
     fetch(:mongrel_port)
+    fetch_or_default(:mongrel_config_script, nil)
     
     processes = []
     ports = (0...mongrel_size).collect { |i| mongrel_port + i }
     ports.each do |port|
       
       pid_path = "#{shared_path}/pids/mongrel.#{port}.pid"
-      start_options = "-d -e production -a 127.0.0.1 -c #{current_path} --user #{user} --group #{user} -p #{port} -P #{pid_path} -l log/mongrel.#{port}.log"
+      
+      default_options = [
+        [ "-d" ], 
+        [ "-e", "production" ],
+        [ "-a", "127.0.0.1" ],
+        [ "-c", current_path ],
+        [ "--user", user ], 
+        [ "--group", user ],
+        [ "-p", port ], 
+        [ "-P", pid_path ],
+        [ "-l", "log/mongrel.#{port}.log" ]
+      ]
+      
+      default_options << [ "-S", mongrel_config_script ] if mongrel_config_script 
+      
+      start_options = default_options.collect { |a| a.join(" ") }.join(" ")      
+      #start_options = "-d -e production -a 127.0.0.1 -c #{current_path} --user #{user} --group #{user} -p #{port} -P #{pid_path} -l log/mongrel.#{port}.log"
       stop_options = "-p #{port} -P #{pid_path}"
       
       processes << { :port => port, :start_options => start_options, :stop_options => stop_options, :name => "/usr/bin/mongrel_rails", :pid_path => pid_path }

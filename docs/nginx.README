@@ -1,0 +1,12 @@
+=== Nginx + mongrel
+http://brainspl.at/articles/2006/08/23/nginx-my-new-favorite-front-end-for-mongrel-cluster
+http://brainspl.at/articles/2007/01/03/new-nginx-conf-with-optimizations
+http://topfunky.net/svn/shovel/nginx
+
+=== Nginx + memcached:
+http://www.igvita.com/2008/02/11/nginx-and-memcached-a-400-boost/
+http://blog.kovyrin.net/2007/08/05/using-nginx-ssi-and-memcache-to-make-your-web-applications-faster/
+
+=== Nginx
+http://robsanheim.com/2008/02/07/beware-the-default-nginx-config-old-ie6-hates-gzip/
+http://brainspl.at/articles/2007/11/09/a-fair-proxy-balancer-for-nginx-and-mongrel

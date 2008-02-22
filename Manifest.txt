@@ -17,6 +17,7 @@ lib/capitate/plugins/package.rb
 lib/capitate/plugins/profiles.rb
 lib/capitate/plugins/script.rb
 lib/capitate/plugins/templates.rb
+lib/capitate/plugins/upload.rb
 lib/capitate/plugins/wget.rb
 lib/capitate/plugins/yum.rb
 lib/capitate/recipes.rb
@@ -77,6 +78,7 @@ tasks/deployment.rake
 tasks/environment.rake
 tasks/website.rake
 test/test_helper.rb
+test/test_plugin_upload.rb
 test/test_recipes.rb
 test/test_templates.rb
 website/index.html

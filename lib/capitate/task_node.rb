@@ -1,10 +1,18 @@
-# TODO: Document this class
+# Task node in the capistrano namespace, task hierarchy.
+#
 class Capitate::TaskNode
   
   include Capitate::Plugins::Base
   
   attr_reader :name, :nodes, :tasks, :parent
-    
+
+  # Create task node with name and parent
+  # For root not use name = "top"
+  #
+  # ==== Options
+  # +name+:: Node name (namespace name)
+  # +parent+:: Parent node
+  #
   def initialize(name, parent = nil)
     @name = name
     @parent = parent
@@ -12,10 +20,20 @@ class Capitate::TaskNode
     @tasks = []
   end
   
+  # Add "child" node.
+  #
+  # ==== Options
+  # +task_node+:: Node
+  #
   def add_node(task_node)
     @nodes << task_node
   end
   
+  # Find node with name (namespace).
+  #
+  # ==== Options
+  # +name+:: Name to look for
+  #
   def find(name)
     @nodes.each do |node| 
       return node if node.name == name
@@ -23,15 +41,27 @@ class Capitate::TaskNode
     nil
   end
   
+  # Add task to this node.
+  #
+  # ==== Options
+  # +task+:: Add task associated with this node (namespace).
+  #
   def add_task(task)
     @tasks << task
   end
   
+  # Get "child" nodes (sorted).
+  #
   def sorted_nodes
     nodes.sort_by(&:name)
   end
   
-  # Depth first iteration
+  # Iterate over ALL "child" nodes, depth first.
+  # Yields |node, level|.
+  #
+  # ==== Options
+  # +level+:: Current level
+  #
   def each_node(level = 0, &block)
     sorted_nodes.each do |node|
       yield(node, level)
@@ -39,6 +69,14 @@ class Capitate::TaskNode
     end
   end
   
+  # Get the full name, using delimeter
+  #
+  # ==== Options
+  # +delimeter+:: Delimeter
+  #
+  # ==== Examples
+  #   node.full_name(":") => "mysql:centos"  # On node mysql centos node (top -> mysql -> centos)
+  #
   def full_name(delimeter = "-")
     if parent
       parent_name = parent.full_name
@@ -50,6 +88,13 @@ class Capitate::TaskNode
   end
   
   # Write doc for node (recursively)
+  #
+  # ==== Options
+  # +dir+:: Dir to write to
+  # +file_name+:: File name to write to, defaults to full name
+  # +title+:: Title and h1 for page, defaults to name
+  # +options+:: Options
+  #
   def write_doc(dir, file_name = nil, title = nil, options = {}, &block)
     
     file_name ||= full_name
@@ -115,6 +160,8 @@ class Capitate::TaskNode
     end
   end
   
+  # Node to string. 
+  #
   def to_s(level = 0)
     spaces = "     "
     indent = (0...level).collect { spaces }.join("") 
@@ -133,9 +180,20 @@ class Capitate::TaskNode
     end
     s
   end
-      
+    
+  # Class methods  
   class << self
     
+    # Create nodes and and task to node.
+    #
+    # If task is "mysql:centos:install", the nodes will look like:
+    #
+    #   (top node) -> (mysql node) -> (centos node; w/ tasks: install)
+    #
+    # ==== Options
+    # +top_node+:: Node to start at
+    # +task+:: Task to add
+    #    
     def populate_with_task(top_node, task)
       node_names = task.namespace.fully_qualified_name.split(":")
       

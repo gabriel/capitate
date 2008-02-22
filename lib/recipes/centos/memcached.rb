@@ -6,13 +6,17 @@ namespace :centos do
     Install memcached.
     
     memcached_memory: Memcached memory (in MB).
+    
       set :memcached_memory, 64
 
     memcached_pid_path: Path to memcached pid file. Defaults to /var/run/memcached.pid
+    
       set :memcached_pid_path, "/var/run/memcached.pid"
 
     memcached_port: Memcached port. Defaults to 11211.
+    
       set :memcached_port, 11211
+      
     DESC
     task :install do
 

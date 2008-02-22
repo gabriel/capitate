@@ -5,13 +5,17 @@ namespace :rails do
   Create database yaml in shared path.
   
   db_name: Database name (rails).    
+  
     set :db_name, "app_db_name"
   
   db_user: Database user (rails).    
+  
     set :db_user, "app_db_user"
     
   db_pass: Database password (rails).    
+  
     set :db_pass, "the_password"
+    
   DESC
   task :setup do    
     

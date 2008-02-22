@@ -6,7 +6,9 @@ namespace :centos do
     Install sphinx.
     
     sphinx_prefix: Sphinx install prefix. Defaults to "/usr/local/sphinx"
+    
       set :sphinx_prefix, "/usr/local/sphinx"
+      
     DESC
     task :install do 
       
@@ -31,10 +33,12 @@ namespace :centos do
     Setup sphinx for application.
     
     sphinx_prefix: Sphinx install prefix. Defaults to "/usr/local/sphinx"
+    
       set :sphinx_prefix, "/usr/local/sphinx"
+      
     DESC
-    after "centos:sphinx:setup", "sphinx:setup_monit"
     task :setup do 
+      after "centos:sphinx:setup", "sphinx:setup_monit"
       
       # Settings
       fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")

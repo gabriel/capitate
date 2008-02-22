@@ -6,10 +6,13 @@ namespace :centos do
     Install monit.
     
     monit_port: Monit port. Defaults to 2812.
+    
       set :monit_port, 2812
 
     monit_password: Monit password. Defaults to password prompt.
+    
       set :monit_password, Proc.new { Capistrano::CLI.ui.ask('Monit admin password (to set): ') })
+      
     DESC
     task :install do
       

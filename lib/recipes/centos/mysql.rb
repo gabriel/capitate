@@ -6,6 +6,7 @@ namespace :centos do
     Install mysql.
     
     mysql_admin_password_set: Mysql admin password (to set). Defaults to password prompt.
+    
       set :mysql_admin_password_set, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') }
       
     DESC

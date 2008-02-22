@@ -1,5 +1,23 @@
 #!/usr/bin/env ruby
-APP_ROOT = File.join(File.dirname(__FILE__), '..')
+
+require 'optparse'
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{File.basename($0)} [path]"
+
+  opts.on("-h", "--help", "Displays this help info") do
+    puts opts
+    exit 0
+  end
+
+  begin
+    opts.parse!(ARGV)
+  rescue OptionParser::ParseError => e
+    warn e.message
+    puts opts
+    exit 1
+  end
+end
 
 begin
   require 'capitate'
@@ -8,19 +26,6 @@ rescue LoadError
   require 'capitate'
 end
 
-def usage
-  puts <<-EOS
-  
-    Capitate your project.
-    
-    Usage:
-    
-      #{$0} bootstrap
-    
-  EOS
-    
-  exit 1
-end
 
 class CapitateBin
   class << self
@@ -28,19 +33,44 @@ class CapitateBin
   end
 end
 
-puts <<-EOS
+if ARGV.empty?
+  abort "Please specify the directory to capify, e.g. `#{File.basename($0)} .'"
+elsif !File.exists?(ARGV.first)
+  abort "`#{ARGV.first}' does not exist."
+elsif !File.directory?(ARGV.first)
+  abort "`#{ARGV.first}' is not a directory."
+elsif ARGV.length > 1
+  abort "Too many arguments; please specify only the directory to capitate."
+end
 
-  Generating capistrano configuration...
-  
-EOS
-  
-# Write Capfile
-CapitateBin.write("capistrano/Capfile", "Capfile")
+base = ARGV.shift
+files.each do |file, content|
+  file = File.join(base, file)
+  if File.exists?(file)
+    warn "`#{file}' already exists"
+  elsif File.exists?(file.downcase)
+    warn "`#{file.downcase}' exists, which could conflict with `#{file}'"
+  elsif !File.exists?(File.dirname(file))
+    warn "Directory `#{File.dirname(file)}' does not exist"
+  else
+    puts <<-EOS
 
-puts <<-EOS
+      Generating capistrano configuration...
 
-  You now need to create and set you deployment "profile" in the Capfile.
-  This is currently a manual process, see the documentation on profiles 
-  for more information.
-  
-EOS
+    EOS
+
+    # Write Capfile
+    CapitateBin.write("capistrano/Capfile", "Capfile")
+
+    puts <<-EOS
+
+      You now need to create and set you deployment "profile" in the Capfile.
+      This is currently a manual process, see the documentation on profiles 
+      for more information.
+
+    EOS
+    
+  end
+end
+
+

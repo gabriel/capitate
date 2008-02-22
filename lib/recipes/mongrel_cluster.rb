@@ -5,11 +5,14 @@ namespace :mongrel_cluster do
   Create monit configuration for mongrel cluster.
   
   mongrel_size: Number of mongrels.
-    <tt>set :mongrel_size, 3</tt>
+  
+    set :mongrel_size, 3
 
   mongrel_port: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances 
-    will be at 9000, 9001, and 9002
-    <tt>set :mongrel_port, 9000</tt>
+  will be at 9000, 9001, and 9002
+    
+    set :mongrel_port, 9000
+    
   DESC
   task :setup_monit do
     

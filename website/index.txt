@@ -1,6 +1,5 @@
 h1. &#x2192; 'capitate'
 
-
 h2. What
 
 Capistrano plugins, recipes and templates.
@@ -11,7 +10,7 @@ h2. Installing
 
 Create a Capfile (in your project):
 
-<pre syntax="ruby">capitate</pre>
+<pre syntax="ruby">capitate .</pre>
 
 Create and set a profile in you Capfile:
 

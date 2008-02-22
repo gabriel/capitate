@@ -30,3 +30,5 @@ class Capistrano::Configuration
   include Capitate::CapExt::Variables
 end
 
+require 'capitate/task_node'
+

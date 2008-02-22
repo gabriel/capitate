@@ -2,19 +2,21 @@ namespace :centos do
   
   namespace :mongrel_cluster do
     
-    after "centos:mongrel_cluster:setup", "mongrel_cluster:setup_monit"  
-    
     desc <<-DESC
     Create mongrel cluster.
     
     mongrel_size: Number of mongrels.
+    
       set :mongrel_size, 3
 
     mongrel_port: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances will be at 
       9000, 9001, and 9002
+      
       set :mongrel_port, 9000      
+      
     DESC
     task :setup do 
+      after "centos:mongrel_cluster:setup", "mongrel_cluster:setup_monit"
       
       # Settings
       fetch(:mongrel_size)

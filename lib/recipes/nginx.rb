@@ -1,14 +1,13 @@
 # Nginx recipes
 namespace :nginx do
   
-  # Callbacks
-  after "nginx:setup", "nginx:restart"
-    
   desc <<-DESC 
   Install nginx monit hooks.
   
   nginx_pid_path: Path to nginx pid file. Defaults to /var/run/nginx.pid    
+  
     set :nginx_pid_path, "/var/run/nginx.pid"
+    
   DESC
   task :install_monit do
     
@@ -23,16 +22,21 @@ namespace :nginx do
   Create and update the nginx vhost include.
   
   mongrel_size: Number of mongrels.    
+  
     set :mongrel_size, 3
     
   mongrel_port: Starting port for mongrels.
-    If there are 3 mongrels with port 9000, then instances will be at 9000, 9001, and 9002    
+  If there are 3 mongrels with port 9000, then instances will be at 9000, 9001, and 9002    
+  
     set :mongrel_port, 9000
 
   domain_name: Domain name for nginx virtual host, (without www prefix).    
+  
     set :domain_name, "foo.com"
+    
   DESC
   task :setup_mongrel do 
+    after "nginx:setup_mongrels", "nginx:restart"
     
     # Settings
     fetch(:mongrel_size)

@@ -67,12 +67,3 @@ files.each do |file, template|
   end
 end
 
-puts <<-EOS
-
-  You now need to create and set you deployment "profile" in the Capfile.
-  This is currently a manual process, see the documentation on profiles 
-  for more information.
-
-EOS
-
-

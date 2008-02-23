@@ -18,9 +18,5 @@ Dir['lib/recipes/*.rb'].each { |plugin| load(plugin) }
 
 require 'erb'
 
-#
-# EDIT BELOW
-#
-
-# Load your profile
-# load "config/deployment/centos-sick.rb"
+# Load more cap files
+# load "config/deployment/install-centos.rb"

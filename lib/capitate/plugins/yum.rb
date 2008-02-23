@@ -10,12 +10,8 @@ module Capitate::Plugins::Yum
   #   yum.update
   #   yum.update([ "aspell" ])
   #
-  # Also can use package plugin with package.type = :yum, and then:
-  #   package.update
-  #   package.update([ "aspell" ])
-  #
   def update(packages = [])
-    sudo "yum -y update #{packages.join(" ")}"
+    run_via "yum -y update #{packages.join(" ")}"
   end
     
   # Remove via yum.
@@ -27,12 +23,8 @@ module Capitate::Plugins::Yum
   #   yum.remove
   #   yum.remove([ "aspell" ])
   #
-  # Also can use package plugin with package.type = :yum, and then:
-  #   package.remove
-  #   package.remove([ "aspell" ])
-  #  
   def remove(packages)
-    sudo "yum -y remove #{packages.join(" ")}"    
+    run_via "yum -y remove #{packages.join(" ")}"    
   end
   
   # Install via yum.
@@ -44,10 +36,6 @@ module Capitate::Plugins::Yum
   # ==== Examples
   #   yum.install
   #   yum.install([ "aspell" ])
-  #
-  # Also can use package plugin with package.type = :yum, and then:
-  #   package.install
-  #   package.install([ "aspell" ])
   #    
   def install(packages, update_existing = true)    
     
@@ -64,10 +52,10 @@ module Capitate::Plugins::Yum
     
       packages -= installed_packages
     
-      sudo "yum -y update #{installed_packages.join(" ")}" unless installed_packages.blank?
+      run_via "yum -y update #{installed_packages.join(" ")}" unless installed_packages.blank?
     end
     
-    sudo "yum -y install #{packages.join(" ")}" unless packages.blank?
+    run_via "yum -y install #{packages.join(" ")}" unless packages.blank?
   end
   
   # Clean yum.
@@ -75,11 +63,8 @@ module Capitate::Plugins::Yum
   # ==== Examples
   #   yum.clean
   #
-  # Also can use package plugin with package.type = :yum, and then:
-  #   package.clean
-  #
   def clean
-    sudo "yum -y clean all"
+    run_via "yum -y clean all"
   end
   
 end

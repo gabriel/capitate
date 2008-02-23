@@ -4,18 +4,23 @@ namespace :nginx do
   desc <<-DESC 
   Install nginx monit hooks.
   
-  nginx_pid_path: Path to nginx pid file. Defaults to /var/run/nginx.pid    
+  *nginx_pid_path*: Path to nginx pid file. _Defaults to /var/run/nginx.pid_
   
-    set :nginx_pid_path, "/var/run/nginx.pid"
-    
+  @set :nginx_pid_path, "/var/run/nginx.pid"@
+  
+  *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_
+
+  @set :monit_conf_dir, "/etc/monit"@
+  
   DESC
   task :install_monit do
     
     # Settings
     fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
+    fetch_or_default(:monit_conf_dir, "/etc/monit")
     
     put template.load("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"    
-    sudo "install -o root /tmp/nginx.monitrc /etc/monit/nginx.monitrc"
+    sudo "install -o root /tmp/nginx.monitrc #{monit_conf_dir}/nginx.monitrc"
   end
     
   desc <<-DESC

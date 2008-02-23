@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>
-      <%= title %>
+      <%= title %>: Capistrano recipes, plugins and templates.
   </title>
   <script src="javascripts/rounded_corners_lite.inc.js" type="text/javascript"></script>
 <style>
@@ -23,7 +23,7 @@
           validTags: ["div"]
       };
       
-      curvy_ids = [ "version", "recipes" ];
+      curvy_ids = [ "version" ];
       for(id in curvy_ids) {        
         var box = new curvyCorners(settings, document.getElementById(curvy_ids[id]));
         box.applyCornersToAll();
@@ -41,17 +41,19 @@
       <a href="<%= download %>" class="numbers"><%= version %></a>
     </div>
     
-    <div id="recipes" class="box">
+    <div id="recipes">
+      <p>Documentation:
       <a href="recipes/index.html">Recipes</a> &#x2192;
       <a href="http://svn.ducktyper.com/capitate/trunk/lib/capitate/plugins/">Plugins</a> &#x2192;
       <a href="http://svn.ducktyper.com/capitate/trunk/lib/templates/">Templates</a>
+      </p>
     </div>
 
-    <div style="clear:both">
+    <div>
     <%= body %>
     </div>
     <p class="coda">
-      <a href="FIXME email">Gabriel Handford</a>, <%= modified.pretty %><br>
+      <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a>, <%= modified.pretty %><br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

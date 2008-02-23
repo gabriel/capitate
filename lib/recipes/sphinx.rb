@@ -1,12 +1,23 @@
 # Sphinx recipes
 namespace :sphinx do
   
-  desc "Create monit configuration for sphinx"
+  desc <<-DESC
+  Create monit configuration for sphinx.
+  
+  *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_
+
+  @set :monit_conf_dir, "/etc/monit"@
+  
+  DESC
   task :setup_monit do    
+    
+    # Settings
+    fetch_or_default(:monit_conf_dir, "/etc/monit")
+    
     set :sphinx_pid_path, "#{shared_path}/pids/searchd.pid"
     
     put template.load("sphinx/sphinx.monitrc.erb"), "/tmp/sphinx_#{application}.monitrc"            
-    sudo "install -o root /tmp/sphinx_#{application}.monitrc /etc/monit/sphinx_#{application}.monitrc"
+    sudo "install -o root /tmp/sphinx_#{application}.monitrc #{monit_conf_dir}/sphinx_#{application}.monitrc"
   end
   
   desc "Update sphinx for application" 
@@ -17,7 +28,7 @@ namespace :sphinx do
     set :log_root, "#{shared_path}/log"
     set :pid_root, "#{shared_path}/pids"
     
-    put template.project("config/templates/sphinx.conf.erb"), "#{shared_path}/config/sphinx.conf"
+    put template.load("config/templates/sphinx.conf.erb"), "#{shared_path}/config/sphinx.conf"
   end
   
   desc "Rotate sphinx index for application"

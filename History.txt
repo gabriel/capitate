@@ -1,3 +1,7 @@
+== 0.2.1 2008-02-24
+
+* Removing all my brain dead recipes.
+
 == 0.1.9 2008-02-23
 
 * Adding config_script to mongrel_cluster recipe

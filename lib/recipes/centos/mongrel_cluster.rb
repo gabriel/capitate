@@ -5,14 +5,14 @@ namespace :mongrel_cluster do
     desc <<-DESC
     Create mongrel cluster.
     
-    mongrel_size: Number of mongrels.
+    *mongrel_size*: Number of mongrels.
     
-      set :mongrel_size, 3
+    @set :mongrel_size, 3@
 
-    mongrel_port: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances will be at 
+    *mongrel_port*: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances will be at 
       9000, 9001, and 9002
       
-      set :mongrel_port, 9000      
+    @set :mongrel_port, 9000@
       
     DESC
     task :setup do 
@@ -29,8 +29,8 @@ namespace :mongrel_cluster do
 
       pid_path = "#{shared_path}/pids"
 
-      put template.load("mongrel/mongrel_cluster.initd.erb", binding), "/tmp/mongrel_cluster_#{application}.initd"    
-      put template.load("mongrel/mongrel_cluster.yml.erb", binding), "#{mongrel_config_path}/mongrel_cluster.yml"
+      put template.load("mongrel/mongrel_cluster.initd.erb"), "/tmp/mongrel_cluster_#{application}.initd"    
+      put template.load("mongrel/mongrel_cluster.yml.erb"), "#{mongrel_config_path}/mongrel_cluster.yml"
 
       # Setup the mongrel_cluster init script
       sudo "install -o root /tmp/mongrel_cluster_#{application}.initd /etc/init.d/mongrel_cluster_#{application}"

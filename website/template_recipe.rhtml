@@ -5,16 +5,20 @@
   <link rel="stylesheet" href="../stylesheets/screen.css" type="text/css" media="screen" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>
-      <%= title %>
+      <% if title != "Recipes" %>
+      Capistrano recipes: <%= title %>
+      <% else %>
+      Capistrano recipes
+      <% end %>
   </title>
 </head>
 <body>
 <div id="main" class="recipes">
-
+    
     <h1><%= title %></h1>
     <%= body %>
     <p class="coda">
-      <a href="FIXME email">Gabriel Handford</a>, <%= modified.pretty %><br>
+      <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a>, <%= modified.pretty %><br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

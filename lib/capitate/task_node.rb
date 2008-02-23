@@ -56,6 +56,12 @@ class Capitate::TaskNode
     nodes.sort_by(&:name)
   end
   
+  # Get tasks (sorted).
+  #
+  def sorted_tasks
+    tasks.sort_by(&:fully_qualified_name) # { |t| t.name.to_s }
+  end
+  
   # Iterate over ALL "child" nodes, depth first.
   # Yields |node, level|.
   #
@@ -87,7 +93,9 @@ class Capitate::TaskNode
     name == "top" ? nil : name
   end
   
-  # Write doc for node (recursively)
+  # Write textile documentation for node (recursively).
+  #
+  # Uses task desc attribute for task details.
   #
   # ==== Options
   # +dir+:: Dir to write to
@@ -126,22 +134,33 @@ class Capitate::TaskNode
       #
       # Namespace
       #
-      unless sorted_nodes.empty?
-        file.puts "h2. Namespaces\n\n"
+      unless nodes.empty?
+        file.puts "\n\nh2. Namespaces\n\n"
         each_node do |snode, level|
-          li_level = (0..level).collect { "*" }.join
-          file.puts %{#{li_level} "#{snode.full_name(":")}":#{snode.full_name}.html \n}                  
+          #li_level = (0..level).collect { "*" }.join
+          if snode.tasks.length > 0
+            file.puts %{* "#{snode.full_name(":")}":#{snode.full_name}.html (#{snode.tasks.length}) \n}                  
+          end
         end        
       end
       
       #
       # Tasks
+      # 
+      unless tasks.empty?
+        file.puts "\n\nh2. Tasks\n\n"
+        sorted_tasks.each do |task|
+          file.puts %{* "#{task.fully_qualified_name}":##{task.fully_qualified_name} \n}                  
+        end        
+      end
+      
+      #
+      # Task details
       #
       unless tasks.empty?
-        file.puts "\n\n"
-        file.puts "h2. Tasks\n\n"        
-        tasks.each do |task|
-          file.puts "h3. #{task.fully_qualified_name}\n\n"
+        file.puts "\n\nh2. Task documentation\n\n"        
+        sorted_tasks.each do |task|
+          file.puts "h3(##{task.fully_qualified_name}). #{task.fully_qualified_name}\n\n"
           file.puts "#{unindent(task.desc)}\n\n\n\n"
         end
       end

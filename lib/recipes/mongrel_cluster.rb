@@ -4,19 +4,23 @@ namespace :mongrel_cluster do
   desc <<-DESC
   Create monit configuration for mongrel cluster.
   
-  mongrel_size: Number of mongrels.
+  *mongrel_size*: Number of mongrels.
   
-    set :mongrel_size, 3
+  @set :mongrel_size, 3@
 
-  mongrel_port: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances 
+  *mongrel_port*: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances 
   will be at 9000, 9001, and 9002
     
-    set :mongrel_port, 9000
+  @set :mongrel_port, 9000@
     
-  mongrel_config_script: Config script to load with mongrel.
+  *mongrel_config_script*: Config script to load with mongrel. _Defaults to nil_
   
-    set :mongrel_config_script, "config/mongrel_handler.rb"
+  @set :mongrel_config_script, "config/mongrel_handler.rb"@
     
+  *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_
+  
+  @set :monit_conf_dir, "/etc/monit"@
+  
   DESC
   task :setup_monit do
     
@@ -29,6 +33,7 @@ namespace :mongrel_cluster do
     fetch(:mongrel_size)
     fetch(:mongrel_port)
     fetch_or_default(:mongrel_config_script, nil)
+    fetch_or_default(:monit_conf_dir, "/etc/monit")
     
     processes = []
     ports = (0...mongrel_size).collect { |i| mongrel_port + i }
@@ -60,7 +65,7 @@ namespace :mongrel_cluster do
     set :processes, processes
     
     put template.load("mongrel/mongrel_cluster.monitrc.erb"), "/tmp/mongrel_cluster_#{application}.monitrc"    
-    sudo "install -o root /tmp/mongrel_cluster_#{application}.monitrc /etc/monit/mongrel_cluster_#{application}.monitrc"
+    sudo "install -o root /tmp/mongrel_cluster_#{application}.monitrc #{monit_conf_dir}/mongrel_cluster_#{application}.monitrc"
   end
     
 end

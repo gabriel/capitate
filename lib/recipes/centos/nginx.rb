@@ -4,21 +4,22 @@ namespace :nginx do
     
     desc <<-DESC
     Install nginx, conf, initscript, nginx user and service.
-    nginx_bin_path: Nginx sbin path. Defaults to /sbin/nginx
     
-      set :nginx_bin_path, "/sbin/nginx"
+    *nginx_bin_path*: Nginx sbin path. _Defaults to /sbin/nginx_
+    
+    @set :nginx_bin_path, "/sbin/nginx"@
 
-    nginx_conf_path: Path to nginx conf. Defaults to /etc/nginx/nginx.conf
+    *nginx_conf_path*: Path to nginx conf. _Defaults to /etc/nginx/nginx.conf_
     
-      set :nginx_conf_path, "/etc/nginx/nginx.conf"
+    @set :nginx_conf_path, "/etc/nginx/nginx.conf"@
 
-    nginx_pid_path: Path to nginx pid file. Defaults to /var/run/nginx.pid
+    *nginx_pid_path*: Path to nginx pid file. _Defaults to /var/run/nginx.pid_
     
-      set :nginx_pid_path, "/var/run/nginx.pid"
+    @set :nginx_pid_path, "/var/run/nginx.pid"@
 
-    nginx_prefix_path: Nginx install prefix. Defaults to /var/nginx
+    *nginx_prefix_path*: Nginx install prefix. _Defaults to /var/nginx_
     
-      set :nginx_prefix_path, "/var/nginx"
+    @set :nginx_prefix_path, "/var/nginx"@
       
     DESC
     task :install do

@@ -45,7 +45,6 @@ blockquote {
 }
 .coda {
   text-align: right;
-  color: #77f;
   font-size: smaller;
 }
 
@@ -101,7 +100,7 @@ pre, code {
 .box {
   font-family: sans-serif;
   font-weight: normal;
-  background-color: #A7A37E;
+  background-color: #445878;
   color: #000;
   padding: 15px 20px 10px 20px;
   margin: 0 auto;
@@ -110,12 +109,22 @@ pre, code {
 }
 
 .landing h1 {
-  float: left;
+  
 }
 
 #recipes {
-  float: right;
-  margin-right: 10px;
+
+}
+
+.recipes pre,
+.recipes code {
+  margin: 0 30px;
+  display:block;
+}
+
+.recipes h3 {
+  padding: 4px;
+  background-color: #E6E2AF;
 }
 
 #version {
@@ -134,16 +143,15 @@ pre, code {
 
 #version p {
   text-decoration: none;
-	color: #000;
-	background-color: #A7A37E;
+	color: #FFF;
+	background-color: #445878;
 	margin: 0;
 	padding: 0;
 }
 
-#version a,
-#recipes a {
-	color: #000;
-	background-color: #A7A37E;
+#version a {
+	color: #FFF;
+	background-color: #445878;
 }
 
 #version a {

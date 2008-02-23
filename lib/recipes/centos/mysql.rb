@@ -5,16 +5,15 @@ namespace :mysql do
     desc <<-DESC
     Install mysql.
     
-    mysql_admin_password_set: Mysql admin password (to set). Defaults to password prompt.
+    *mysql_admin_password_set*: Mysql admin password (to set). _Defaults to password prompt._
     
-      set :mysql_admin_password_set, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') }
+    @set :mysql_admin_password_set, prompt.password('Mysql admin password (to set): ')@
       
     DESC
     task :install do    
       
       # Settings
-      fetch_or_default(:mysql_admin_password_set, 
-        Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') })      
+      fetch_or_default(:mysql_admin_password_set, prompt.password('Mysql admin password (to set): '))
 
       # Install through package manager
       yum.install([ "mysql", "mysql-devel", "mysql-server" ])

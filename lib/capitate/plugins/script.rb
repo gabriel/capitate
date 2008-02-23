@@ -16,9 +16,9 @@ module Capitate::Plugins::Script
   def make_install(name, options)
     install(name, options) do |dir|
       configure_options = options[:configure_options] || ""
-      sudo "echo 'Configuring #{name}...' && cd #{dir} && ./configure #{configure_options} > configure.log"
-      sudo "echo 'Compiling #{name}...' && cd #{dir} && make > make.log"
-      sudo "echo 'Installing #{name}...' && cd #{dir} && make install > make_install.log"        
+      run_via "echo 'Configuring #{name}...' && cd #{dir} && ./configure #{configure_options} > configure.log"
+      run_via "echo 'Compiling #{name}...' && cd #{dir} && make > make.log"
+      run_via "echo 'Installing #{name}...' && cd #{dir} && make install > make_install.log"        
     end
   end
   
@@ -62,21 +62,18 @@ module Capitate::Plugins::Script
         
     if File.extname(script) == ".erb"
       name = script[0...script.length-4]
-      dest = "/tmp/#{name}"
-      run "mkdir -p #{File.dirname(dest)}"
+      dest = "/tmp/cap/#{name}"
+      run_via "mkdir -p #{File.dirname(dest)}"
       put template.load(script, override_binding || binding), dest
     else
       name = script
-      dest = "/tmp/#{name}"
-      run "mkdir -p #{File.dirname(dest)}"
+      dest = "/tmp/cap/#{name}"
+      run_via "mkdir -p #{File.dirname(dest)}"
       put template.load(script), dest
     end
     
     # If want verbose, -v
-    sudo "sh -v #{dest}"
-    
-    # Cleanup
-    sudo "rm -rf #{File.dirname(dest)}"    
+    run_via "sh -v #{dest} && rm -rf #{File.dirname(dest)}"
   end
   
   # Download and unpack URL.
@@ -103,13 +100,13 @@ module Capitate::Plugins::Script
     
     unpack_dir ||= file.gsub(/\.tar\.gz|\.tgz/, "")
     
-    sudo "echo 'Getting #{url}...' && mkdir -p #{dest} && cd #{dest} && wget -nv #{url}"
-    sudo "echo 'Unpacking...' && cd #{dest} && tar zxf #{file}"
+    run_via "echo 'Getting #{url}...' && mkdir -p #{dest} && cd #{dest} && wget -nv #{url}"
+    run_via "echo 'Unpacking...' && cd #{dest} && tar zxf #{file}"
     
     if block_given?
       yield("#{dest}/#{unpack_dir}")
-      sudo "rm -f #{dest}/#{file}"
-      sudo "rm -rf #{dest}" if clean
+      run_via "rm -f #{dest}/#{file}"
+      run_via "rm -rf #{dest}" if clean
     end
   end
   

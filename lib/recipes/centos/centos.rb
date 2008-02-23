@@ -1,47 +1,52 @@
 # Custom tasks for centos OS profiles
 namespace :centos do
-    
-  desc <<-DESC
-  Setup centos for web role.
-  
-  * Create admin group
-  * Install sudoers with access for admin group
-  * Change run level to 3
-  * Create web apps directory at /var/www/apps
-  
-  DESC
-  task :setup_for_web do
-    put template.load("centos/sudoers"), "/tmp/sudoers"
-    script.sh("centos/setup_for_web.sh")
-  end  
-    
-  desc <<-DESC
-  Cleanup yum.
-  DESC
-  task :cleanup do
-    yum.clean
-    # TODO: Add more cleanup tasks here
-  end
-  
+
   # Add user for an application
   desc <<-DESC
-  Add user and set user password for application. Adds user to admin group. 
+  Add user and set user password for application. Adds user to specified groups. 
   
-    set :user, "app_user"
+  *user*: User to add
+  
+  @set :user, "app_user"@
+  
+  *groups*: Groups for user to be in. _Defaults to none_
+  
+  @set :groups, "admin,foo"@
+  
+  *home*: Home directory for user. _Defaults to <tt>:deploy_to</tt> setting_
+  
+  @set :home, "/var/www/apps/app_name"@
+  
+  *home_readable*: Whether home permissions are readable by all. Needed if using deploy dir as home. _Defaults to true_
+  
+  @set :home_readable, true@
     
   DESC
-  task :add_user_for_app do
+  task :add_user do
     
     # Settings
-    user = fetch(:user)
-    fetch_or_default(:install_user, "root")
+    fetch(:user)
+    fetch_or_default(:groups, nil)
+    fetch_or_default(:home, deploy_to)
+    fetch_or_default(:home_readable, true)
+    
+    # Need to be root because we don't have any other users at this point
+    install_user = "root"
     
     with_user(install_user) do
+      
+      adduser_options = []
+      adduser_options << "-d #{home}" unless home.blank?
+      adduser_options << "-G #{groups}" unless groups.blank?
     
-      sudo "id sick || /usr/sbin/adduser -d #{deploy_to} -G admin #{user}"
-      sudo "chmod a+rx #{deploy_to}"
+      sudo "id sick || /usr/sbin/adduser #{adduser_options.join(" ")} #{user}"
+            
+      sudo "chmod a+rx #{home}" if home_readable
   
       new_password = Capistrano::CLI.password_prompt("Password for user (#{user}): ")
+      verify_password = Capistrano::CLI.password_prompt("(Verify) Password for user (#{user}): ")
+      
+      raise "Passwords do not match" if new_password != verify_password
   
       sudo "passwd #{user}" do |channel, stream, data|
         logger.info data

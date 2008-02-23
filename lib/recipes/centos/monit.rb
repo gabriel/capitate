@@ -5,21 +5,25 @@ namespace :monit do
     desc <<-DESC
     Install monit.
     
-    monit_port: Monit port. Defaults to 2812.
+    *monit_port*: Monit port. _Defaults to 2812_
     
-      set :monit_port, 2812
+    @set :monit_port, 2812@
 
-    monit_password: Monit password. Defaults to password prompt.
+    *monit_password*: Monit password. _Defaults to password prompt_
     
-      set :monit_password, Proc.new { Capistrano::CLI.ui.ask('Monit admin password (to set): ') })
+    @set :monit_password, prompt.password('Monit admin password (to set): ')@
+    
+    *monit_conf_dir*: Directory for monitrc files.
+    
+    @set :monit_conf_dir, "/etc/monit"@
       
     DESC
     task :install do
       
       # Settings
       fetch_or_default(:monit_port, 2812)
-      fetch_or_default(:monit_password, 
-        Proc.new { Capistrano::CLI.ui.ask('Monit admin password (to set): ') })
+      fetch_or_default(:monit_password, prompt.password('Monit admin password (to set): '))
+      fetch_or_default(:monit_conf_dir, "/etc/monit")
         
       # Install dependencies
       yum.install([ "flex", "byacc" ])
@@ -38,7 +42,7 @@ namespace :monit do
 
       # Install monitrc
       put template.load("monit/monitrc.erb"), "/tmp/monitrc"
-      sudo "mkdir -p /etc/monit && install -o root -m 700 /tmp/monitrc /etc/monitrc && rm -f /tmp/monitrc"
+      sudo "mkdir -p #{monit_conf_dir} && install -o root -m 700 /tmp/monitrc /etc/monitrc && rm -f /tmp/monitrc"
 
       # Patch initab
       script.sh("monit/patch_inittab.sh")

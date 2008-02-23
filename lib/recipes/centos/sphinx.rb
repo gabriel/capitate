@@ -5,9 +5,9 @@ namespace :sphinx do
     desc <<-DESC
     Install sphinx.
     
-    sphinx_prefix: Sphinx install prefix. Defaults to "/usr/local/sphinx"
+    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_
     
-      set :sphinx_prefix, "/usr/local/sphinx"
+    @set :sphinx_prefix, "/usr/local/sphinx"@
       
     DESC
     task :install do 
@@ -32,9 +32,9 @@ namespace :sphinx do
     desc <<-DESC
     Setup sphinx for application.
     
-    sphinx_prefix: Sphinx install prefix. Defaults to "/usr/local/sphinx"
+    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_
     
-      set :sphinx_prefix, "/usr/local/sphinx"
+    @set :sphinx_prefix, "/usr/local/sphinx"@
       
     DESC
     task :setup do       

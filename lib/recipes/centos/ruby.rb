@@ -27,7 +27,7 @@ namespace :ruby do
     
       # Install rubygems
       script.install("rubygems", rubygems_options) do |dir|
-        sudo "echo 'Running setup...' && cd #{dir} && ruby setup.rb > install.log"
+        run_via "echo 'Running setup...' && cd #{dir} && ruby setup.rb > install.log"
       end
     
     end

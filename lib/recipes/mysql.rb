@@ -25,7 +25,7 @@ namespace :mysql do
     fetch_or_default(:monit_conf_dir, "/etc/monit") 
     
     put template.load("mysql/mysql.monitrc.erb", binding), "/tmp/mysql.monitrc"    
-    sudo "install -o root /tmp/mysql.monitrc #{monit_conf_dir}/mysql.monitrc"
+    run_via "install -o root /tmp/mysql.monitrc #{monit_conf_dir}/mysql.monitrc"
   end
   
   desc <<-DESC
@@ -54,7 +54,7 @@ namespace :mysql do
     
   *mysql_admin_password*: Mysql admin password (to use to connect). Defaults to password prompt.
   
-  @set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') })@
+  @set :mysql_admin_password, prompt.password('Mysql admin password: '))@
     
   DESC
   task :setup do    
@@ -64,7 +64,7 @@ namespace :mysql do
     fetch(:db_user)
     fetch(:db_pass)
     fetch(:db_host)
-    fetch_or_default(:mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') })
+    fetch_or_default(:mysql_admin_password, prompt.password('Mysql admin password: '))
     fetch_or_default(:web_host, nil)
         
     # Add localhost to grant locations

@@ -119,6 +119,9 @@ pre, code {
 .recipes pre,
 .recipes code {
   margin: 0 30px;
+}
+
+.recipes code {
   display:block;
 }
 

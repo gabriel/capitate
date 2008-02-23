@@ -24,7 +24,7 @@ namespace :memcached do
     fetch_or_default(:monit_conf_dir, "/etc/monit")
     
     put template.load("memcached/memcached.monitrc.erb"), "/tmp/memcached.monitrc"    
-    sudo "install -o root /tmp/memcached.monitrc #{monit_conf_dir}/memcached.monitrc"
+    run_via "install -o root /tmp/memcached.monitrc #{monit_conf_dir}/memcached.monitrc"
   end
   
 end

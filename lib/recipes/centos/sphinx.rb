@@ -49,13 +49,13 @@ namespace :sphinx do
 
       # Install initscript
       put template.load("sphinx/sphinx_app.initd.centos.erb"), "/tmp/sphinx.initd"
-      sudo "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
+      run_via "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
 
       # Enable service
-      sudo "/sbin/chkconfig --level 345 sphinx_#{application} on"    
+      run_via "/sbin/chkconfig --level 345 sphinx_#{application} on"    
 
       # Create app indexes dir
-      run "mkdir -p #{shared_path}/var/index"    
+      run_via "mkdir -p #{shared_path}/var/index"    
     end
   end
   

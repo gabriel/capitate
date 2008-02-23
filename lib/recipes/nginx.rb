@@ -20,7 +20,7 @@ namespace :nginx do
     fetch_or_default(:monit_conf_dir, "/etc/monit")
     
     put template.load("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"    
-    sudo "install -o root /tmp/nginx.monitrc #{monit_conf_dir}/nginx.monitrc"
+    run_via "install -o root /tmp/nginx.monitrc #{monit_conf_dir}/nginx.monitrc"
   end
     
   desc <<-DESC

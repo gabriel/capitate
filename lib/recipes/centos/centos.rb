@@ -39,16 +39,13 @@ namespace :centos do
       adduser_options << "-d #{home}" unless home.blank?
       adduser_options << "-G #{groups}" unless groups.blank?
     
-      sudo "id sick || /usr/sbin/adduser #{adduser_options.join(" ")} #{user}"
+      run "id sick || /usr/sbin/adduser #{adduser_options.join(" ")} #{user}"
             
-      sudo "chmod a+rx #{home}" if home_readable
+      run "chmod a+rx #{home}" if home_readable
   
-      new_password = Capistrano::CLI.password_prompt("Password for user (#{user}): ")
-      verify_password = Capistrano::CLI.password_prompt("(Verify) Password for user (#{user}): ")
-      
-      raise "Passwords do not match" if new_password != verify_password
+      new_password = prompt.password("Password for user (#{user}): ", true)
   
-      sudo "passwd #{user}" do |channel, stream, data|
+      run "passwd #{user}" do |channel, stream, data|
         logger.info data
     
         if data =~ /password:/i

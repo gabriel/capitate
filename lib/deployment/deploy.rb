@@ -18,7 +18,7 @@ set :repository, "http://svn.ducktyper.com/scratch/testapp/trunk"
 set :mongrel_port, 12000
 set :mongrel_size, 3
 set :domain_name, "localhost"
-set :mysql_admin_password, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password: ') }
+set :mysql_admin_password, prompt.password('Mysql admin password: ')
 
 set :deploy_via, :copy
 set :copy_strategy, :export

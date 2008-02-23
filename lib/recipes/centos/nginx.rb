@@ -46,17 +46,17 @@ namespace :nginx do
 
       # Install initscript, and turn it on
       put template.load("nginx/nginx.initd.erb"), "/tmp/nginx.initd"
-      sudo "install -o root /tmp/nginx.initd /etc/init.d/nginx && rm -f /tmp/nginx.initd"
-      sudo "/sbin/chkconfig --level 345 nginx on"
+      run_via "install -o root /tmp/nginx.initd /etc/init.d/nginx && rm -f /tmp/nginx.initd"
+      run_via "/sbin/chkconfig --level 345 nginx on"
 
       # Setup nginx
-      sudo "mkdir -p /etc/nginx/vhosts"
-      sudo "echo \"# Blank nginx conf; work-around for nginx conf include issue\" > /etc/nginx/vhosts/blank.conf"
+      run_via "mkdir -p /etc/nginx/vhosts"
+      run_via "echo \"# Blank nginx conf; work-around for nginx conf include issue\" > /etc/nginx/vhosts/blank.conf"
       put template.load("nginx/nginx.conf.erb", binding), "/tmp/nginx.conf"
-      sudo "install -o root -m 644 /tmp/nginx.conf #{nginx_conf_path} && rm -f /tmp/nginx.conf"
+      run_via "install -o root -m 644 /tmp/nginx.conf #{nginx_conf_path} && rm -f /tmp/nginx.conf"
 
       # Create nginx user
-      sudo "id nginx || /usr/sbin/adduser -r nginx"
+      run_via "id nginx || /usr/sbin/adduser -r nginx"
     end
     
     # Restart nginx

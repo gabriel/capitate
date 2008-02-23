@@ -36,8 +36,8 @@ namespace :memcached do
 
       # Install initscript, service
       put template.load("memcached/memcached.initd.centos.erb"), "/tmp/memcached.initd"
-      sudo "install -o root /tmp/memcached.initd /etc/init.d/memcached && rm -f /tmp/memcached.initd"
-      sudo "/sbin/chkconfig --level 345 memcached on"
+      run_via "install -o root /tmp/memcached.initd /etc/init.d/memcached && rm -f /tmp/memcached.initd"
+      run_via "/sbin/chkconfig --level 345 memcached on"
 
     end
     

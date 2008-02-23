@@ -3,7 +3,7 @@
 #
 
 #
-# For installing apps
+# For installing apps on the thoughpolice centos 5.1 image
 #
 task :install do
   
@@ -16,7 +16,7 @@ task :install do
   
   # Use cap HOSTS=192.168.1.111 install
   # Otherwise prompt for the service
-  role :install, prompt.ask("Server: ") if roles.empty?
+  role :install, prompt.ask("Server: ") if find_servers_for_task(current_task).blank?
   
   # Setup for web  
   script.sh("setup_for_web.sh")
@@ -27,7 +27,7 @@ task :install do
   
   # Package installs
   yum.remove [ "openoffice.org-*", "ImageMagick" ]
-  #yum.update
+  yum.update
   yum.install [ "gcc", "kernel-devel", "libevent-devel", "libxml2-devel", "openssl", "openssl-devel",
      "aspell", "aspell-devel", "aspell-en", "aspell-es" ]
   
@@ -54,8 +54,7 @@ end
 
 
 # For monit:install
-set :monit_port, 2812 # Capistrano::CLI.ui.ask('Monit port: ')
-set :monit_password, Proc.new { Capistrano::CLI.ui.ask('Monit admin password (to set): ') }
+set :monit_port, 2812
 
 # For nginx:install
 set :nginx_bin_path, "/sbin/nginx"
@@ -64,9 +63,8 @@ set :nginx_pid_path, "/var/run/nginx.pid"
 set :nginx_prefix_path, "/var/nginx"
 
 # For mysql:install
-set :mysql_admin_password_set, Proc.new { Capistrano::CLI.ui.ask('Mysql admin password (to set): ') }
 set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"
-set :db_port, 3306 # Capistrano::CLI.ui.ask('Mysql port: ')
+set :db_port, 3306
 
 # For sphinx:install
 set :sphinx_prefix, "/usr/local/sphinx"

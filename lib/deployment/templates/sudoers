@@ -53,7 +53,7 @@ Cmnd_Alias DRIVERS = /sbin/modprobe
 # Disable "ssh hostname sudo <cmd>", because it will show the password in clear. 
 #         You have to run "ssh -t hostname sudo <cmd>".
 #
-#Defaults    requiretty
+Defaults    requiretty
 
 Defaults    env_reset
 Defaults    env_keep = "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR \

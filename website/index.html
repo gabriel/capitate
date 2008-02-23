@@ -76,54 +76,38 @@
 	<h2>The basics</h2>
 
 
-	<p>Capitate has recipes for:</p>
+	<p>Capitate has:</p>
 
 
 	<ul>
-	<li>Installing applications, via package manager or manually building with make.</li>
+	<li>Plugins to help install applications, via yum or manually unpacking, and building. Also to help upload files sanely, prompt for input, install gems, and run scripts.</li>
+		<li>Templates for init scripts and application configuration.</li>
 		<li>Common deployment setup and update_code tasks, such as symlinking in database.yml and more advanced recipes such as sphinx configuration.</li>
-		<li><span class="caps">ERB</span> templates for application configuration files, init scripts, monit configuration, etc.</li>
-		<li>And more&#8230;</li>
 	</ul>
 
 
-	<h3>Beefing up your deploy</h3>
+	<h3>Example: Using capitate to write an install task:</h3>
 
 
-	<p>For an example deploy, see <a href="http://svn.ducktyper.com/capitate/trunk/lib/profiles/centos-sick.rb">centos-sick.rb</a></p>
+	<p>See <a href="http://svn.ducktyper.com/capitate/trunk/lib/deployment/install-centos-rubyweb.rb">install-centos-rubyweb.rb</a></p>
 
 
-	<p>You could copy this profile into config/deployment/ and add it to your Capfile:</p>
+	<p>Load this in your Capfile:</p>
 
 
-	<pre><code>load "config/deployment/centos-sick.rb"</code></pre>
+	<pre><code>load "lib/deployment/install-centos-rubyweb.rb"</code></pre>
 
 
-	<h3>Use recipes</h3>
+	<p>and then:</p>
+
+
+	<pre><code>cap HOSTS=x.x.x.x install</code></pre>
+
+
+	<h3>Use it</h3>
 
 
 	<p><a href="recipes/index.html">View recipes documentation</a></p>
-
-
-	<p>For example, to script the install of a group of applications as root, use <a href="recipes/recipes.html">recipes:run</a>:</p>
-
-
-	<p>Configure your Capfile to run it:</p>
-
-
-	<p><pre class='syntax'>
-<span class="ident">set</span> <span class="symbol">:recipes_run</span><span class="punct">,</span> <span class="punct">[</span> <span class="punct">&quot;</span><span class="string">ruby:centos:install</span><span class="punct">&quot;,</span> <span class="punct">&quot;</span><span class="string">memcached:centos:install</span><span class="punct">&quot;</span> <span class="punct">]</span>
-<span class="ident">set</span> <span class="symbol">:recipes_user</span><span class="punct">,</span> <span class="punct">&quot;</span><span class="string">root</span><span class="punct">&quot;</span>
-</pre></p>
-
-
-	<p>Then run:</p>
-
-
-	<pre><code>cap recipes:run</code></pre>
-
-
-	<p>This is just a basic example.</p>
 
 
 	<h2>Forum</h2>
@@ -153,7 +137,7 @@
 	<p>Comments are welcome. Send an email to <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a> via the <a href="http://groups.google.com/group/capitate">forum</a></p>
     </div>
     <p class="coda">
-      <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a>, 22nd February 2008<br>
+      <a href="mailto:gabrielh@gmail.com">Gabriel Handford</a>, 23rd February 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

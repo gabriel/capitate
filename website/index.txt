@@ -21,42 +21,32 @@ set :project_root, File.dirname(__FILE__)
 
 h2. The basics
 
-Capitate has recipes for:
+Capitate has:
 
-* Installing applications, via package manager or manually building with make.
+* Plugins to help install applications, via yum or manually unpacking, and building. Also to help upload files sanely, prompt for input, install gems, and run scripts.
+* Templates for init scripts and application configuration.
 * Common deployment setup and update_code tasks, such as symlinking in database.yml and more advanced recipes such as sphinx configuration.
-* ERB templates for application configuration files, init scripts, monit configuration, etc.
-* And more...
 
 
-h3. Beefing up your deploy
+h3. Example: Using capitate to write an install task:
 
-For an example deploy, see "centos-sick.rb":http://svn.ducktyper.com/capitate/trunk/lib/profiles/centos-sick.rb
+See "install-centos-rubyweb.rb":http://svn.ducktyper.com/capitate/trunk/lib/deployment/install-centos-rubyweb.rb
 
-You could copy this profile into config/deployment/ and add it to your Capfile:
+Load this in your Capfile:
 
-  load "config/deployment/centos-sick.rb"
+  load "lib/deployment/install-centos-rubyweb.rb"
+  
+and then:
+
+  cap HOSTS=x.x.x.x install
 
 
-
-h3. Use recipes
+h3. Use it
 
 "View recipes documentation":recipes/index.html
 
-For example, to script the install of a group of applications as root, use "recipes:run":recipes/recipes.html:
 
-Configure your Capfile to run it:
 
-<pre syntax="ruby">
-set :recipes_run, [ "ruby:centos:install", "memcached:centos:install" ]
-set :recipes_user, "root"
-</pre>
-
-Then run:
-
-  cap recipes:run
-
-This is just a basic example.
 
 h2. Forum
 

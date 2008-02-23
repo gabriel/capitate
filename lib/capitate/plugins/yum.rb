@@ -46,8 +46,13 @@ module Capitate::Plugins::Yum
       
       installed_packages = []
       
-      sudo "yum -d 0 list installed #{packages.join(" ")}" do |channel, stream, data|
-        installed_packages += data.split("\n")[1..-1].collect { |line| line.split(".").first }
+      run_via "yum -d 0 list installed #{packages.join(" ")}" do |channel, stream, data|
+        lines = data.split("\n")[1..-1]
+        if lines.blank?
+          logger.info "Invalid yum output: #{data}"
+        else
+          installed_packages += lines.collect { |line| line.split(".").first }
+        end
       end      
     
       packages -= installed_packages

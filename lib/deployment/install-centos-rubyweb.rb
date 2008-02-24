@@ -26,7 +26,7 @@ task :install do
     egrep "^admin" /etc/group || /usr/sbin/groupadd admin 
     sed -i -e 's/^id:5:initdefault:/id:3:initdefault:/g' /etc/inittab
     mkdir -p /var/www/apps
-    egrep "^%admin" /etc/sudoers || echo "%admin  ALL=(ALL)   ALL" > /etc/sudoers
+    egrep "^%admin" /etc/sudoers || echo "%admin  ALL=(ALL)   ALL" >> /etc/sudoers
   CMDS
     
   # Package installs
@@ -63,14 +63,6 @@ task :install do
   # Cleanup
   yum.clean
 end
-
-
-# For mysql:install
-set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"
-set :db_port, 3306
-
-# For sphinx:install
-set :sphinx_prefix, "/usr/local/sphinx"
 
 
 #
@@ -118,11 +110,16 @@ set :nginx_build_options, {
 }
 
 # Sphinx install 
+set :sphinx_prefix, "/usr/local/sphinx"
 set :sphinx_build_options, {
   :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz",
   :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql \
 --prefix=#{sphinx_prefix}"
 }
+
+# Mysql install
+set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"
+set :db_port, 3306
 
 # Imagemagick install
 set :imagemagick_build_options, {

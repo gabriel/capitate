@@ -4,25 +4,20 @@ namespace :sphinx do
     
     desc <<-DESC
     Install sphinx.\n
+    *sphinx_build_options*: Sphinx build options.\n
     *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_\n
     DESC
     task :install do 
       
       # Settings
+      fetch(:sphinx_build_options)
       fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
       
       # Install dependencies
       yum.install([ "gcc-c++" ])
       
-      # Build options
-      sphinx_options = {
-        :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz",
-        :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql \
-  --prefix=#{sphinx_prefix}"
-      }
-      
       # Build
-      script.make_install("sphinx", sphinx_options)
+      script.make_install("sphinx", sphinx_build_options)
     end
         
     desc <<-DESC

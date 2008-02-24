@@ -5,22 +5,14 @@ namespace :centos do
   desc <<-DESC
   Add user and set user password for application. Adds user to specified groups. 
   
-  *user*: User to add
-  
+  *user*: User to add.\n
   @set :user, "app_user"@
-  
-  *groups*: Groups for user to be in. _Defaults to none_
-  
-  @set :groups, "admin,foo"@
-  
-  *home*: Home directory for user. _Defaults to <tt>:deploy_to</tt> setting_
-  
-  @set :home, "/var/www/apps/app_name"@
-  
-  *home_readable*: Whether home permissions are readable by all. Needed if using deploy dir as home. _Defaults to true_
-  
-  @set :home_readable, true@
-    
+  *groups*: Groups for user to be in. _Defaults to none_\n
+  @set :groups, "admin,foo"@\n
+  *home*: Home directory for user. _Defaults to <tt>:deploy_to</tt> setting_\n
+  @set :home, "/var/www/apps/app_name"@\n
+  *home_readable*: Whether home permissions are readable by all. Needed if using deploy dir as home. _Defaults to true_\n
+  @set :home_readable, true@\n
   DESC
   task :add_user do
     

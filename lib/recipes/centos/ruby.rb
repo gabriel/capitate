@@ -2,35 +2,30 @@ namespace :ruby do
   
   namespace :centos do
   
-    desc "Install ruby and rubygems."
+    desc <<-DESC
+    Install ruby and rubygems.
+    
+    *ruby_build_options*: Ruby build options.\n
+    *rubygems_build_options*: Rubygems build options.\n
+    DESC
     task :install do 
+
+      # Settings
+      fetch(:ruby_build_options)
+      fetch(:rubygems_build_options)
     
       # Install dependencies
       yum.install([ "zlib", "zlib-devel" ])
     
-      ruby_options = {
-        :url => "http://capigen.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz",
-        :build_dest => "/usr/src",
-        :configure_options => "--prefix=/usr",       
-        :clean => false
-      }
-    
       # Install ruby 1.8.6
-      script.make_install("ruby", ruby_options)
-    
-      # Fix openssl
-      script.sh("ruby/fix_openssl.sh")    
-    
-      rubygems_options = { 
-        :url => "http://rubyforge.org/frs/download.php/29548/rubygems-1.0.1.tgz"
-      }
+      script.make_install("ruby", ruby_build_options)
     
       # Install rubygems
-      script.install("rubygems", rubygems_options) do |dir|
+      script.install("rubygems", rubygems_build_options) do |dir|
         run_via "echo 'Running setup...' && cd #{dir} && ruby setup.rb > install.log"
       end
     
-    end
+    end        
     
   end
   

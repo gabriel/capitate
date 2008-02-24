@@ -105,7 +105,7 @@ module Capitate::Plugins::Script
     
     run_all <<-CMDS
       echo 'Getting #{url}...' && mkdir -p #{dest} && cd #{dest} && wget -nv #{url}
-      run_via "echo 'Unpacking...' && cd #{dest} && tar zxf #{file}
+      echo 'Unpacking...' && cd #{dest} && tar zxf #{file}
     CMDS
     
     if block_given?

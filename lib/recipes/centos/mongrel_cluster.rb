@@ -5,15 +5,11 @@ namespace :mongrel_cluster do
     desc <<-DESC
     Create mongrel cluster.
     
-    *mongrel_size*: Number of mongrels.
-    
-    @set :mongrel_size, 3@
-
-    *mongrel_port*: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances will be at 
-      9000, 9001, and 9002
-      
-    @set :mongrel_port, 9000@
-      
+    *mongrel_size*: Number of mongrels.\n    
+    @set :mongrel_size, 3@\n
+    *mongrel_port*: Starting port for mongrels. If there are 3 mongrels with port 9000, 
+    then instances will be at 9000, 9001, and 9002\n      
+    @set :mongrel_port, 9000@\n      
     DESC
     task :setup do 
 

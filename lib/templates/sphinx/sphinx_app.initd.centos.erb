@@ -14,7 +14,7 @@ RETVAL=0
 
 DESC="sphinx daemon (<%= application %>)"
 NAME=searchd
-DAEMON=<%= sphinx_bin_path %>/searchd
+DAEMON=<%= sphinx_prefix %>/bin/searchd
 CONFIGFILE=<%= sphinx_conf_path %>
 PIDFILE=<%= sphinx_pid_path %>
 

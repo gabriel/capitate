@@ -16,9 +16,12 @@ module Capitate::Plugins::Script
   def make_install(name, options)
     install(name, options) do |dir|
       configure_options = options[:configure_options] || ""
-      run_via "echo 'Configuring #{name}...' && cd #{dir} && ./configure #{configure_options} > configure.log"
-      run_via "echo 'Compiling #{name}...' && cd #{dir} && make > make.log"
-      run_via "echo 'Installing #{name}...' && cd #{dir} && make install > make_install.log"        
+      
+      run_all <<-CMDS
+        echo 'Configuring #{name}...' && cd #{dir} && ./configure #{configure_options} > configure.log
+        echo 'Compiling #{name}...' && cd #{dir} && make > make.log
+        echo 'Installing #{name}...' && cd #{dir} && make install > make_install.log
+      CMDS
     end
   end
   
@@ -100,14 +103,28 @@ module Capitate::Plugins::Script
     
     unpack_dir ||= file.gsub(/\.tar\.gz|\.tgz/, "")
     
-    run_via "echo 'Getting #{url}...' && mkdir -p #{dest} && cd #{dest} && wget -nv #{url}"
-    run_via "echo 'Unpacking...' && cd #{dest} && tar zxf #{file}"
+    run_all <<-CMDS
+      echo 'Getting #{url}...' && mkdir -p #{dest} && cd #{dest} && wget -nv #{url}
+      run_via "echo 'Unpacking...' && cd #{dest} && tar zxf #{file}
+    CMDS
     
     if block_given?
       yield("#{dest}/#{unpack_dir}")
       run_via "rm -f #{dest}/#{file}"
       run_via "rm -rf #{dest}" if clean
     end
+  end
+  
+  # Run all commands (separated by newlines)
+  #
+  # ==== Options
+  # +cmds+:: Commands (separated by newlines)
+  # +options+:: See invoke_command options
+  #
+  def run_all(cmds, options = {}, &block)
+    cmds.split("\n").each do |cmd|
+      run_via(cmd, options, &block)
+    end    
   end
   
 end

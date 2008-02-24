@@ -19,12 +19,17 @@ task :install do
   role :install, prompt.ask("Server: ") if find_servers_for_task(current_task).blank?
   
   # Setup for web  
-  script.sh("setup_for_web.sh")
-  
-  # Install sudoers
-  put template.load("sudoers"), "/tmp/sudoers"
-  run "install -o root -m 440 /tmp/sudoers /etc/sudoers && rm -f /tmp/sudoers"  
-  
+  # * Add admin group
+  # * Change inittab to runlevel 3
+  # * Create web apps directory
+  # * Add admin group to suders ALL=(ALL)   ALL
+  script.run_all <<-CMDS  
+    egrep "^admin" /etc/group || /usr/sbin/groupadd admin 
+    sed -i -e 's/^id:5:initdefault:/id:3:initdefault:/g' /etc/inittab
+    mkdir -p /var/www/apps
+    egrep "^%admin" /etc/sudoers || echo "%admin  ALL=(ALL)   ALL" > /etc/sudoers
+  CMDS
+    
   # Package installs
   yum.remove [ "openoffice.org-*", "ImageMagick" ]
   yum.update
@@ -43,11 +48,11 @@ task :install do
   # Install monit hooks
   nginx.install_monit
   mysql.install_monit
-
+  
   # Gem installs
   gems.install([ "rake", "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config", 
     "raspell", "rmagick", "mongrel", "mongrel_cluster","json" ])
-
+  
   # Cleanup
   yum.clean
 end

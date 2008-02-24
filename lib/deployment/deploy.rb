@@ -10,10 +10,8 @@ set :deploy_to, "/var/www/apps/sick"
 set :web_host, "192.168.1.111"
 set :db_host, "192.168.1.111"
 set :db_user, "sick"
-set :db_pass, "sick"
+set :db_pass, prompt.password("DB Password: ")
 set :db_name, "sick"
-set :sphinx_host, "127.0.0.1"
-set :sphinx_port, 3312
 set :repository, "http://svn.ducktyper.com/scratch/testapp/trunk"
 set :mongrel_port, 12000
 set :mongrel_size, 3

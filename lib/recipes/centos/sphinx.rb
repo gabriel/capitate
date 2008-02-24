@@ -3,12 +3,8 @@ namespace :sphinx do
   namespace :centos do
     
     desc <<-DESC
-    Install sphinx.
-    
-    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_
-    
-    @set :sphinx_prefix, "/usr/local/sphinx"@
-      
+    Install sphinx.\n
+    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_\n
     DESC
     task :install do 
       
@@ -30,22 +26,17 @@ namespace :sphinx do
     end
         
     desc <<-DESC
-    Setup sphinx for application.
-    
-    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_
-    
-    @set :sphinx_prefix, "/usr/local/sphinx"@
-      
+    Setup sphinx for application.\n    
+    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_\n
+    *sphinx_pid_path*: Directory to sphinx pid. _Defaults to "[shared_path]/pids/searchd.pid"_\n
+    *sphinx_conf_path*: Path to sphinx.conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n
     DESC
     task :setup do       
       
       # Settings
       fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
-
-      # Derived settings
-      set :sphinx_bin_path, "#{sphinx_prefix}/bin"
-      set :sphinx_conf_path, "#{shared_path}/config/sphinx.conf"
-      set :sphinx_pid_path, "#{shared_path}/pids/searchd.pid"
+      fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
+      fetch_or_default(:sphinx_conf_path, "#{shared_path}/config/sphinx.conf")      
 
       # Install initscript
       put template.load("sphinx/sphinx_app.initd.centos.erb"), "/tmp/sphinx.initd"

@@ -21,7 +21,6 @@ module Capitate::Plugins::Templates
   #   put template.load("memcached/memcached.monitrc.erb"), "/tmp/memcached.monitrc"
   #
   def load(path, override_binding = nil)
-    
     template_dirs_found = template_dirs.select { |dir| File.exist?("#{dir}/#{path}") }
     
     # Not found anywhere, throw error
@@ -75,7 +74,7 @@ protected
     @template_dir ||= begin
       template_dirs = []      
       template_dirs += fetch(:templates_dirs) if exists?(:templates_dirs)      
-      template_dirs << [ "." ]
+      template_dirs << "."
       template_dirs << project_root if exists?(:project_root)
       template_dirs << gem_templates_root
       template_dirs

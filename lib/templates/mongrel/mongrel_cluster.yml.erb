@@ -4,8 +4,8 @@ log_file: log/mongrel.log
 port: "<%= mongrel_port %>"
 environment: production
 address: 127.0.0.1
-pid_file: <%= pid_path %>/mongrel.pid
+pid_file: <%= mongrel_pid_dir %>/mongrel.pid
 servers: <%= mongrel_size %>
 user: <%= user %>
 group: <%= user %>
-config_script: <%= mongrel_config_script %>
+config_script: <%= mongrel_config_script unless mongrel_config_script.blank? %>

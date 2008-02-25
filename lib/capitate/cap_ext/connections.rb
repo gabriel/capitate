@@ -12,10 +12,10 @@ module Capistrano::Configuration::Connections
   #   # Do something as user nginx
   #
   def set_user(new_user)
-    backup_user = fetch(:user)
+    previous_user = fetch(:user)
     
-    return if backup_user == new_user
-    @backup_user = backup_user
+    return if previous_user == new_user
+    set :previous_user, previous_user
     
     set :user, new_user
     clear_sessions
@@ -32,8 +32,9 @@ module Capistrano::Configuration::Connections
   #   # User is now root
   #
   def reset_user
-    set :user, @backup_user
-    @backup_user = nil
+    return unless exists?(:previous_user)
+    set :user, fetch(:previous_user)
+    unset :previous_user
     clear_sessions
   end
   
@@ -51,7 +52,7 @@ module Capistrano::Configuration::Connections
   def with_user(new_user, &block)
     begin
       set_user(new_user)
-      yield @backup_user
+      yield exists?(:previous_user) ? fetch(:previous_user) : nil
     ensure
       reset_user
     end

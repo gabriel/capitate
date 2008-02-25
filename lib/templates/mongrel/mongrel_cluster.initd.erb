@@ -14,8 +14,8 @@
 set -e
 trap ERROR ERR
 
-CONF_DIR=<%= mongrel_config_path %>
-PID_DIR=<%= pid_path %>
+CONF_DIR=<%= mongrel_config_dir %>
+PID_DIR=<%= mongrel_pid_dir %>
 USER=<%= user %>
 
 RETVAL=0

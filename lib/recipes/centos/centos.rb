@@ -5,8 +5,8 @@ namespace :centos do
   desc <<-DESC
   Add user and set user password for application. Adds user to specified groups. 
   
-  *user*: User to add.\n
-  @set :user, "app_user"@
+  *user_add*: User to add.\n
+  @set :user_add, "app_user"@
   *groups*: Groups for user to be in. _Defaults to none_\n
   @set :groups, "admin,foo"@\n
   *home*: Home directory for user. _Defaults to <tt>:deploy_to</tt> setting_\n
@@ -17,35 +17,28 @@ namespace :centos do
   task :add_user do
     
     # Settings
-    fetch(:user)
+    fetch(:user_add)
     fetch_or_default(:groups, nil)
     fetch_or_default(:home, deploy_to)
     fetch_or_default(:home_readable, true)
     
-    # Need to be root because we don't have any other users at this point
-    install_user = "root"
-    
-    with_user(install_user) do
-      
-      adduser_options = []
-      adduser_options << "-d #{home}" unless home.blank?
-      adduser_options << "-G #{groups}" unless groups.blank?
-    
-      run "id sick || /usr/sbin/adduser #{adduser_options.join(" ")} #{user}"
-            
-      run "chmod a+rx #{home}" if home_readable
+    adduser_options = []
+    adduser_options << "-d #{home}" unless home.blank?
+    adduser_options << "-G #{groups}" unless groups.blank?
   
-      new_password = prompt.password("Password for user (#{user}): ", true)
+    run "id #{user_add} || /usr/sbin/adduser #{adduser_options.join(" ")} #{user_add}"
+          
+    run "chmod a+rx #{home}" if home_readable
   
-      run "passwd #{user}" do |channel, stream, data|
-        logger.info data
-    
-        if data =~ /password:/i
-          channel.send_data "#{new_password}\n"
-          channel.send_data "#{new_password}\n"
-        end
+    new_password = prompt.password("Password to set for #{user_add}: ", true, false)
+  
+    run "passwd #{user_add}" do |channel, stream, data|
+      logger.info data
+  
+      if data =~ /password:/i
+        channel.send_data "#{new_password}\n"
+        channel.send_data "#{new_password}\n"
       end
-      
     end
         
   end

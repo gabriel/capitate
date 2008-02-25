@@ -1,3 +1,7 @@
+== 0.2.2 2008-02-24
+
+* Fix mysql:setup task.
+
 == 0.2.1 2008-02-24
 
 * Removing all my brain dead recipes.

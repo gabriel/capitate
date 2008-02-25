@@ -4,18 +4,12 @@ namespace :rails do
   desc <<-DESC
   Create database yaml in shared path.
   
-  *db_name*: Database name (rails).    
-  
-  @set :db_name, "app_db_name"@
-  
-  *db_user*: Database user (rails).    
-  
-  @set :db_user, "app_db_user"@
-    
-  *db_pass*: Database password (rails).    
-  
-  @set :db_pass, "the_password"@
-    
+  *db_name*: Database name (rails).\n    
+  @set :db_name, "app_db_name"@\n  
+  *db_user*: Database user (rails).\n  
+  @set :db_user, "app_db_user"@\n    
+  *db_pass*: Database password (rails).\n  
+  @set :db_pass, "the_password"@\n    
   DESC
   task :setup do    
     

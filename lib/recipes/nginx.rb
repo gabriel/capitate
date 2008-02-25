@@ -4,14 +4,10 @@ namespace :nginx do
   desc <<-DESC 
   Install nginx monit hooks.
   
-  *nginx_pid_path*: Path to nginx pid file. _Defaults to /var/run/nginx.pid_
-  
-  @set :nginx_pid_path, "/var/run/nginx.pid"@
-  
-  *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_
-
-  @set :monit_conf_dir, "/etc/monit"@
-  
+  *nginx_pid_path*: Path to nginx pid file. _Defaults to /var/run/nginx.pid_\n  
+  @set :nginx_pid_path, "/var/run/nginx.pid"@\n  
+  *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
+  @set :monit_conf_dir, "/etc/monit"@\n  
   DESC
   task :install_monit do
     
@@ -26,19 +22,13 @@ namespace :nginx do
   desc <<-DESC
   Create and update the nginx vhost include.
   
-  mongrel_size: Number of mongrels.    
-  
-    set :mongrel_size, 3
-    
-  mongrel_port: Starting port for mongrels.
-  If there are 3 mongrels with port 9000, then instances will be at 9000, 9001, and 9002    
-  
-    set :mongrel_port, 9000
-
-  domain_name: Domain name for nginx virtual host, (without www prefix).    
-  
-    set :domain_name, "foo.com"
-    
+  *mongrel_size*: Number of mongrels.\n
+  @set :mongrel_size, 3@\n    
+  *mongrel_port*: Starting port for mongrels.\n
+  If there are 3 mongrels with port 9000, then instances will be at 9000, 9001, and 9002\n
+  @set :mongrel_port, 9000@\n
+  *domain_name*: Domain name for nginx virtual host, (without www prefix).\n  
+  @set :domain_name, "foo.com"@
   DESC
   task :setup_mongrel do 
     

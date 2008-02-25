@@ -1,5 +1,5 @@
-<% grant_locations.each do |location| %>
-GRANT <%= grant %> ON <%= db_name %>.* TO '<%= db_user %>'@'<%= location %>' IDENTIFIED BY '<%= db_pass %>';
+<% mysql_grant_locations.each do |location| %>
+GRANT <%= mysql_grant_priv_type %> ON <%= db_name %>.* TO '<%= db_user %>'@'<%= location %>' IDENTIFIED BY '<%= db_pass %>';
 <% end %>
 
 CREATE DATABASE IF NOT EXISTS <%= db_name %>;

@@ -23,8 +23,8 @@ h2. The basics
 
 Capitate has:
 
-* Plugins to help install applications, via yum or manually unpacking, and building. Also to help upload files sanely, prompt for input, install gems, and run scripts.
-* Templates for init scripts and application configuration.
+* Plugins to help install applications, via yum or manually unpacking, and building. Also to help upload files sanely, prompt for input, install gems, run shell scripts, etc.
+* Templates for init scripts, application configuration, etc.
 * Common deployment setup and update_code tasks, such as symlinking in database.yml and more advanced recipes such as sphinx configuration.
 
 
@@ -41,7 +41,7 @@ and then:
   cap HOSTS=x.x.x.x install
 
 
-h3. Use it
+h3. Use recipes
 
 "View recipes documentation":recipes/index.html
 

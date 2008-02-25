@@ -9,6 +9,7 @@ module Capitate::Plugins::Script
   # - +url+:: URL to download package from
   # - +configure_options+:: Options for ./configure
   # - +unpack_dir+:: Directory that is unpacked from tgz (if not matching the file name)
+  # - +to_log+:: If specified, will redirect output to this path
   #
   # ==== Examples (in capistrano task)
   #   script.make_install("nginx", { :url => "http://sysoev.ru/nginx/nginx-0.5.35.tar.gz", ... })
@@ -17,10 +18,18 @@ module Capitate::Plugins::Script
     install(name, options) do |dir|
       configure_options = options[:configure_options] || ""
       
+      # Whether to capture build output
+      unless options.has_key?(:to_log)
+        to_log = ">> debug.log"
+      else
+        to_log = ""
+        to_log = ">> #{options[:to_log]}" unless options[:to_log].blank?
+      end
+      
       run_all <<-CMDS
-        echo 'Configuring #{name}...' && cd #{dir} && ./configure #{configure_options} > configure.log
-        echo 'Compiling #{name}...' && cd #{dir} && make > make.log
-        echo 'Installing #{name}...' && cd #{dir} && make install > make_install.log
+        cd #{dir} && ./configure #{configure_options} #{to_log}
+        cd #{dir} && make #{to_log}
+        cd #{dir} && make install #{to_log}
       CMDS
     end
   end
@@ -103,9 +112,11 @@ module Capitate::Plugins::Script
     
     unpack_dir ||= file.gsub(/\.tar\.gz|\.tgz/, "")
     
+    http_get_method = fetch(:http_get_method, "wget -nv")
+    
     run_all <<-CMDS
-      echo 'Getting #{url}...' && mkdir -p #{dest} && cd #{dest} && wget -nv #{url}
-      echo 'Unpacking...' && cd #{dest} && tar zxf #{file}
+      mkdir -p #{dest} && cd #{dest} && #{http_get_method} #{url}
+      cd #{dest} && tar zxf #{file}
     CMDS
     
     if block_given?
@@ -115,7 +126,8 @@ module Capitate::Plugins::Script
     end
   end
   
-  # Run all commands (separated by newlines)
+  # Run all commands (separated by newlines).
+  # Runs with <tt>sh -c</tt>, so sudo can work with any command
   #
   # ==== Options
   # +cmds+:: Commands (separated by newlines)
@@ -123,7 +135,9 @@ module Capitate::Plugins::Script
   #
   def run_all(cmds, options = {}, &block)
     cmds.split("\n").each do |cmd|
-      run_via(cmd, options, &block)
+      cmd = cmd.gsub(/^\s+/, "")
+      sh_cmd = %{sh -c "#{cmd.gsub("\"", "\"\"")}"}
+      run_via(sh_cmd, options, &block)
     end    
   end
   

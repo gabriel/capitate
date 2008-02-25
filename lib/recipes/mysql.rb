@@ -27,9 +27,9 @@ namespace :mysql do
   *db_name*: Database name (application).\n
   *db_user*: Database user (application).\n    
   *db_pass*: Database password (application).\n
-  *grant_locations*: Grant locations. _Defaults to localhost_\n
+  *mysql_grant_locations*: Grant locations. _Defaults to localhost_\n
   @set :grant_locations, [ "localhost", "192.168.1.111" ]@\n
-  *grant_priv_type*: Grant privilege types. _Defaults to ALL_\n
+  *mysql_grant_priv_type*: Grant privilege types. _Defaults to ALL_\n
   @set :grant_priv_type, "ALL"@\n
   *mysql_admin_password*: Mysql admin password (to use to connect). Defaults to password prompt.\n
   @set :mysql_admin_password, prompt.password('Mysql admin password: '))@    
@@ -41,12 +41,20 @@ namespace :mysql do
     fetch(:db_user)
     fetch(:db_pass)
     fetch_or_default(:mysql_admin_password, prompt.password('Mysql admin password: '))
-    fetch_or_default(:grant_locations, [ "localhost" ])
-    fetch_or_default(:grant_priv_type, "ALL")
-        
-    # Add localhost to grant locations
-    set :locations_for_grant, [ "localhost", web_host, db_host ].compact
+    fetch_or_default(:mysql_grant_priv_type, "ALL")
     
+    # Set grant locations to all servers in roles: :search, :db, :app
+    unless exists?(:mysql_grant_locations) 
+      mysql_grant_locations = [ "localhost" ]
+      role_names = [ :search, :db, :app ]
+      role_names.each do |role_name| 
+        roles[role_name].each do |role|
+          mysql_grant_locations << role.host
+        end unless roles[role_name].blank?
+      end
+      set :mysql_grant_locations, mysql_grant_locations
+    end        
+        
     put template.load("mysql/install_db.sql.erb"), "/tmp/install_db_#{application}.sql"    
     run "mysql -u root -p#{mysql_admin_password} < /tmp/install_db_#{application}.sql"
   end

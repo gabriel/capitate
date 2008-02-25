@@ -49,23 +49,10 @@ namespace :sphinx do
     fetch_or_default(:sphinx_db_pass, db_pass)
     fetch_or_default(:sphinx_db_name, db_name)
     
-    unless exists?(:sphinx_db_host)
-      db_servers = roles[:db]
-      unless db_servers.empty?
-        set :sphinx_db_host, db_servers.first.host
-      else
-        raise "No :db roles, and no :sphinx_db_host setting specified"
-      end
-    end
-    
-    unless exists?(:sphinx_host)
-      search_servers = roles[:search]
-      unless search_servers.empty?
-        set :sphinx_host, search_servers.first.host
-      else
-        raise "No :search roles, and no :sphinx_host setting specified"
-      end
-    end    
+    set :sphinx_db_host, roles[:db].first.host unless roles[:db].empty? || exists?(:sphinx_db_host)    
+    set :sphinx_host, roles[:search].first.host unless roles[:search].empty? || exists?(:sphinx_host)
+    raise "No :db roles, and no :sphinx_db_host setting specified" unless exists?(:sphinx_db_host)
+    raise "No :search roles, and no :sphinx_host setting specified" unless exists?(:sphinx_host)
     
     put template.load(sphinx_conf_template), sphinx_conf_path
   end

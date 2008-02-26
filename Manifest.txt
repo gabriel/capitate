@@ -57,7 +57,6 @@ lib/recipes/centos/mysql.rb
 lib/recipes/centos/nginx.rb
 lib/recipes/centos/ruby.rb
 lib/recipes/centos/sphinx.rb
-lib/recipes/deploy.rb
 lib/recipes/docs.rb
 lib/recipes/memcached.rb
 lib/recipes/mongrel_cluster.rb

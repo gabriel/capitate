@@ -27,9 +27,9 @@ module Capitate::Plugins::Script
       end
       
       run_all <<-CMDS
-        cd #{dir} && ./configure #{configure_options} #{to_log}
-        cd #{dir} && make #{to_log}
-        cd #{dir} && make install #{to_log}
+        sh -c "cd #{dir} && ./configure #{configure_options} #{to_log}"
+        sh -c "cd #{dir} && make #{to_log}"
+        sh -c "cd #{dir} && make install #{to_log}"
       CMDS
     end
   end
@@ -116,7 +116,7 @@ module Capitate::Plugins::Script
     
     run_all <<-CMDS
       mkdir -p #{dest} && cd #{dest} && #{http_get_method} #{url}
-      cd #{dest} && tar zxf #{file}
+      sh -c "cd #{dest} && tar zxf #{file}"
     CMDS
     
     if block_given?
@@ -136,8 +136,8 @@ module Capitate::Plugins::Script
   def run_all(cmds, options = {}, &block)
     cmds.split("\n").each do |cmd|
       cmd = cmd.gsub(/^\s+/, "")
-      sh_cmd = %{sh -c "#{cmd.gsub("\"", "\"\"")}"}
-      run_via(sh_cmd, options, &block)
+      #sh_cmd = %{sh -c "#{cmd.gsub("\"", "\"\"")}"}
+      run_via(cmd, options, &block)
     end    
   end
   

@@ -17,7 +17,7 @@ NAME=monit
 DAEMON=/usr/local/bin/monit
 CONFFILE=/etc/monitrc
 LOGFILE=/var/log/monit.log
-PIDFILE=/var/run/monit.pid
+PIDFILE=<%= monit_pid_path %>
 
 start() {
   daemon $DAEMON -l $LOGFILE -p $PIDFILE -c $CONFFILE

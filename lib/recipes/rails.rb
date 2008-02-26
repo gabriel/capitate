@@ -10,6 +10,9 @@ namespace :rails do
   @set :db_user, "app_db_user"@\n    
   *db_pass*: Database password (rails).\n  
   @set :db_pass, "the_password"@\n    
+  *db_host*: Database host (can be nil, if you are using socket). _Defaults to nil_\n
+  *db_socket*: Database socket (can be nil, if you are using host). _Defaults to nil_\n
+  @set :db_socket, "/var/lib/mysql/mysql.sock"@\n
   DESC
   task :setup do    
     
@@ -17,6 +20,8 @@ namespace :rails do
     fetch(:db_name)
     fetch(:db_user)
     fetch(:db_pass)
+    fetch_or_default(:db_host, nil)
+    fetch_or_default(:db_socket, nil)
     
     run "mkdir -p #{shared_path}/config"
     put template.load("rails/database.yml.erb"), "#{shared_path}/config/database.yml"

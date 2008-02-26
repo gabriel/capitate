@@ -48,7 +48,6 @@ namespace :nginx do
     # Restart nginx
     desc "Restart nginx (service)"
     task :restart do
-      # TODO: Monit
       sudo "/sbin/service nginx restart"
     end
     

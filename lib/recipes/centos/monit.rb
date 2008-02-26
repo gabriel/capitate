@@ -12,6 +12,8 @@ namespace :monit do
     @set :monit_password, prompt.password('Monit admin password (to set): ')@\n    
     *monit_conf_dir*: Directory for monitrc files.\n    
     @set :monit_conf_dir, "/etc/monit"@\n      
+    *monit_pid_path*: Path to monit pid.\n
+    @set :monit_pid_path, "/var/run/monit.pid"@\n
     DESC
     task :install do
       
@@ -19,6 +21,7 @@ namespace :monit do
       fetch_or_default(:monit_port, 2812)
       fetch_or_default(:monit_password, prompt.password('Monit admin password (to set): ', true))
       fetch_or_default(:monit_conf_dir, "/etc/monit")
+      fetch_or_default(:monit_pid_path, "/var/run/monit.pid")
       fetch(:monit_build_options)
         
       # Install dependencies
@@ -41,6 +44,20 @@ namespace :monit do
       # Build cert
       put template.load("monit/monit.cnf"), "/tmp/monit.cnf"
       script.sh("monit/cert.sh")
+    end
+    
+    desc <<-DESC
+    Monit HUP.
+    
+    *monit_pid_path*: Path to monit pid.\n
+    @set :monit_pid_path, "/var/run/monit.pid"@\n
+    DESC
+    task :restart do
+      
+      # Settings
+      fetch_or_default(:monit_pid_path, "/var/run/monit.pid")
+      
+      sudo "kill -HUP `cat #{monit_pid_path}`"
     end
 
   end

@@ -28,9 +28,9 @@ namespace :mysql do
   *db_user*: Database user (application).\n    
   *db_pass*: Database password (application).\n
   *mysql_grant_locations*: Grant locations. _Defaults to localhost_\n
-  @set :grant_locations, [ "localhost", "192.168.1.111" ]@\n
+  @set :mysql_grant_locations, [ "localhost", "192.168.1.111" ]@\n
   *mysql_grant_priv_type*: Grant privilege types. _Defaults to ALL_\n
-  @set :grant_priv_type, "ALL"@\n
+  @set :mysql_grant_priv_type, "ALL"@\n
   *mysql_admin_password*: Mysql admin password (to use to connect). Defaults to password prompt.\n
   @set :mysql_admin_password, prompt.password('Mysql admin password: '))@    
   DESC

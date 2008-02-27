@@ -6,6 +6,7 @@ namespace :monit do
     Install monit.
     
     *monit_build_options*: Monit build options.\n
+    @set :monit_build_options, { :url => "http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz" }@\n
     *monit_port*: Monit port. _Defaults to 2812_\n    
     @set :monit_port, 2812@\n
     *monit_password*: Monit password. _Defaults to password prompt_\n    

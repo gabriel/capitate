@@ -4,7 +4,14 @@ namespace :sphinx do
     
     desc <<-DESC
     Install sphinx.\n
-    *sphinx_build_options*: Sphinx build options.\n
+    *sphinx_build_options*: Sphinx build options.\n    
+    <pre>
+    set :sphinx_build_options, {
+      :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz",
+      :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql 
+        --prefix=\#{sphinx_prefix}"
+    }
+    </pre>\n
     *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_\n
     DESC
     task :install do 

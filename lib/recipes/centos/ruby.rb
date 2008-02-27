@@ -7,6 +7,14 @@ namespace :ruby do
     
     *ruby_build_options*: Ruby build options.\n
     *rubygems_build_options*: Rubygems build options.\n
+    <pre>
+    set :ruby_build_options, {
+      :url => "http://capitate.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz",
+      :build_dest => "/usr/src",
+      :configure_options => "--prefix=/usr",       
+      :clean => false
+    }
+    </pre>
     DESC
     task :install do 
 

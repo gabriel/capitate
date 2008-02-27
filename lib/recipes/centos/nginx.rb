@@ -6,6 +6,14 @@ namespace :nginx do
     Install nginx, conf, initscript, nginx user and service.
     
     *nginx_build_options*: Nginx build options.\n
+    <pre>
+    set :nginx_build_options, {
+      :url => "http://sysoev.ru/nginx/nginx-0.5.35.tar.gz",
+      :configure_options => "--sbin-path=\#{nginx_bin_path} --conf-path=\#{nginx_conf_path}
+        --pid-path=\#{nginx_pid_path} --error-log-path=/var/log/nginx_master_error.log --lock-path=/var/lock/nginx 
+        --prefix=\#{nginx_prefix_path} --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module"
+    }
+    </pre>\n
     *nginx_bin_path*: Nginx sbin path. _Defaults to /sbin/nginx_\n    
     @set :nginx_bin_path, "/sbin/nginx"@\n
     *nginx_conf_path*: Path to nginx conf. _Defaults to /etc/nginx/nginx.conf_\n    

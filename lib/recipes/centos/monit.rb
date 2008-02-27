@@ -19,7 +19,7 @@ namespace :monit do
       
       # Settings
       fetch_or_default(:monit_port, 2812)
-      fetch_or_default(:monit_password, prompt.password('Monit admin password (to set): ', true))
+      fetch_or_default(:monit_password, prompt.password('Monit admin password (to set): ', :verify => true))
       fetch_or_default(:monit_conf_dir, "/etc/monit")
       fetch_or_default(:monit_pid_path, "/var/run/monit.pid")
       fetch(:monit_build_options)

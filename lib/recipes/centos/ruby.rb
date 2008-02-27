@@ -15,14 +15,14 @@ namespace :ruby do
       fetch(:rubygems_build_options)
     
       # Install dependencies
-      yum.install([ "zlib", "zlib-devel" ])
+      yum.install([ "zlib", "zlib-devel", "readline-devel" ])
     
       # Install ruby 1.8.6
       script.make_install("ruby", ruby_build_options)
     
       # Install rubygems
       script.install("rubygems", rubygems_build_options) do |dir|
-        run_via "echo 'Running setup...' && cd #{dir} && ruby setup.rb > install.log"
+        run_via "cd #{dir} && ruby setup.rb > install.log", { :shell => true }
       end
     
     end        

@@ -110,6 +110,7 @@ module Capitate::Plugins::Base
     tasks
   end
   
+  # Task tree
   def task_tree
     top_node = Capitate::TaskNode.new("top")
     

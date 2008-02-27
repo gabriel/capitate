@@ -4,5 +4,4 @@ production:
   database: <%= db_name %>
   username: <%= db_user %>
   password: <%= db_pass %>
-  <%= "host: #{db_host}" unless db_host.blank? %>
-  <%= "socket: #{db_socket}" unless db_socket.blank? %>
+  <%= "#{db_connect_type}: #{db_connect}" %>  

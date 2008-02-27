@@ -58,7 +58,7 @@ task :install do
   
   # Gem installs
   gems.install([ "rake", "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config", 
-    "raspell", "rmagick", "mongrel", "mongrel_cluster","json" ])
+    "raspell", "rmagick", "mongrel", "mongrel_cluster","json", "mime-types" ])
   
   # Cleanup
   yum.clean

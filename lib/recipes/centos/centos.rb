@@ -30,7 +30,7 @@ namespace :centos do
           
     run "chmod a+rx #{home}" if home_readable
   
-    new_password = prompt.password("Password to set for #{user_add}: ", true, false)
+    new_password = prompt.password("Password to set for #{user_add}: ", :verify => true, :lazy => false)
   
     run "passwd #{user_add}" do |channel, stream, data|
       logger.info data

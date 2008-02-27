@@ -23,6 +23,16 @@ namespace :rails do
     fetch_or_default(:db_host, nil)
     fetch_or_default(:db_socket, nil)
     
+    unless db_host.blank?
+      set :db_connect_type, "host"
+      set :db_connect, db_host
+    end
+    
+    unless db_socket.blank?
+      set :db_connect_type, "socket"
+      set :db_connect, db_socket
+    end
+    
     run "mkdir -p #{shared_path}/config"
     put template.load("rails/database.yml.erb"), "#{shared_path}/config/database.yml"
   end

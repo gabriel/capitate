@@ -11,7 +11,7 @@ namespace :mysql do
     task :install do    
       
       # Settings
-      fetch_or_default(:mysql_admin_password_set, prompt.password('Mysql admin password (to set): ', true))
+      fetch_or_default(:mysql_admin_password_set, prompt.password('Mysql admin password (to set): ', :verify => true))
 
       # Install through package manager
       yum.install([ "mysql", "mysql-devel", "mysql-server" ])

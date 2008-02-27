@@ -1,3 +1,10 @@
+== 0.2.4 2008-02-26
+
+* Change prompt.password to take options
+* Adding password retry and check_hash
+* Fixing :shell option for build scripting
+* Add readline-devel to ruby centos install dependency
+
 == 0.2.3 2008-02-25
 
 * Various task and recipe fixes.

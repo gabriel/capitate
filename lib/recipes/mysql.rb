@@ -1,24 +1,28 @@
 # Mysql recipes
 namespace :mysql do
   
-  desc <<-DESC
-  Install mysql monit hooks.
+  namespace :monit do
   
-  *db_port*: Mysql port. _Defaults to 3306_\n
-  *mysql_pid_path*: Path to mysql pid file. _Defaults to /var/run/mysqld/mysqld.pid_\n
-  @set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"@\n
-  *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
-  @set :monit_conf_dir, "/etc/monit"@\n
-  DESC
-  task :install_monit do
+    desc <<-DESC
+    Install mysql monit hooks.
+  
+    *db_port*: Mysql port. _Defaults to 3306_\n
+    *mysql_pid_path*: Path to mysql pid file. _Defaults to /var/run/mysqld/mysqld.pid_\n
+    @set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"@\n
+    *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
+    @set :monit_conf_dir, "/etc/monit"@\n
+    DESC
+    task :install do
     
-    # Settings 
-    fetch_or_default(:mysql_pid_path, "/var/run/mysqld/mysqld.pid")
-    fetch_or_default(:db_port, 3306)   
-    fetch_or_default(:monit_conf_dir, "/etc/monit") 
+      # Settings 
+      fetch_or_default(:mysql_pid_path, "/var/run/mysqld/mysqld.pid")
+      fetch_or_default(:db_port, 3306)   
+      fetch_or_default(:monit_conf_dir, "/etc/monit") 
     
-    put template.load("mysql/mysql.monitrc.erb", binding), "/tmp/mysql.monitrc"    
-    run_via "install -o root /tmp/mysql.monitrc #{monit_conf_dir}/mysql.monitrc"
+      put template.load("mysql/mysql.monitrc.erb", binding), "/tmp/mysql.monitrc"    
+      run_via "install -o root /tmp/mysql.monitrc #{monit_conf_dir}/mysql.monitrc"
+    end
+    
   end
   
   desc <<-DESC

@@ -1,3 +1,10 @@
+== 0.2.5 2008-02-28
+
+* Adding application configuration for mongrel cluster monit setup.
+* Renaming recipes, using consistent names for namespaces.
+* Capistrano patch: if missing role, ignore the task instead of throwing error.
+* Capistranp patch: Showing debug statement on SSH connect.
+
 == 0.2.4 2008-02-26
 
 * Change prompt.password to take options

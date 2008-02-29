@@ -12,11 +12,11 @@
 #              
 
 set -e
-trap ERROR ERR
 
 CONF_DIR=<%= mongrel_config_dir %>
 PID_DIR=<%= mongrel_pid_dir %>
 USER=<%= user %>
+CMD=<%= mongrel_cluster_command %>
 
 RETVAL=0
 
@@ -26,7 +26,7 @@ fail() {
 }
 
 # Gracefully exit if the controller is missing.
-which mongrel_cluster_ctl >/dev/null || fail "mongrel_cluster_ctl not found"
+which $CMD >/dev/null || fail "$CMD not found"
 
 # Go no further if config directory is missing.
 [ -d "$CONF_DIR" ] || fail "$CONF_DIR not found"
@@ -37,19 +37,19 @@ case "$1" in
       mkdir -p $PID_DIR
       chown $USER:$USER $PID_DIR
 
-      mongrel_cluster_ctl start -c $CONF_DIR --clean
+      $CMD start -c $CONF_DIR --clean
       RETVAL=$?
   ;;
     stop)
-      mongrel_cluster_ctl stop -c $CONF_DIR
+      $CMD stop -c $CONF_DIR
       RETVAL=$?
   ;;
     restart)
-      mongrel_cluster_ctl restart -c $CONF_DIR
+      $CMD restart -c $CONF_DIR
       RETVAL=$?
   ;;
     status)
-      mongrel_cluster_ctl status -c $CONF_DIR
+      $CMD status -c $CONF_DIR
       RETVAL=$?
   ;;
     *)

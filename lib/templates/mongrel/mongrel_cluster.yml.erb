@@ -8,4 +8,4 @@ pid_file: <%= mongrel_pid_dir %>/mongrel.pid
 servers: <%= mongrel_size %>
 user: <%= user %>
 group: <%= user %>
-config_script: <%= mongrel_config_script unless mongrel_config_script.blank? %>
+<% mongrel_config_options.each do |k, v| %><%= "#{k}: #{v}\n" %><% end %>

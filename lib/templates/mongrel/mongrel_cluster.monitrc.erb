@@ -1,7 +1,7 @@
 <% processes.each do |process| %>
   
-check process mongrel_cluster_<%= application %>_<%= process[:port] %> with pidfile <%= process[:pid_path] %>
-   group mongrel_cluster_<%= application %>
+check process <%= mongrel_application %>_<%= process[:port] %> with pidfile <%= process[:pid_path] %>
+   group <%= mongrel_application %>
    start program = "<%= process[:name] %> start <%= process[:start_options] %>"
    stop program = "<%= process[:name] %> stop <%= process[:stop_options] %>"
    if failed host 127.0.0.1 port <%= process[:port] %> protocol http

@@ -26,18 +26,26 @@ namespace :centos do
     adduser_options << "-d #{home}" unless home.blank?
     adduser_options << "-G #{groups}" unless groups.blank?
   
-    run "id #{user_add} || /usr/sbin/adduser #{adduser_options.join(" ")} #{user_add}"
-          
-    run "chmod a+rx #{home}" if home_readable
-  
-    new_password = prompt.password("Password to set for #{user_add}: ", :verify => true, :lazy => false)
-  
-    run "passwd #{user_add}" do |channel, stream, data|
+    user_existed = false
+    run "id #{user_add} || /usr/sbin/adduser #{adduser_options.join(" ")} #{user_add}" do |channel, stream, data|
       logger.info data
+      user_existed = data =~ /uid/
+    end
+    
+    logger.info "User already existed, aborting..." if user_existed
+    
+    unless user_existed
+      run "chmod a+rx #{home}" if home_readable
   
-      if data =~ /password:/i
-        channel.send_data "#{new_password}\n"
-        channel.send_data "#{new_password}\n"
+      new_password = prompt.password("Password to set for #{user_add}: ", :verify => true, :lazy => false)
+  
+      run "passwd #{user_add}" do |channel, stream, data|
+        logger.info data
+  
+        if data =~ /password:/i
+          channel.send_data "#{new_password}\n"
+          channel.send_data "#{new_password}\n"
+        end
       end
     end
         

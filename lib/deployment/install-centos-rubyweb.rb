@@ -53,8 +53,8 @@ task :install do
   #
   # Install monit hooks
   #
-  nginx.install_monit
-  mysql.install_monit
+  nginx.monit.install
+  mysql.monit.install
   
   # Gem installs
   gems.install([ "rake", "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config", 

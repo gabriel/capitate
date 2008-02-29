@@ -1,30 +1,28 @@
 namespace :memcached do
   
-  desc <<-DESC
-  Generate and install memcached monitrc.
+  namespace :monit do
   
-  *memcached_pid_path*: Path to memcached pid file. _Defaults to /var/run/memcached.pid_
-  
-  @set :memcached_pid_path, "/var/run/memcached.pid"@
-  
-  *memcached_port*: Memcached port. _Defaults to 11211_   
-  
-  @set :memcached_port, 11211@
-     
-  *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_
-  
-  @set :monit_conf_dir, "/etc/monit"@
-     
-  DESC
-  task :install_monit do
+    desc <<-DESC
+    Generate and install memcached monitrc.
     
-    # Settings
-    fetch_or_default(:memcached_pid_path, "/var/run/memcached.pid")
-    fetch_or_default(:memcached_port, 11211)    
-    fetch_or_default(:monit_conf_dir, "/etc/monit")
+    *memcached_pid_path*: Path to memcached pid file. _Defaults to /var/run/memcached.pid_\n  
+    @set :memcached_pid_path, "/var/run/memcached.pid"@\n  
+    *memcached_port*: Memcached port. _Defaults to 11211_\n  
+    @set :memcached_port, 11211@\n     
+    *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n  
+    @set :monit_conf_dir, "/etc/monit"@\n     
+    DESC
+    task :install do
     
-    put template.load("memcached/memcached.monitrc.erb"), "/tmp/memcached.monitrc"    
-    run_via "install -o root /tmp/memcached.monitrc #{monit_conf_dir}/memcached.monitrc"
+      # Settings
+      fetch_or_default(:memcached_pid_path, "/var/run/memcached.pid")
+      fetch_or_default(:memcached_port, 11211)    
+      fetch_or_default(:monit_conf_dir, "/etc/monit")
+    
+      put template.load("memcached/memcached.monitrc.erb"), "/tmp/memcached.monitrc"    
+      run_via "install -o root /tmp/memcached.monitrc #{monit_conf_dir}/memcached.monitrc"
+    end
+    
   end
   
 end

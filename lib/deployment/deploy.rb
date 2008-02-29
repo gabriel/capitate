@@ -28,15 +28,12 @@ role :db, "192.168.1.111", :primary => true
 # Callbacks 
 before "deploy:setup", "centos:add_user"
 
-after "deploy:setup", "mysql:setup", "rails:setup", "mongrel_cluster:centos:setup",
-  "nginx:setup_mongrel", "sphinx:centos:setup"
+after "deploy:setup", "mysql:setup", "rails:setup", "mongrel:cluster:centos:setup",
+  "nginx:mongrel:setup", "sphinx:centos:setup", "sphinx:setup_monit", "mongrel:cluster:monit:setup"
   
-after "sphinx:centos:setup", "sphinx:setup_monit"
-after "mongrel_cluster:centos:setup", "mongrel_cluster:setup_monit"
+after "nginx:mongrel:setup", "nginx:centos:restart"
 
-after "nginx:setup_mongrels", "nginx:centos:restart"
-
-after "deploy:update_code", "rails:update_code", "sphinx:update_code"
+after "deploy:update_code", "rails:update_code", "sphinx:update_conf"
 
 # Auto cleanup after deploy
 after "deploy", "deploy:cleanup"

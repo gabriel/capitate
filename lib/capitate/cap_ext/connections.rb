@@ -76,21 +76,23 @@ module Capistrano::Configuration::Connections
   def reset_password
     set :password, Proc.new {
       Capistrano::CLI.password_prompt("Password (for user: #{user}): ")
-    }
+    }  
   end
     
 end
 
 # Debug connections
-# class Capistrano::SSH
-#   
-#   class << self  
-#   
-#     def connect_with_logging(server, options={}, &block)
-#       connect_without_logging(server, options, &block)
-#     end
-#   
-#     alias_method_chain :connect, :logging
-#   
-#   end
-# end
+class Capistrano::SSH
+  
+  class << self  
+  
+    def connect_with_logging(server, options={}, &block)      
+      puts "=== Connecting to #{server} with user: #{options[:user]}"
+      
+      connect_without_logging(server, options, &block)
+    end
+  
+    alias_method_chain :connect, :logging
+  
+  end
+end

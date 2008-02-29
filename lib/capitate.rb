@@ -21,14 +21,17 @@ require 'capitate/plugins/templates'
 require 'capitate/plugins/upload'
 require 'capitate/plugins/yum'
 
+# Extensions + Patches
 require "capitate/cap_ext/connections"
 require "capitate/cap_ext/extension_proxy"
 require "capitate/cap_ext/variables"
 require "capitate/cap_ext/run_via"
+require "capitate/cap_ext/roles"
         
 class Capistrano::Configuration   
   include Capitate::CapExt::Variables
   include Capitate::CapExt::RunVia
+  include Capitate::CapExt::Roles
 end
 
 require 'capitate/task_node'

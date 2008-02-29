@@ -47,20 +47,6 @@ namespace :monit do
       script.sh("monit/cert.sh")
     end
     
-    desc <<-DESC
-    Monit HUP.
-    
-    *monit_pid_path*: Path to monit pid.\n
-    @set :monit_pid_path, "/var/run/monit.pid"@\n
-    DESC
-    task :restart do
-      
-      # Settings
-      fetch_or_default(:monit_pid_path, "/var/run/monit.pid")
-      
-      sudo "kill -HUP `cat #{monit_pid_path}`"
-    end
-
   end
   
 end

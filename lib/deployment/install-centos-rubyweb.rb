@@ -55,6 +55,7 @@ task :install do
   #
   nginx.monit.install
   mysql.monit.install
+  memcached.monit.install
   
   # Gem installs
   gems.install([ "rake", "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config", 

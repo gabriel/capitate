@@ -25,7 +25,7 @@ namespace :nginx do
     
   namespace :mongrel do
     desc <<-DESC
-    Create and update the nginx vhost include.
+    Generate the nginx vhost include (for a mongrel setup).
   
     *mongrel_application*: Mongrel application. _Defaults to <tt>:application</tt>_
     *mongrel_size*: Number of mongrels.\n

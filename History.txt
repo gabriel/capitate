@@ -1,3 +1,10 @@
+== 0.2.6 2008-02-29
+
+* Fix SSH connect debug when connecting to more than 1 server.
+* Added monit restart (hup) recipe.
+* Mysql setup task, showing sql. Setting to :db role only.
+* Capistrano patch: execute_on_servers_without_capitate(options, &block) to rescue Capistrano::NoMatchingServersError, and ignore as non-fatal
+
 == 0.2.5 2008-02-28
 
 * Adding application configuration for mongrel cluster monit setup.

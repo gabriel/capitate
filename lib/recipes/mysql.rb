@@ -38,7 +38,7 @@ namespace :mysql do
   *mysql_admin_password*: Mysql admin password (to use to connect). Defaults to password prompt.\n
   @set :mysql_admin_password, prompt.password('Mysql admin password: '))@    
   DESC
-  task :setup do    
+  task :setup, :roles => :db do    
     
     # Settings
     fetch(:db_name)
@@ -56,10 +56,14 @@ namespace :mysql do
           mysql_grant_locations << role.host
         end unless roles[role_name].blank?
       end
-      set :mysql_grant_locations, mysql_grant_locations
-    end        
+      set :mysql_grant_locations, mysql_grant_locations.uniq!
+    end 
+    
+    sql = template.load("mysql/install_db.sql.erb")       
+    
+    logger.trace "Running sql:\n#{sql}"
         
-    put template.load("mysql/install_db.sql.erb"), "/tmp/install_db_#{application}.sql"    
+    put sql, "/tmp/install_db_#{application}.sql"    
     run "mysql -u root -p#{mysql_admin_password} < /tmp/install_db_#{application}.sql"
   end
   

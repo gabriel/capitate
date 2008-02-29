@@ -32,7 +32,10 @@ class Capistrano::Configuration
   include Capitate::CapExt::Variables
   include Capitate::CapExt::RunVia
   include Capitate::CapExt::Roles
+  include Capitate::CapExt::Connections
 end
+
+#module Capistrano::Configuration::Connections; end
 
 require 'capitate/task_node'
 

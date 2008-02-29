@@ -38,6 +38,9 @@ namespace :mongrel do
         end
       
         run "mkdir -p #{mongrel_config_dir}"
+        
+        set :mongrel_pid_path, "#{mongrel_pid_dir}/#{mongrel_application}.pid"
+        set :mongrel_log_path, "log/#{mongrel_application}.log"
 
         put template.load("mongrel/mongrel_cluster.initd.erb"), "/tmp/#{mongrel_initscript_name}.initd"    
         put template.load("mongrel/mongrel_cluster.yml.erb"), "#{mongrel_config_dir}/mongrel_cluster.yml"

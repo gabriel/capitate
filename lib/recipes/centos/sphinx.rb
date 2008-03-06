@@ -32,6 +32,7 @@ namespace :sphinx do
     *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_\n
     *sphinx_pid_path*: Directory to sphinx pid. _Defaults to "[shared_path]/pids/searchd.pid"_\n
     *sphinx_conf_path*: Path to sphinx.conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n
+    *sphinx_index_path*: Path to sphinx indexes. _Defaults to "[shared_path]/var/index"_\n
     DESC
     task :setup do       
       
@@ -39,6 +40,7 @@ namespace :sphinx do
       fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
       fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
       fetch_or_default(:sphinx_conf_path, "#{shared_path}/config/sphinx.conf")      
+      fetch_or_default(:sphinx_index_root, "#{shared_path}/var/index")      
 
       # Install initscript
       put template.load("sphinx/sphinx_app.initd.centos.erb"), "/tmp/sphinx.initd"

@@ -17,6 +17,7 @@ NAME=searchd
 DAEMON=<%= sphinx_prefix %>/bin/searchd
 CONFIGFILE=<%= sphinx_conf_path %>
 PIDFILE=<%= sphinx_pid_path %>
+INDEX_DIR=<%= sphinx_index_root %>
 
 start() {
   daemon --user <%= user %> $DAEMON --config $CONFIGFILE
@@ -31,6 +32,18 @@ stop() {
 
 reload() {
   kill -HUP `cat $PIDFILE` || echo -n " can't reload"
+}
+
+clean() {
+  pid=`cat $PIDFILE`
+  
+  if checkpid $pid; then
+    echo -n " can't clean; running"
+  else
+    rm -f $INDEX_DIR/*.spl
+    return $?
+  fi
+  return 1 
 }
 
 case "$1" in
@@ -58,6 +71,11 @@ case "$1" in
   	start
   	RETVAL=$?;
 	;;
+	clean)
+    echo -n "Cleaning $DESC"
+    clean
+    RETVAL=$?;
+    ;;
   *)
 	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
 	  RETVAL=3;

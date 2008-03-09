@@ -12,7 +12,7 @@ module Capitate::Plugins::Prompt
   # +label+:: Label
   # +options+:: Options
   # - +verify+:: If true, prompt twice and verify
-  # - +lazy+:: If true, returns a block. _Defaults to true_
+  # - +lazy+:: If true, returns a Proc. _Defaults to true_
   # - +check_hash+:: If present, checks that md5 is same as password md5
   #
   def password(label, options = {})

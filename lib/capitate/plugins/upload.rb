@@ -8,6 +8,9 @@ module Capitate::Plugins::Upload
   # +dest_path:: Remote destination path
   # +options+:: Options (see capistrano 'put')
   #
+  # ==== Examples
+  #   upload.file("/tmp/large_file.tgz", "#{shared_path}/tmp/large_file.tgz")
+  #
   def file(src_path, dest_path, options = {})
     data = FileData.new(src_path)
     put(data, dest_path, options)    

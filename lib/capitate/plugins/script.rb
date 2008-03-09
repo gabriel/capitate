@@ -132,7 +132,6 @@ module Capitate::Plugins::Script
   end
   
   # Run all commands (separated by newlines).
-  # Runs with <tt>sh -c</tt>, so sudo can work with any command
   #
   # ==== Options
   # +cmds+:: Commands (separated by newlines)

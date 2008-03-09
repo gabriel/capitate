@@ -6,8 +6,8 @@ module Capitate::Plugins::Gem
   # +gems+:: List of gem names, or a single gem
   #
   # ==== Examples (in capistrano task)
-  #   gemc.install("raspell") 
-  #   gemc.install([ "raspell", "foo" ])
+  #   gems.install("raspell") 
+  #   gems.install([ "raspell", "foo" ])
   #
   def install(gems)
     # If a single object, wrap in array

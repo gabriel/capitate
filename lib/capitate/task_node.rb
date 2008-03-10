@@ -1,5 +1,4 @@
 # Task node in the capistrano namespace, task hierarchy.
-#
 class Capitate::TaskNode
   
   include Capitate::Plugins::Base

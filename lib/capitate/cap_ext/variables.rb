@@ -12,8 +12,6 @@ module Capitate
       #
       # See capistrano fetch for usage info.
       #
-      # Recipe docs are in lib/doc/the_namespace.yml
-      #
       def fetch_with_capitate(variable, *args)
         begin
           fetch_without_capitate(variable, *args)

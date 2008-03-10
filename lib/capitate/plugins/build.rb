@@ -24,7 +24,7 @@ module Capitate::Plugins::Build
       
       # Whether to capture build output
       unless options.has_key?(:to_log)
-        to_log = ">> debug.log"
+        to_log = ">> debug.log 2>&1"
       else
         to_log = ""
         to_log = ">> #{options[:to_log]}" unless options[:to_log].blank?

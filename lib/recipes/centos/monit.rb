@@ -29,7 +29,7 @@ namespace :monit do
       yum.install([ "flex", "byacc" ])
         
       # Build
-      script.make_install("monit", monit_build_options)
+      build.make_install("monit", monit_build_options)
 
       # Install initscript
       put template.load("monit/monit.initd.centos.erb"), "/tmp/monit.initd"

@@ -36,7 +36,7 @@ namespace :nginx do
       yum.install([ "pcre-devel", "openssl", "openssl-devel" ]) 
             
       # Build
-      script.make_install("nginx", nginx_build_options)
+      build.make_install("nginx", nginx_build_options)
 
       # Install initscript, and turn it on
       put template.load("nginx/nginx.initd.erb"), "/tmp/nginx.initd"

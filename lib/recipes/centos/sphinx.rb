@@ -24,7 +24,7 @@ namespace :sphinx do
       yum.install([ "gcc-c++" ])
       
       # Build
-      script.make_install("sphinx", sphinx_build_options)
+      build.make_install("sphinx", sphinx_build_options)
     end
         
     desc <<-DESC

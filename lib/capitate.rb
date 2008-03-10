@@ -15,6 +15,8 @@ end
 
 require 'capitate/plugins/base'
 require 'capitate/plugins/gem'
+require 'capitate/plugins/build'
+require 'capitate/plugins/utils'
 require 'capitate/plugins/script'
 require 'capitate/plugins/prompt'
 require 'capitate/plugins/templates'

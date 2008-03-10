@@ -1,6 +1,8 @@
 == 0.2.7 ?
 
 * Add clean method to sphinx init script
+* Moved install and make_install into build plugin
+* Added symlink option to make_install
 
 == 0.2.6 2008-02-29
 
@@ -55,7 +57,7 @@
 
 * Renamed to 'capitate'
 * Moving centos specific recipes into separate namespace
-* Plugin: script.make_install
+* Plugin: build.make_install
 * Documentation and explicitly fetching vars (for install tasks), showing useful error messages
 
 == 0.1.4 2008-02-07

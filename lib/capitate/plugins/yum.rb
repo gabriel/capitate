@@ -1,4 +1,3 @@
-# Packages must respond to update, remove, install and clean
 module Capitate::Plugins::Yum
   
   # Update all installed packages.

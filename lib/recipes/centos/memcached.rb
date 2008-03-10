@@ -28,7 +28,7 @@ namespace :memcached do
       fetch(:memcached_build_options)
 
       # Build
-      script.make_install("memcached", memcached_build_options)
+      build.make_install("memcached", memcached_build_options)
 
       # Install initscript, service
       put template.load("memcached/memcached.initd.centos.erb"), "/tmp/memcached.initd"

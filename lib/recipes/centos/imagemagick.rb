@@ -20,7 +20,7 @@ namespace :imagemagick do
       yum.install([ "libjpeg-devel", "libpng-devel", "glib2-devel", "fontconfig-devel", "zlib-devel", 
         "libwmf-devel", "freetype-devel", "libtiff-devel" ])
         
-      script.make_install("imagemagick", imagemagick_build_options)
+      build.make_install("imagemagick", imagemagick_build_options)
     end
   
   end

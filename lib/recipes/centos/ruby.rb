@@ -26,10 +26,10 @@ namespace :ruby do
       yum.install([ "zlib", "zlib-devel", "readline-devel" ])
     
       # Install ruby 1.8.6
-      script.make_install("ruby", ruby_build_options)
+      build.make_install("ruby", ruby_build_options)
     
       # Install rubygems
-      script.install("rubygems", rubygems_build_options) do |dir|
+      build.install("rubygems", rubygems_build_options) do |dir|
         run_via "cd #{dir} && ruby setup.rb > install.log", { :shell => true }
       end
     

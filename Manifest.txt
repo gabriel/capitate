@@ -45,11 +45,13 @@ lib/capitate/cap_ext/roles.rb
 lib/capitate/cap_ext/run_via.rb
 lib/capitate/cap_ext/variables.rb
 lib/capitate/plugins/base.rb
+lib/capitate/plugins/build.rb
 lib/capitate/plugins/gem.rb
 lib/capitate/plugins/prompt.rb
 lib/capitate/plugins/script.rb
 lib/capitate/plugins/templates.rb
 lib/capitate/plugins/upload.rb
+lib/capitate/plugins/utils.rb
 lib/capitate/plugins/yum.rb
 lib/capitate/recipes.rb
 lib/capitate/task_node.rb

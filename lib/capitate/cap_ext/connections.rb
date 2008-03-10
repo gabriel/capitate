@@ -113,7 +113,7 @@ class Capistrano::SSH
       @connect_mutex ||= Mutex.new
       
       @connect_mutex.synchronize do
-        puts "=== Connecting to #{server} with user: #{server.user || options[:user]}"      
+        puts "--- Connecting to #{server} with user: #{server.user || options[:user]}"      
       end
 
       connect_without_logging(server, options, &block)      

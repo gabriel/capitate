@@ -63,13 +63,15 @@ module Capitate::Plugins::Base
       EOS
     end
     
-    message += <<-EOS
+    if current_task
+      message += <<-EOS
     
     Usage: 
     
 #{indent_doc(current_task.desc)}
     
-    EOS
+      EOS
+    end
   end
   
   # Indent string block.

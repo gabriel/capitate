@@ -3,6 +3,7 @@
 * Add clean method to sphinx init script
 * Moved install and make_install into build plugin
 * Added symlink option to make_install
+* Added fetch_role and fetch_roles methods
 
 == 0.2.6 2008-02-29
 

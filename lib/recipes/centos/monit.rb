@@ -47,6 +47,19 @@ namespace :monit do
       script.sh("monit/cert.sh")
     end
     
+    desc <<-DESC
+    Install monit firewall rule.
+    
+    *monit_port*: Monit port. _Defaults to 2812_\n    
+    @set :monit_port, 2812@\n
+    DESC
+    task :iptables do
+      # Settings
+      fetch_or_default(:monit_port, 2812)      
+      run_via "iptables -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport #{monit_port} -j ACCEPT"
+      run_via "/sbin/service iptables save"
+    end
+    
   end
   
 end

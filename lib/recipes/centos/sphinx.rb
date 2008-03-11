@@ -50,7 +50,21 @@ namespace :sphinx do
       run_via "/sbin/chkconfig --level 345 sphinx_#{application} on"    
 
       # Create app indexes dir
-      run_via "mkdir -p #{shared_path}/var/index"    
+      run "mkdir -p #{shared_path}/var/index"    
+    end
+    
+    
+    desc <<-DESC
+    Install sphinx firewall rule.
+    
+    *sphinx_port*: Sphinx port. _Defaults to 3312_\n    
+    @set :sphinx_port, 3312@\n
+    DESC
+    task :iptables do
+      # Settings
+      fetch_or_default(:sphinx_port, 3312)      
+      run_via "iptables -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport #{sphinx_port} -j ACCEPT"
+      run_via "/sbin/service iptables save"
     end
   end
   

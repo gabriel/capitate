@@ -36,8 +36,8 @@ namespace :sphinx do
   *sphinx_db_name*: Sphinx DB name. _Defaults to db_name_\n
   *sphinx_db_port*: Sphinx DB port. _Defaults to db_port_\n
   
-  *sphinx_db_host*: Sphinx DB host. _Defaults to location for primary :db role_\n
-  *sphinx_host*: Sphinx DB host. _Defaults to location for :search role_\n
+  *sphinx_db_host*: Sphinx DB host. _Defaults to db_host_\n
+  *sphinx_conf_host*: Sphinx DB host to listen on. _Defaults to 127.0.0.1_\n
   
   DESC
   task :update_conf do
@@ -54,12 +54,9 @@ namespace :sphinx do
     fetch_or_default(:sphinx_db_pass, db_pass)
     fetch_or_default(:sphinx_db_name, db_name)
     fetch_or_default(:sphinx_db_port, db_port)
-    
-    set :sphinx_db_host, roles[:db].first.host unless roles[:db].empty? || exists?(:sphinx_db_host)    
-    set :sphinx_host, roles[:search].first.host unless roles[:search].empty? || exists?(:sphinx_host)
-    raise "No :db roles, and no :sphinx_db_host setting specified" unless exists?(:sphinx_db_host)
-    raise "No :search roles, and no :sphinx_host setting specified" unless exists?(:sphinx_host)
-    
+    fetch_or_default(:sphinx_db_host, db_host)
+    fetch_or_default(:sphinx_conf_host, "127.0.0.1")
+        
     put template.load(sphinx_conf_template), sphinx_conf_path
   end
   

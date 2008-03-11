@@ -25,7 +25,6 @@ require 'capitate/plugins/yum'
 
 # Extensions + Patches
 require "capitate/cap_ext/connections"
-require "capitate/cap_ext/extension_proxy"
 require "capitate/cap_ext/variables"
 require "capitate/cap_ext/run_via"
 require "capitate/cap_ext/roles"

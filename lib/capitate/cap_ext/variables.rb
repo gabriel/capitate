@@ -49,6 +49,58 @@ module Capitate
         end
         default
       end
+      
+      # Fetch roles with name and options
+      #
+      # ==== Options
+      # +name+:: Role name to look for
+      # +options+:: Options to match on, e.g. :primary => true
+      #
+      # ==== Examples
+      #   fetch_roles(:db) => [ "10.0.6.71", "10.0.6.72" ]
+      #   fetch_roles(:db, :primary => true) => [ "10.0.6.71" ]
+      #
+      def fetch_roles(name, options = {})
+        matched_roles = Set.new
+        
+        roles.each do |role_info|
+          role_name = role_info.first 
+          
+          next unless role_name == name
+            
+          role = role_info.last
+          role.each do |server|
+            
+            abort = false
+            options.each do |k, v|
+              unless server.options[k] == v
+                abort = true
+                break 
+              end
+            end
+            next if abort
+            
+            matched_roles << server
+          end
+        end
+        matched_roles.to_a
+      end
+      
+      # Fetch first role with name and options
+      #
+      # ==== Options
+      # +name+:: Role name to look for
+      # +options+:: Options to match on, e.g. :primary => true
+      #
+      # ==== Examples
+      #   fetch_roles(:db) => [ "10.0.6.71", "10.0.6.72" ]
+      #   fetch_roles(:db, :primary => true) => [ "10.0.6.71" ]
+      #
+      def fetch_role(name, options = {})
+        matched = fetch_roles(name, options)
+        return matched.first if matched
+        nil
+      end
     
     end
   end

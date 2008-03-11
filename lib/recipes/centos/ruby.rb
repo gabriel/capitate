@@ -30,7 +30,7 @@ namespace :ruby do
     
       # Install rubygems
       build.install("rubygems", rubygems_build_options) do |dir|
-        run_via "cd #{dir} && ruby setup.rb > install.log", { :shell => true }
+        run_via "cd #{dir} && ruby setup.rb"
       end
     
     end        

@@ -185,5 +185,5 @@ set :imagemagick_build_options, {
 }
 
 # For sshd:monit:install
-set :sshd_pid_path, "/var/run/mysqld/mysqld.pid"
+set :sshd_pid_path, "/var/run/sshd.pid"
 set :sshd_port, 2023

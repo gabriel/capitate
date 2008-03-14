@@ -39,12 +39,12 @@ namespace :monit do
       put template.load("monit/monitrc.erb"), "/tmp/monitrc"
       run_via "mkdir -p #{monit_conf_dir} && install -o root -m 700 /tmp/monitrc /etc/monitrc && rm -f /tmp/monitrc"
 
-      # Patch initab
-      script.sh("monit/patch_inittab.sh")
-
       # Build cert
       put template.load("monit/monit.cnf"), "/tmp/monit.cnf"
       script.sh("monit/cert.sh")
+      
+      # Patch initab
+      script.sh("monit/patch_inittab.sh")      
     end
     
     desc <<-DESC

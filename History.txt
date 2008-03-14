@@ -1,4 +1,4 @@
-== 0.2.8 
+== 0.2.8 2008-03-13
 
 * Recipe, mysql:centos:install, doing restart incase already run
 * Added sshd monit recipe. In case using non-standard sshd port

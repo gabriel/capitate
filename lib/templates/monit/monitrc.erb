@@ -12,16 +12,6 @@ set httpd port <%= monit_port %>
   pemfile /var/certs/monit.pem
   allow admin:<%= monit_password %>
 
-# Core processes
-# ---------------------------
-
-check process sshd with pidfile /var/run/sshd.pid
-  start program  "/sbin/service sshd start"
-  stop program  "/sbin/service sshd stop"
-  if failed port 22 protocol ssh then restart
-  if 5 restarts within 5 cycles then timeout
-  
-  
 # Includes
 # ---------------------------
 

@@ -42,15 +42,38 @@ module Capitate
       #   # Any calls to fetch(memcached_port) in the future will return this value 11211 (unless overriden)
       #
       def fetch_or_default(variable, default, *args)
-        begin
-          return fetch(variable, *args)
-        rescue IndexError
+        if exists?(variable)
+          fetch(variable, *args)
+        else
           set variable, default
+          default
+        end        
+      end
+      
+      # Fetch or set and fetch any default variable listed.
+      #
+      # ==== Options
+      # +variable+:: Variable to fetch
+      # +variables+:: List if variables to try in order
+      #
+      # ==== Examples
+      #   fetch_or_set(:sphinx_db_host, :db_host)
+      #
+      def fetch_or_set(variable, *default_variables)
+        return fetch(variable) if exists?(variable)
+        
+        default_variables.each do |default_variable|
+          if exists?(default_variable)
+            value = fetch(default_variable) 
+            set variable, value
+            return value
+          end
         end
-        default
+        nil        
       end
       
       # Fetch roles with name and options
+      # I don't actually use this.
       #
       # ==== Options
       # +name+:: Role name to look for
@@ -86,7 +109,7 @@ module Capitate
         matched_roles.to_a
       end
       
-      # Fetch first role with name and options
+      # Fetch first role with name and options.
       #
       # ==== Options
       # +name+:: Role name to look for

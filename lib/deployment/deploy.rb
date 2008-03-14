@@ -1,6 +1,4 @@
-#
-# Settings for project
-#
+# Example deploy.rb
 
 set :application, "sick"
 set :user, "sick"

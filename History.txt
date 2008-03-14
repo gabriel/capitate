@@ -6,7 +6,7 @@
 * Move monit inittab install at the end
 * Added fetch_any(:var1, :var2)
 
-== 0.2.7 ?
+== 0.2.7 2008-03-10
 
 * Add clean method to sphinx init script
 * Moved install and make_install into build plugin

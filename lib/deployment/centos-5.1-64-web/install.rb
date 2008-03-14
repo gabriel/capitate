@@ -1,24 +1,34 @@
-#
-# For installing apps on the thoughpolice centos 5.1 image
-#
+# Centos 5.1 base install
 
-task :check_role do
-  # Can use cap HOSTS=192.168.1.111 install
-  # Otherwise prompt for the service
-  role :install, prompt.ask("Server: ") if find_servers_for_task(current_task).blank?  
-end
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
+require 'erb'
+
+# Load capitate
+require 'capitate'
+require 'capitate/recipes'
+
+# Load more recipes
+Dir[File.dirname(__FILE__) + "/recipes/*.rb"].each { |recipe| load recipe }
+
+# Add a templates dir
+set :templates_dirs, [ File.dirname(__FILE__) + "/templates" ]
+
+# Install task
 namespace :install do
 
   task :default do
   
-    # Add a templates dir
-    # set :templates_dirs, [ File.dirname(__FILE__) + "/../templates" ]
-  
-    set :user, "root"
-    set :run_method, :run
-  
+    as_root  
     check_role
+      
+    # NTP Setup    
+    yum.install([ "ntp" ])
+    script.run_all <<-CMDS
+      chkconfig --levels 235 ntpd on
+      ntpdate 0.pool.ntp.org
+      /sbin/service ntpd start
+    CMDS
   
     # Setup for web  
     # * Add admin group
@@ -26,41 +36,49 @@ namespace :install do
     # * Create web apps directory
     # * Add admin group to suders ALL=(ALL)   ALL
     script.run_all <<-CMDS  
-      egrep "^admin" /etc/group || /usr/sbin/groupadd admin 
-      sed -i -e 's/^id:5:initdefault:/id:3:initdefault:/g' /etc/inittab
+      egrep "^admin" /etc/group || /usr/sbin/groupadd admin
       mkdir -p /var/www/apps
       egrep "^%admin" /etc/sudoers || echo "%admin  ALL=(ALL)   ALL" >> /etc/sudoers
     CMDS
     
     # Package installs
-    yum.remove [ "openoffice.org-*", "ImageMagick" ]
-    #yum.update
+    yum.update
     yum.install [ "gcc", "kernel-devel", "libevent-devel", "libxml2-devel", "openssl", "openssl-devel",
        "aspell", "aspell-devel", "aspell-en", "aspell-es" ]
-  
+    
+    yum.clean
+      
     #
     # App installs
     #
-  
-    ruby.centos.install  
-  
+      
+    ruby.centos.install        
     nginx.centos.install
     mysql.centos.install
     sphinx.centos.install
+    
     monit.centos.install
+    # Install firewall rule manually
+    #monit.centos.iptables 
+    
+    sshd.monit.install
+    
     imagemagick.centos.install
     memcached.centos.install
-  
+      
     #
     # Install monit hooks
     #
     nginx.monit.install
     mysql.monit.install
     memcached.monit.install
-  
+      
     # Install gems
     gems.install(fetch(:gems_to_install))
     
+    # Install renderer
+    renderer.install
+  
     # Cleanup
     yum.clean
   end
@@ -77,11 +95,17 @@ end
 desc "Be root"
 task :as_root do
   set :user, "root"
+  set :run_method, :run
 end
 
-#
-# Fixes
-#
+# Prompt for server if host not given
+task :check_role do
+  # Can use cap HOSTS=192.168.1.111 install
+  # Otherwise prompt for the service
+  role :install, prompt.ask("Server: ") if find_servers_for_task(current_task).blank?  
+end
+
+# For for ruby install
 after "ruby:centos:install" do
   # Fix ruby install openssl
   script.sh("ruby/fix_openssl.sh")
@@ -93,7 +117,7 @@ end
 #
 
 set :gems_to_install, [ "rake", "mysql -- --with-mysql-include=/usr/include/mysql --with-mysql-lib=/usr/lib/mysql --with-mysql-config", 
-  "raspell", "rmagick", "mongrel", "mongrel_cluster", "json", "mime-types" ]
+  "raspell", "rmagick", "mongrel", "mongrel_cluster", "json", "mime-types", "hpricot" ]
 
 
 # Ruby install
@@ -141,21 +165,25 @@ set :nginx_build_options, {
 # Sphinx install 
 set :sphinx_prefix, "/usr/local/sphinx-0.9.8-rc1"
 set :sphinx_build_options, {
-  :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.8-rc1.tar.gz",
-  #:url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz",
-  :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql \
---prefix=#{sphinx_prefix}",
+  :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.8-rc1.tar.gz",  
+  :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib64/mysql --prefix=#{sphinx_prefix}",
   :symlink => { sphinx_prefix => "/usr/local/sphinx" }
 }
-
+# Other possible sphinx_build_options
+# :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz",
+# :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql --prefix=#{sphinx_prefix}",
 
 
 # For mysql:install
 set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"
-set :db_port, 3306
+set :mysql_port, 3306
 
 # Imagemagick install
 set :imagemagick_build_options, {
   :url => "http://capitate.s3.amazonaws.com/ImageMagick.tar.gz",
   :unpack_dir => "ImageMagick-*"
 }
+
+# For sshd:monit:install
+set :sshd_pid_path, "/var/run/mysqld/mysqld.pid"
+set :sshd_port, 2023

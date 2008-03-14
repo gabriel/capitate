@@ -24,17 +24,18 @@ h2. The basics
 Capitate has:
 
 * Plugins to help install applications, via yum or manually unpacking, and building. Also to help upload files sanely, prompt for input, install gems, run shell scripts, etc.
-* Templates for init scripts, application configuration, etc.
+* Templates for init scripts and application configuration
+* Templates and recipes for common apps like monit, nginx, sphinx, mongrel, ruby and mysql
 * Common deployment setup and update_code tasks, such as symlinking in database.yml and more advanced recipes such as sphinx configuration.
 
 
 h3. Example: Using capitate to write an install task:
 
-See "install-centos-rubyweb.rb":http://svn.ducktyper.com/capitate/trunk/lib/deployment/install-centos-rubyweb.rb
+See "centos-5.1-64-web/install.rb":http://svn.ducktyper.com/capitate/trunk/lib/deployment/centos-5.1-64-web/install.rb
 
 Load this in your Capfile:
 
-  load "lib/deployment/install-centos-rubyweb.rb"
+  load "lib/deployment/centos-5.1-64-web/install.rb"
   
 and then:
 

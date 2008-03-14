@@ -18,7 +18,7 @@ namespace :mysql do
 
       # Install service
       run_via "/sbin/chkconfig --level 345 mysqld on"
-      run_via "/sbin/service mysqld start"
+      run_via "/sbin/service mysqld restart"
       
       # Set admin password
       run_via "/usr/bin/mysqladmin -u root password #{mysql_admin_password_set}"    

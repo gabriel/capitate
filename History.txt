@@ -1,4 +1,4 @@
-== 0.2.7 ?
+== 0.2.7 2008-03-10
 
 * Add clean method to sphinx init script
 * Moved install and make_install into build plugin

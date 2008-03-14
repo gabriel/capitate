@@ -30,7 +30,7 @@ Capitate has:
 
 h3. Example: Using capitate to write an install task:
 
-See "install-centos-rubyweb.rb":http://svn.ducktyper.com/capitate/trunk/lib/deployment/install-centos-rubyweb.rb
+See "install-centos-rubyweb.rb":http://github.com/gabriel/capitate/tree/master/lib/deployment/install-centos-rubyweb.rb
 
 Load this in your Capfile:
 
@@ -56,7 +56,7 @@ h2. How to submit patches
 
 Read the "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/ and for section "8b: Submit patch to Google Groups":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups, use the Google Group above.
 
-The trunk repository is "http://svn.ducktyper.com/capitate/trunk":http://svn.ducktyper.com/capitate/trunk for anonymous access.
+The trunk repository is "http://github.com/gabriel/capitate/tree/master":http://github.com/gabriel/capitate/tree/master for anonymous access.
 
 h2. License
 

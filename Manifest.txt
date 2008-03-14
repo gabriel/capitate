@@ -10,7 +10,6 @@ config/requirements.rb
 docs/nginx.README
 lib/capitate.rb
 lib/capitate/cap_ext/connections.rb
-lib/capitate/cap_ext/extension_proxy.rb
 lib/capitate/cap_ext/roles.rb
 lib/capitate/cap_ext/run_via.rb
 lib/capitate/cap_ext/variables.rb
@@ -26,8 +25,8 @@ lib/capitate/plugins/yum.rb
 lib/capitate/recipes.rb
 lib/capitate/task_node.rb
 lib/capitate/version.rb
+lib/deployment/centos-5.1-64-web/install.rb
 lib/deployment/deploy.rb
-lib/deployment/install-centos-rubyweb.rb
 lib/recipes/centos/centos.rb
 lib/recipes/centos/imagemagick.rb
 lib/recipes/centos/memcached.rb
@@ -45,6 +44,7 @@ lib/recipes/mysql.rb
 lib/recipes/nginx.rb
 lib/recipes/rails.rb
 lib/recipes/sphinx.rb
+lib/recipes/sshd.rb
 lib/templates/capistrano/Capfile
 lib/templates/memcached/memcached.initd.centos.erb
 lib/templates/memcached/memcached.monitrc.erb
@@ -67,6 +67,7 @@ lib/templates/ruby/fix_openssl.sh
 lib/templates/sphinx/sphinx.conf.erb
 lib/templates/sphinx/sphinx.monitrc.erb
 lib/templates/sphinx/sphinx_app.initd.centos.erb
+lib/templates/sshd/sshd.monitrc.erb
 script/destroy
 script/generate
 script/txt2html
@@ -77,6 +78,7 @@ tasks/website.rake
 test/test_helper.rb
 test/test_plugin_upload.rb
 test/test_recipes.rb
+test/test_roles.rb
 test/test_templates.rb
 website/index.html
 website/index.txt

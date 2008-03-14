@@ -11,7 +11,3 @@ require 'lib/capitate/recipes'
 
 require 'erb'
 
-set :user, "root"
-
-# For testing
-load "lib/deployment/install-centos-rubyweb.rb"

@@ -1,0 +1,5 @@
+check process sshd with pidfile <%= sshd_pid_path %>
+  start program  "/sbin/service sshd start"
+  stop program  "/sbin/service sshd stop"
+  if failed port <%= sshd_port %> protocol ssh then restart
+  if 5 restarts within 5 cycles then timeout

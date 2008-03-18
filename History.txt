@@ -1,3 +1,15 @@
+== 0.2.9
+
+* SSH keygen and authorize key recipes
+* Updated rails:setup recipe to include option for specifying path to database yml template
+* Logrotate recipes
+
+* Plugin adds/changes:
+** utils.install_template
+** utils.append_to
+** utils.egrep
+** utils.exist?
+
 == 0.2.8 2008-03-13
 
 * Recipe, mysql:centos:install, doing restart incase already run

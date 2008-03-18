@@ -1,25 +1,19 @@
-# Centos 5.1 base install
+# Centos 5.1 x86_64 with:
+# * Ruby
+# * Nginx
+# * Mysql
+# * Sphinx
+# * Monit
+# * ImageMagick
+# * Memcached
+# * Gems: rake, mysql, raspell, rmagick, mongrel, mongrel_cluster, json, mime-types, hpricot
 
-load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+namespace :centos_5_1_64_web do
 
-require 'erb'
-
-# Load capitate
-require 'capitate'
-require 'capitate/recipes'
-
-# Load more recipes
-Dir[File.dirname(__FILE__) + "/recipes/*.rb"].each { |recipe| load recipe }
-
-# Add a templates dir
-set :templates_dirs, [ File.dirname(__FILE__) + "/templates" ]
-
-# Install task
-namespace :install do
-
-  task :default do
+  task :install do
   
-    as_root  
+    set :user, "root"
+    set :run_method, :run
     check_role
       
     # NTP Setup    
@@ -74,28 +68,21 @@ namespace :install do
     memcached.monit.install
       
     # Install gems
-    gems.install(fetch(:gems_to_install))
+    gems_only
     
-    # Install renderer
-    renderer.install
-  
     # Cleanup
     yum.clean
+    
+    # Log rotate tasks
+    monit.logrotate.install
+    nginx.logrotate.install
+    
   end
   
   desc "Install gems only"
   task :gems_only do
     gems.install(fetch(:gems_to_install))
   end
-end
-
-#
-# To be root, cap as_root nginx:centos:install
-#
-desc "Be root"
-task :as_root do
-  set :user, "root"
-  set :run_method, :run
 end
 
 # Prompt for server if host not given

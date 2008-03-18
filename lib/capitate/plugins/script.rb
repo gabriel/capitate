@@ -74,6 +74,9 @@ module Capitate::Plugins::Script
   end
   
   # Run all commands (separated by newlines).
+  # 
+  # Uses run_via to execute, so will use <tt>run</tt> or <tt>sudo</tt>
+  # depending on the current <tt>:run_method</tt>
   #
   # ==== Options
   # +cmds+:: Commands (separated by newlines)
@@ -84,7 +87,7 @@ module Capitate::Plugins::Script
       cmd = cmd.gsub(/^\s+/, "")        
       run_via(cmd, options, &block)
     end    
-  end
+  end  
   
 end
 

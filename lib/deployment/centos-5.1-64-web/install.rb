@@ -1,4 +1,11 @@
-# Centos 5.1 x86_64 with:
+# 
+# Install recipe for Centos 5.1 x86_64 (@base install) 
+#
+# To use this script:
+#
+#   cap HOSTS=10.0.6.118:2023 -s user=root -f install.rb install
+#
+# Centos 5.1 x86_64 with packages, including:
 # * Ruby
 # * Nginx
 # * Mysql
@@ -7,10 +14,23 @@
 # * ImageMagick
 # * Memcached
 # * Gems: rake, mysql, raspell, rmagick, mongrel, mongrel_cluster, json, mime-types, hpricot
+#
 
-namespace :centos_5_1_64_web do
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 
-  task :install do
+require 'erb'
+
+# Load capitate
+gem 'capitate', '>= 0.2.9'
+require 'capitate'
+require 'capitate/recipes'
+
+# Load more recipes
+Dir[File.dirname(__FILE__) + "/recipes/*.rb"].each { |recipe| load recipe }
+
+namespace :install do
+
+  task :default do
   
     set :user, "root"
     set :run_method, :run

@@ -16,7 +16,7 @@ DESC="monit"
 NAME=monit
 DAEMON=/usr/local/bin/monit
 CONFFILE=/etc/monitrc
-LOGFILE=/var/log/monit.log
+LOGFILE=<%= monit_log_path %>
 PIDFILE=<%= monit_pid_path %>
 
 start() {

@@ -15,6 +15,7 @@ namespace :monit do
     @set :monit_conf_dir, "/etc/monit"@\n      
     *monit_pid_path*: Path to monit pid.\n
     @set :monit_pid_path, "/var/run/monit.pid"@\n
+    *monit_log_path*: Path to monit log file.\n _Defaults to <tt>/var/log/monit.log</tt>_    
     DESC
     task :install do
       
@@ -23,28 +24,42 @@ namespace :monit do
       fetch_or_default(:monit_password, prompt.password('Monit admin password (to set): ', :verify => true))
       fetch_or_default(:monit_conf_dir, "/etc/monit")
       fetch_or_default(:monit_pid_path, "/var/run/monit.pid")
+      fetch_or_default(:monit_log_path, "/var/log/monit.log")
       fetch(:monit_build_options)
         
       # Install dependencies
       yum.install([ "flex", "byacc" ])
         
       # Build
-      build.make_install("monit", monit_build_options)
+      #build.make_install("monit", monit_build_options)
 
       # Install initscript
-      put template.load("monit/monit.initd.centos.erb"), "/tmp/monit.initd"
-      run_via "install -o root /tmp/monit.initd /etc/init.d/monit && rm -f /tmp/monit.initd"
+      utils.install_template("monit/monit.initd.centos.erb", "/etc/init.d/monit")
 
       # Install monitrc
-      put template.load("monit/monitrc.erb"), "/tmp/monitrc"
-      run_via "mkdir -p #{monit_conf_dir} && install -o root -m 700 /tmp/monitrc /etc/monitrc && rm -f /tmp/monitrc"
+      run_via "mkdir -p /etc/monit"
+      utils.install_template("monit/monitrc.erb", "/etc/monitrc", :user => "root", :mode => "700")      
 
       # Build cert
-      put template.load("monit/monit.cnf"), "/tmp/monit.cnf"
-      script.sh("monit/cert.sh")
+      run_via "mkdir -p /var/certs"
+      utils.install_template("monit/monit.cnf", "/var/certs/monit.cnf")
       
-      # Patch initab
-      script.sh("monit/patch_inittab.sh")      
+      script.run_all <<-CMDS
+        openssl req -new -x509 -days 365 -nodes -config /var/certs/monit.cnf -out /var/certs/monit.pem -keyout /var/certs/monit.pem -batch > /var/certs/debug_req.log 2>&1
+        openssl gendh 512 >> /var/certs/monit.pem 2> /var/certs/debug_gendh.log
+        openssl x509 -subject -dates -fingerprint -noout -in /var/certs/monit.pem > /var/certs/debug_x509.log
+        chmod 700 /var/certs/monit.pem
+      CMDS
+      
+      # Install to inittab
+      utils.append_to("/etc/inittab", <<-APPEND, "^mo:345:respawn:/usr/local/bin/monit")
+       
+        # Run monit in standard run-levels
+        mo:345:respawn:/usr/local/bin/monit -Ic /etc/monitrc -l #{monit_log_path} -p #{monit_pid_path}
+      APPEND
+      
+      # HUP the inittab
+      run_via "telinit q"
     end
     
     desc <<-DESC

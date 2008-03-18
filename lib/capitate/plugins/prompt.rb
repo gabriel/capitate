@@ -1,8 +1,14 @@
 require 'md5'
 
 module Capitate::Plugins::Prompt
-  
-  def ask(label, &block)
+
+  # Prompt.
+  #
+  # ==== Options
+  # +label+:: Label
+  # +options+:: Options (none yet)
+  #
+  def ask(label, options = {}, &block)
     Capistrano::CLI.ui.ask(label, &block)
   end
   

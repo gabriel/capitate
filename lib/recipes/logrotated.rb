@@ -51,8 +51,14 @@ namespace :logrotated do
   Force rotate files.
   DESC
   task :force do 
+        
+    fetch_or_default(:logrotate_prefix, "")
     fetch_or_default(:logrotate_conf_path, "/etc/logrotate.conf")    
-    run_via "logrotate -f #{logrotate_conf_path}"    
+    
+    command = "logrotate"
+    command = "#{logrotate_prefix}/logrotate" unless logrotate_prefix.blank?
+    
+    run_via "#{command} -f #{logrotate_conf_path}"    
   end
   
 end

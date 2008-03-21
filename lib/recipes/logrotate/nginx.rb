@@ -29,6 +29,8 @@ namespace :nginx do
       set :logrotate_name, "nginx_#{application}"
       set :logrotate_log_path, nginx_vhost_logrotate_path
       set :logrotate_options, [ { :rotate => 2, :size => "10M" }, :daily, :missingok, :notifempty, :copytruncate ]
+      
+      logrotated.install_conf
     end
     
   end

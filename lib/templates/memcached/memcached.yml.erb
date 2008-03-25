@@ -1,0 +1,14 @@
+defaults:
+  ttl: <%= memcached_ttl %>
+  readonly: <%= memcached_readonly.to_s %>
+  urlencode: <%= memcached_urlencode.to_s %>
+  c_threshold: <%= memcached_c_threshold %>
+  compression: <%= memcached_compression.to_s %>
+  debug: <%= memcached_debug.to_s %>
+  namespace: <%= memcached_namespace %>
+
+development:
+  servers: localhost:11211
+
+production:
+  servers: <%= memcached_servers.inspect %>

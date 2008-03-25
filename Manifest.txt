@@ -26,6 +26,8 @@ lib/capitate/recipes.rb
 lib/capitate/task_node.rb
 lib/capitate/version.rb
 lib/deployment/centos-5.1-64-web/install.rb
+lib/recipes/backgroundrb.rb
+lib/recipes/centos/backgroundrb.rb
 lib/recipes/centos/centos.rb
 lib/recipes/centos/imagemagick.rb
 lib/recipes/centos/memcached.rb
@@ -51,10 +53,13 @@ lib/recipes/rails.rb
 lib/recipes/sphinx.rb
 lib/recipes/sshd.rb
 lib/recipes/syslogd.rb
+lib/templates/backgroundrb/backgroundrb.initd.centos.erb
+lib/templates/backgroundrb/backgroundrb.yml.erb
 lib/templates/capistrano/Capfile
 lib/templates/logrotated/conf.erb
 lib/templates/memcached/memcached.initd.centos.erb
 lib/templates/memcached/memcached.monitrc.erb
+lib/templates/memcached/memcached.yml.erb
 lib/templates/mongrel/mongrel_cluster.initd.erb
 lib/templates/mongrel/mongrel_cluster.monitrc.erb
 lib/templates/mongrel/mongrel_cluster.yml.erb

@@ -1,3 +1,9 @@
+== 0.2.10
+
+* Backgroundrb recipes and templates
+* Memcached yml template and recipe
+* Rails update code task
+
 == 0.2.9
 
 * SSH keygen and authorize key recipes

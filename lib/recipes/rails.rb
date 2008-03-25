@@ -16,7 +16,7 @@ namespace :rails do
   @set :db_socket, "/var/lib/mysql/mysql.sock"@\n
   *database_yml_template*: Path to database yml erb template. _Defaults to <tt>rails/database.yml.erb</tt>_ (in this GEM)\n
   DESC
-  task :setup do    
+  task :setup, :roles => :app do    
     
     # Settings
     fetch(:db_name)

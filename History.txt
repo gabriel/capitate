@@ -1,10 +1,10 @@
-== 0.2.10
+== 0.2.11 2008-03-25
 
 * Backgroundrb recipes and templates
 * Memcached yml template and recipe
 * Rails update code task
 
-== 0.2.9
+== 0.2.9 <never>
 
 * SSH keygen and authorize key recipes
 * Updated rails:setup recipe to include option for specifying path to database yml template

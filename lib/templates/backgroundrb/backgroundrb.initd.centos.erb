@@ -1,0 +1,58 @@
+#! /bin/sh
+# backgroundrb_<%= application %>: Backgroundrb daemon for <%= application %>
+#
+# chkconfig: - 86 14
+# description: backgroundrb daemon
+# processname: backgroundrb
+#
+# Author: Gabriel Handford http://ducktyper.com
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+DESC="backgroundrb daemon (<%= application %>)"
+DAEMON="<%= backgroundrb_bin_path %>"
+PIDFILE="<%= backgroundrb_pid_path %>"
+
+# For stop/reload support using patched backgroundrb that takes
+# pidfile as argument into backgroundrb.yml config.
+
+start() {
+  daemon --user <%= user %> --pidfile $PIDFILE $DAEMON
+  RETVAL=$?
+  echo
+  return $RETVAL;  
+}
+
+stop() {
+  kill -QUIT `cat $PIDFILE` || echo -n " not running"
+}
+
+case "$1" in
+  start)
+  	echo -n "Starting $DESC: $NAME"
+  	start
+    RETVAL=$?;
+	;;
+  stop)
+  	echo -n "Stopping $DESC: $NAME"
+  	stop
+  	RETVAL=$?;
+	;;
+  restart)
+  	echo -n "Restarting $DESC: $NAME"
+  	stop
+  	# Sleep after stop
+  	sleep 1
+  	start
+  	RETVAL=$?;
+	;;
+  *)
+	  echo "Usage: $0 {start|stop|restart}" >&2
+	  RETVAL=3;
+	;;
+esac
+
+exit $RETVAL;

@@ -58,21 +58,24 @@ namespace :mongrel do
       end
       
       desc "Restart mongrel cluster (for application)"
-      task :restart do        
+      task :restart do       
+        fetch_or_default(:monit_bin_path, "monit") 
         fetch_or_default(:mongrel_application, Proc.new { "mongrel_cluster_#{fetch(:application)}" })        
-        sudo "/usr/local/bin/monit -g #{mongrel_application} restart all"
+        sudo "#{monit_bin_path} -g #{mongrel_application} restart all"
       end
       
       desc "Start mongrel cluster (for application)"
       task :start do        
+        fetch_or_default(:monit_bin_path, "monit")
         fetch_or_default(:mongrel_application, Proc.new { "mongrel_cluster_#{fetch(:application)}" })        
-        sudo "/usr/local/bin/monit -g #{mongrel_application} start all" 
+        sudo "#{monit_bin_path} -g #{mongrel_application} start all" 
       end
       
       desc "Stop mongrel cluster (for application)"
       task :stop do        
+        fetch_or_default(:monit_bin_path, "monit")
         fetch_or_default(:mongrel_application, Proc.new { "mongrel_cluster_#{fetch(:application)}" })        
-        sudo "/usr/local/bin/monit -g #{mongrel_application} stop all" 
+        sudo "#{monit_bin_path} -g #{mongrel_application} stop all" 
       end
       
     end

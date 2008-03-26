@@ -1,4 +1,8 @@
-== 0.2.12
+== 0.2.13 2008-03-26
+
+* Fixing monit re/start for mongrel cluster and backgroundrb
+
+== 0.2.12 2008-03-26
 
 * Re-formatting some documentation, experimenting with getting source in the docs (FAIL!)
 * Including backgroundrb logrotate, monit, restart

@@ -19,17 +19,20 @@ namespace :backgroundrb do
     
     desc "Restart backgroundrb (for application)"
     task :restart do
-      sudo "/sbin/service monit restart backgroundrb_#{application}"
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} restart backgroundrb_#{application}"
     end
     
     desc "Start mongrel cluster (for application)"
     task :start do
-      sudo "/usr/local/bin/monit start backgroundrb_#{application}" 
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} start backgroundrb_#{application}" 
     end
     
     desc "Stop mongrel cluster (for application)"
     task :stop do
-      sudo "/usr/local/bin/monit stop backgroundrb_#{application}"
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} stop backgroundrb_#{application}"
     end
   end
   

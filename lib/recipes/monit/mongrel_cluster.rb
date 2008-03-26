@@ -57,6 +57,24 @@ namespace :mongrel do
         sudo "install -o root /tmp/#{mongrel_application}.monitrc #{monit_conf_dir}/#{mongrel_application}.monitrc"
       end
       
+      desc "Restart mongrel cluster (for application)"
+      task :restart do        
+        fetch_or_default(:mongrel_application, Proc.new { "mongrel_cluster_#{fetch(:application)}" })        
+        sudo "/usr/local/bin/monit -g #{mongrel_application} restart all"
+      end
+      
+      desc "Start mongrel cluster (for application)"
+      task :start do        
+        fetch_or_default(:mongrel_application, Proc.new { "mongrel_cluster_#{fetch(:application)}" })        
+        sudo "/usr/local/bin/monit -g #{mongrel_application} start all" 
+      end
+      
+      desc "Stop mongrel cluster (for application)"
+      task :stop do        
+        fetch_or_default(:mongrel_application, Proc.new { "mongrel_cluster_#{fetch(:application)}" })        
+        sudo "/usr/local/bin/monit -g #{mongrel_application} stop all" 
+      end
+      
     end
     
   end

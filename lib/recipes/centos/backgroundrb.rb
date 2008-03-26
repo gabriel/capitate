@@ -11,7 +11,7 @@ namespace :backgroundrb do
     task :setup do       
       
       # Settings
-      fetch_or_default(:backgroundrb_bin_path, "#{current_path}/script/backgroundrb -e production")
+      fetch_or_default(:backgroundrb_bin_path, "#{current_path}/script/backgroundrb -e production start")
       fetch_or_default(:backgroundrb_pid_path, "#{shared_path}/pids/backgroundrb.pid")
 
       # Install initscript      

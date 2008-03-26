@@ -1,3 +1,8 @@
+== 0.2.12
+
+* Re-formatting some documentation, experimenting with getting source in the docs (FAIL!)
+* Including backgroundrb logrotate, monit, restart
+
 == 0.2.11 2008-03-25
 
 * Backgroundrb recipes and templates

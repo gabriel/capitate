@@ -38,6 +38,7 @@ lib/recipes/centos/nginx.rb
 lib/recipes/centos/ruby.rb
 lib/recipes/centos/sphinx.rb
 lib/recipes/docs.rb
+lib/recipes/logrotate/backgroundrb.rb
 lib/recipes/logrotate/mongrel_cluster.rb
 lib/recipes/logrotate/monit.rb
 lib/recipes/logrotate/nginx.rb
@@ -45,8 +46,14 @@ lib/recipes/logrotate/rails.rb
 lib/recipes/logrotate/sphinx.rb
 lib/recipes/logrotated.rb
 lib/recipes/memcached.rb
-lib/recipes/mongrel_cluster.rb
 lib/recipes/monit.rb
+lib/recipes/monit/backgroundrb.rb
+lib/recipes/monit/memcached.rb
+lib/recipes/monit/mongrel_cluster.rb
+lib/recipes/monit/mysql.rb
+lib/recipes/monit/nginx.rb
+lib/recipes/monit/sphinx.rb
+lib/recipes/monit/sshd.rb
 lib/recipes/mysql.rb
 lib/recipes/nginx.rb
 lib/recipes/rails.rb
@@ -54,6 +61,7 @@ lib/recipes/sphinx.rb
 lib/recipes/sshd.rb
 lib/recipes/syslogd.rb
 lib/templates/backgroundrb/backgroundrb.initd.centos.erb
+lib/templates/backgroundrb/backgroundrb.monitrc.erb
 lib/templates/backgroundrb/backgroundrb.yml.erb
 lib/templates/capistrano/Capfile
 lib/templates/logrotated/conf.erb
@@ -92,7 +100,9 @@ test/test_roles.rb
 test/test_templates.rb
 website/index.html
 website/index.txt
+website/javascripts/code_highlighter.js
 website/javascripts/rounded_corners_lite.inc.js
+website/javascripts/ruby.js
 website/stylesheets/screen.css
 website/template.rhtml
 website/template_recipe.rhtml

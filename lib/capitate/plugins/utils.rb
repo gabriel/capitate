@@ -30,7 +30,7 @@ module Capitate::Plugins::Utils
   # +options+:: Options (see Install template options)
   #
   # ==== Install template options
-  # +user+:: User to install (-o)
+  # +user+:: User to install (-o). Defaults to *root*.
   # +mode+:: Mode to install file (-m)
   #
   # ==== Example

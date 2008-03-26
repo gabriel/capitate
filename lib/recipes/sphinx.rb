@@ -1,27 +1,6 @@
 # Sphinx recipes
 namespace :sphinx do
   
-  namespace :monit do
-  
-    desc <<-DESC
-    Create monit configuration for sphinx.\n  
-    *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
-    *sphinx_pid_path*: Location for sphinx pid. _Defaults to "[shared_path]/pids/searchd.pid"_\n
-    
-    "Source":#{link_to_source(__FILE__)}
-    DESC
-    task :setup do    
-    
-      # Settings
-      fetch_or_default(:monit_conf_dir, "/etc/monit")
-      fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
-    
-      put template.load("sphinx/sphinx.monitrc.erb"), "/tmp/sphinx_#{application}.monitrc"            
-      sudo "install -o root /tmp/sphinx_#{application}.monitrc #{monit_conf_dir}/sphinx_#{application}.monitrc"
-    end
-    
-  end
-  
   desc <<-DESC
   Update sphinx for application.
   
@@ -63,6 +42,11 @@ namespace :sphinx do
     put template.load(sphinx_conf_template), sphinx_conf_path
   end
   
+  desc "Make symlink for sphinx conf" 
+  task :update_code do
+    run "ln -nfs #{shared_path}/config/sphinx.conf #{release_path}/config/sphinx.conf" 
+  end
+  
   desc <<-DESC
   Rotate sphinx index for application.
   
@@ -96,9 +80,5 @@ namespace :sphinx do
     
     run "#{indexer_path} --config #{sphinx_conf} --all"
   end
-  
-  desc "Restart sphinx"
-  task :restart do
-    sudo "/sbin/service monit restart sphinx_#{application}"
-  end  
+    
 end

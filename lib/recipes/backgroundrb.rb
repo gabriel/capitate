@@ -38,7 +38,7 @@ namespace :backgroundrb do
   "Source":#{link_to_source(__FILE__)}
   DESC
   task :update_code do
-    run "ln -nfs #{shared_path}/config/backgroundrb.yml #{current_path}/config/backgroundrb.yml" 
+    run "ln -nfs #{shared_path}/config/backgroundrb.yml #{release_path}/config/backgroundrb.yml" 
   end
   
 end

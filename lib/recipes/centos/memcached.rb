@@ -5,19 +5,36 @@ namespace :memcached do
     desc <<-DESC
     Install memcached.
     
-    *memcached_build_options*: Memcached build options.\n
+    <dl>
+    <dt>memcached_build_options</dt>
+    <dd>Memcached build options.</dd>
+    <dd>
     <pre>
+    <code class="ruby">
     set :memcached_build_options, {
       :url => "http://www.danga.com/memcached/dist/memcached-1.2.4.tar.gz",
       :configure_options => "--prefix=/usr/local"
     }
-    </pre>\n
-    *memcached_memory*: Memcached memory (in MB).\n    
-    @set :memcached_memory, 64@\n
-    *memcached_pid_path*: Path to memcached pid file. Defaults to /var/run/memcached.pid\n    
-    @set :memcached_pid_path, "/var/run/memcached.pid"@\n
-    *memcached_port*: Memcached port. Defaults to 11211.\n    
-    @set :memcached_port, 11211@\n      
+    </code>
+    </pre>
+    </dd>
+    
+    
+    <dt>memcached_memory</dt>
+    <dd>Memcached memory (in MB).</dd>
+    <dd>@set :memcached_memory, 64@</dd>
+    
+    <dt>memcached_pid_path*</dt>
+    <dd>Path to memcached pid file.</dd>
+    <dd class="default">Defaults to @/var/run/memcached.pid@</dd>
+    <dd>@set :memcached_pid_path, "/var/run/memcached.pid"@</dd>
+    
+    <dt>memcached_port</dt>
+    <dd>Memcached port<dd>
+    <dd class="default">Defaults to 11211.</dd>
+    <dd>@set :memcached_port, 11211@</dd>
+    
+    </dl>
     DESC
     task :install do
 

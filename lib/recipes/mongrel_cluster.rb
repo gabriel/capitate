@@ -7,18 +7,6 @@ namespace :mongrel do
       
       desc <<-DESC
       Create monit configuration for mongrel cluster.
-  
-      *mongrel_application*: Name of application (monit group). _Defaults to <tt>"mongrel_cluster_\#{fetch(:application)}"</tt>_
-      *mongrel_bin_path*: Path to mongrel command. _Defaults to <tt>/usr/bin/mongrel_rails</tt>_
-      *mongrel_size*: Number of mongrels.\n  
-      @set :mongrel_size, 3@\n
-      *mongrel_port*: Starting port for mongrels. If there are 3 mongrels with port 9000, then instances 
-      will be at 9000, 9001, and 9002\n    
-      @set :mongrel_port, 9000@\n    
-      *mongrel_config_script*: Config script to load with mongrel. _Defaults to nil_\n  
-      @set :mongrel_config_script, "config/mongrel_handler.rb"@\n    
-      *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n  
-      @set :monit_conf_dir, "/etc/monit"@\n  
       DESC
       task :setup do
     

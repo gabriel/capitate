@@ -26,13 +26,6 @@ namespace :memcached do
   
     desc <<-DESC
     Generate and install memcached monitrc.
-    
-    *memcached_pid_path*: Path to memcached pid file. _Defaults to /var/run/memcached.pid_\n  
-    @set :memcached_pid_path, "/var/run/memcached.pid"@\n  
-    *memcached_port*: Memcached port. _Defaults to 11211_\n  
-    @set :memcached_port, 11211@\n     
-    *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n  
-    @set :monit_conf_dir, "/etc/monit"@\n     
     DESC
     task :install do
     

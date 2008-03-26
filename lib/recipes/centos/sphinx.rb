@@ -4,15 +4,26 @@ namespace :sphinx do
     
     desc <<-DESC
     Install sphinx.\n
-    *sphinx_build_options*: Sphinx build options.\n    
+    
+    <dl>
+    <dt>sphinx_build_options</dt>
+    <dd>Sphinx build options.</dd>
+    <dd>
     <pre>
+    <code class="ruby">
     set :sphinx_build_options, {
       :url => "http://www.sphinxsearch.com/downloads/sphinx-0.9.7.tar.gz",
       :configure_options => "--with-mysql-includes=/usr/include/mysql --with-mysql-libs=/usr/lib/mysql 
         --prefix=\#{sphinx_prefix}"
     }
-    </pre>\n
-    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_\n
+    </code>    
+    </pre>
+    </dd>
+    
+    <dt>sphinx_prefix</dt>
+    <dd>Sphinx install prefix</dd>
+    <dd class="default">Defaults to @/usr/local/sphinx@</dd>
+    </dl>
     DESC
     task :install do 
       
@@ -28,11 +39,14 @@ namespace :sphinx do
     end
         
     desc <<-DESC
-    Setup sphinx for application.\n    
-    *sphinx_prefix*: Sphinx install prefix. _Defaults to "/usr/local/sphinx"_\n
-    *sphinx_pid_path*: Directory to sphinx pid. _Defaults to "[shared_path]/pids/searchd.pid"_\n
-    *sphinx_conf_path*: Path to sphinx.conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n
-    *sphinx_index_path*: Path to sphinx indexes. _Defaults to "[shared_path]/var/index"_\n
+    Setup sphinx for application.
+  
+    <dl>
+    <dt>sphinx_prefix</dt><dd>Sphinx install prefix</dd><dd class="default">Defaults to @/usr/local/sphinx@</dd>
+    <dt>sphinx_pid_path</dt><dd>Directory to sphinx pid</dd><dd class="default">Defaults to @\#{shared_path}/pids/searchd.pid@</dd>
+    <dt>sphinx_conf_path</dt><dd>Path to sphinx.conf</dd><dd class="default">Defaults to @\#{shared_path}/config/sphinx.conf@</dd>
+    <dt>sphinx_index_path</dt><dd>Path to sphinx indexes</dd><dd class="default">Defaults to @\#{shared_path}/var/index@</dd>
+    </dl>
     DESC
     task :setup do       
       
@@ -57,8 +71,14 @@ namespace :sphinx do
     desc <<-DESC
     Install sphinx firewall rule.
     
-    *sphinx_port*: Sphinx port. _Defaults to 3312_\n    
-    @set :sphinx_port, 3312@\n
+    This doesn't work yet (doesn't insert in right place).
+    
+    <dl>
+    <dt>sphinx_portdt>
+    <dd>Sphinx port</dd>
+    <dd class="default">Defaults to @3312@</dd>    
+    <dd>@set :sphinx_port, 3312@</dd>
+    </dl>
     DESC
     task :iptables do
       # Settings

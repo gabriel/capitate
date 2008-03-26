@@ -3,12 +3,14 @@ namespace :imagemagick do
   
     desc <<-DESC
     Install imagemagick.\n    
-    *imagemagick_build_options*: Imagemagick build options.
+    <dl><dt>imagemagick_build_options</dt><dd>Imagemagick build options</dd></dl>
     <pre>
+    <code class="ruby">
     set :imagemagick_build_options, {
       :url => "ftp://ftp.imagemagick.org/pub/ImageMagick/ImageMagick.tar.gz",
       :unpack_dir => "ImageMagick-*"
     }
+    </code>
     </pre>
     DESC
     task :install do

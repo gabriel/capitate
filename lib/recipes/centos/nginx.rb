@@ -5,23 +5,41 @@ namespace :nginx do
     desc <<-DESC
     Install nginx, conf, initscript, nginx user and service.
     
-    *nginx_build_options*: Nginx build options.\n
+    <dl>
+    <dt>nginx_build_options</dt>
+    <dd>Nginx build options.
     <pre>
+    <code class="ruby">
     set :nginx_build_options, {
       :url => "http://sysoev.ru/nginx/nginx-0.5.35.tar.gz",
       :configure_options => "--sbin-path=\#{nginx_bin_path} --conf-path=\#{nginx_conf_path}
         --pid-path=\#{nginx_pid_path} --error-log-path=/var/log/nginx_master_error.log --lock-path=/var/lock/nginx 
         --prefix=\#{nginx_prefix_path} --with-md5=auto/lib/md5 --with-sha1=auto/lib/sha1 --with-http_ssl_module"
     }
-    </pre>\n
-    *nginx_bin_path*: Nginx sbin path. _Defaults to /sbin/nginx_\n    
-    @set :nginx_bin_path, "/sbin/nginx"@\n
-    *nginx_conf_path*: Path to nginx conf. _Defaults to /etc/nginx/nginx.conf_\n    
-    @set :nginx_conf_path, "/etc/nginx/nginx.conf"@\n
-    *nginx_pid_path*: Path to nginx pid file. _Defaults to /var/run/nginx.pid_\n    
-    @set :nginx_pid_path, "/var/run/nginx.pid"@\n
-    *nginx_prefix_path*: Nginx install prefix. _Defaults to /var/nginx_\n    
-    @set :nginx_prefix_path, "/var/nginx"@\n      
+    </code>
+    </pre>
+    </dd>
+    
+    <dt>nginx_bin_path</dt>
+    <dd>Nginx sbin path</dd>
+    <dd class="default">Defaults to /sbin/nginx</dd>
+    <dd>@set :nginx_bin_path, "/sbin/nginx"@</dd>
+    
+    <dt>nginx_conf_path</dt>
+    <dd>Path to nginx conf.</dd>
+    <dd class="default">Defaults to /etc/nginx/nginx.conf</dd>
+    <dd>@set :nginx_conf_path, "/etc/nginx/nginx.conf"@</dd>
+    
+    <dt>nginx_pid_path</dt>
+    <dd>Path to nginx pid file</dd>
+    <dd class="default">Defaults to /var/run/nginx.pid</dd>
+    <dd>@set :nginx_pid_path, "/var/run/nginx.pid"@</dd>
+    
+    <dt>nginx_prefix_path</dt>
+    <dd>Nginx install prefix</dd>
+    <dd class="default">Defaults to /var/nginx_</dd>
+    <dd>@set :nginx_prefix_path, "/var/nginx"@</dd>
+    </dl>
     DESC
     task :install do
       

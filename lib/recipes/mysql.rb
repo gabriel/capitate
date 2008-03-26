@@ -4,13 +4,7 @@ namespace :mysql do
   namespace :monit do
   
     desc <<-DESC
-    Install mysql monit hooks.
-  
-    *mysql_port*: Mysql port. _Defaults to 3306_\n
-    *mysql_pid_path*: Path to mysql pid file. _Defaults to /var/run/mysqld/mysqld.pid_\n
-    @set :mysql_pid_path, "/var/run/mysqld/mysqld.pid"@\n
-    *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
-    @set :monit_conf_dir, "/etc/monit"@\n
+    Install mysql monit hooks.  
     DESC
     task :install do
     
@@ -28,15 +22,28 @@ namespace :mysql do
   desc <<-DESC
   Create database, database user, and set grant permissions.
   
-  *db_name*: Database name (application).\n
-  *db_user*: Database user (application).\n    
-  *db_pass*: Database password (application).\n
-  *mysql_grant_locations*: Grant locations. _Defaults to localhost_\n
-  @set :mysql_grant_locations, [ "localhost", "192.168.1.111" ]@\n
-  *mysql_grant_priv_type*: Grant privilege types. _Defaults to ALL_\n
-  @set :mysql_grant_priv_type, "ALL"@\n
-  *mysql_admin_password*: Mysql admin password (to use to connect). Defaults to password prompt.\n
-  @set :mysql_admin_password, prompt.password('Mysql admin password: '))@    
+  <dl>
+  <dt>db_name</dt>
+  <dd>Database name (application).</dd>
+  
+  <dt>db_user</dt>
+  <dd>Database user (application).</dd>
+  
+  <dt>db_pass</dt>
+  <dd>Database password (application).</dd>
+  
+  <dt>mysql_grant_locations</dt>
+  <dd>Grant locations. </dd>
+  <dd>Defaults to @[ "localhost" ]@</dd>
+  
+  <dt>mysql_grant_priv_type</dt>
+  <dd>Grant privilege types.</dd>
+  <dd>Defaults to @ALL@</dd>
+  
+  <dt>mysql_admin_password</dt>
+  <dd>Mysql admin password (to use to connect).</dd>
+  <dd>Defaults to password prompt.</dd>
+  </dl>
   DESC
   task :setup, :roles => :db do    
     

@@ -5,17 +5,37 @@ namespace :monit do
     desc <<-DESC
     Install monit.
     
-    *monit_build_options*: Monit build options.\n
-    @set :monit_build_options, { :url => "http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz" }@\n
-    *monit_port*: Monit port. _Defaults to 2812_\n    
-    @set :monit_port, 2812@\n
-    *monit_password*: Monit password. _Defaults to password prompt_\n    
-    @set :monit_password, prompt.password('Monit admin password (to set): ')@\n    
-    *monit_conf_dir*: Directory for monitrc files.\n    
-    @set :monit_conf_dir, "/etc/monit"@\n      
-    *monit_pid_path*: Path to monit pid.\n
-    @set :monit_pid_path, "/var/run/monit.pid"@\n
-    *monit_log_path*: Path to monit log file.\n _Defaults to <tt>/var/log/monit.log</tt>_    
+    <dl>
+    <dt>monit_build_options</dt>
+    <dd>Monit build options.</dd>
+    
+    <pre>
+    <code class="ruby">
+    set :monit_build_options, { :url => "http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz" }
+    </code>
+    </pre>
+
+    <dt>monit_port</dt>
+    <dd>Monit port</dd>
+    <dd class="default">Defaults to @2812@</dd>
+    <dd>@set :monit_port, 2812@</dd>
+
+    <dt>monit_password</dt>
+    <dd>Monit password</dd>
+    <dd class="default">Defaults to password prompt</dd>
+    <dd>@set :monit_password, prompt.password('Monit admin password (to set): ')@</dd>
+
+    <dt>monit_conf_dir</dt><dd>Directory for monitrc files.</dd>
+    <dd>@set :monit_conf_dir, "/etc/monit"@</dd>
+
+    <dt>monit_pid_path</dt><dd>Path to monit pid.</dd>
+    @set :monit_pid_path, "/var/run/monit.pid"@</dd>
+
+    <dt>monit_log_path</dt>
+    <dd>Path to monit log file.</dd>
+    <dd class="default">Defaults to @/var/log/monit.log@</dd>
+    
+    </dl>
     DESC
     task :install do
       

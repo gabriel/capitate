@@ -6,19 +6,38 @@ namespace :mongrel do
     
       desc <<-DESC
       Create mongrel cluster.
-    
-      *mongrel_size*: Number of mongrels.\n    
-      @set :mongrel_size, 3@\n
-      *mongrel_port*: Starting port for mongrels. If there are 3 mongrels with port 9000, 
-      then instances will be at 9000, 9001, and 9002\n      
-      @set :mongrel_port, 9000@\n      
-      *mongrel_config_dir*: Directory for mongrel config. _Defaults to "[shared_path]/config/mongrel"_
-      *mongrel_pid_dir*: Directory for mongrel pids. _Defaults to "[shared_path]/pids"
-      *mongrel_config_script*: Config script to load with mongrel. _Defaults to nil_\n  
-      @set :mongrel_config_script, "config/mongrel_handler.rb"@\n
-      *mongrel_cluster_command*: Mongrel cluster command. _Defaults to mongrel_cluster_ctl_
-      *mongrel_initscript_name*: Mongrel initscript name. _Defaults to mongrel_cluster_\#{application}_
-      *mongrel_config_options*: Config options appended to cluster yml. _Defaults to <tt>{}</tt>_
+      
+      <dl>
+      <dt>mongrel_size</dt><dd>Number of mongrels</dd>
+      <dd>@set :mongrel_size, 3@</dd>
+      
+      <dt>mongrel_port</dt><dd>Starting port for mongrels. If there are 3 mongrels with port 9000, 
+      then instances will be at 9000, 9001, and 9002</dd>      
+      <dd>@set :mongrel_port, 9000@</dd>
+      
+      <dt>mongrel_config_dir</dt>
+      <dd>Directory for mongrel config.</dd>
+      <dd class="default">Defaults to @\#{shared_path}/config/mongrel@</dd>
+      
+      <dt>mongrel_pid_dir</dt><dd>Directory for mongrel pids</dd> 
+      <dd class="default">Defaults to @\#{shared_path}/pids@</dd>
+      
+      <dt>mongrel_config_script</dt><dd>Config script to load with mongrel</dd> 
+      <dd class="default">Defaults to @nil@</dd>
+      <dd>@set :mongrel_config_script, "config/mongrel_handler.rb"@</dd>
+      
+      <dt>mongrel_cluster_command</dt>
+      <dd>Mongrel cluster command.</dd>
+      <dd class="default">Defaults to @mongrel_cluster_ctl@</dd>
+      
+      <dt>mongrel_initscript_name</dt><dd>Mongrel initscript name.</dd> 
+      <dd class="default">Defaults to @mongrel_cluster_\#{application}@</dd>
+      
+      <dt>mongrel_config_options</dt>
+      <dd>Config options appended to cluster yml.</dd>
+      <dd class="default">Defaults to @{}@</dd>
+      
+      </dl>
       DESC
       task :setup do 
 

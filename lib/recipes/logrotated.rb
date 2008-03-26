@@ -4,24 +4,30 @@ namespace :logrotated do
   desc <<-DESC
   Create logrotated conf. You probably use this in other recipes and not standalone.
   
-  *logrotate_name*: Name of file in /etc/logrotate.d/\n  
-  *logrotate_log_path*: Path to log file. Can include wildcards, like /var/log/foo_*.log.\n
+  <dl>
+  <dt>logrotate_name</dt>
+  <dd>Name of file in /etc/logrotate.d/</dd>
   
-  *logrotate_options*:
-  - :rotate (Number of times to rotate before discarding)
-  - :size (Rotate when file hits this size)
-  - :daily, :weekly, :monthly (How often to perform rotate)
-  - :missingok
-  - :compress
-  - :delaycompress
-  - :notifempty
-  - :copytruncate  
+  <dt>logrotate_log_path<dt>
+  <dd>Path to log file. Can include wildcards, like /var/log/foo_*.log.</dd>
+  
+  <dt>logrotate_options</dt>
+  <dd>:rotate (Number of times to rotate before discarding)</dd>
+  <dd>:size (Rotate when file hits this size)</dd>
+  <dd>:daily, :weekly, :monthly (How often to perform rotate)</dd>
+  <dd>:missingok</dd>
+  <dd>:compress</dd>
+  <dd>:delaycompress</dd>
+  <dd>:notifempty</dd>
+  <dd>:copytruncate</dd>
   
   See man page for all the options.
   
   <pre>
+  <code class="ruby">
   set :logrotate_options, [ { :rotate => 7, :size => 10MB }, 
       :daily, :missingok, :compress, :delaycompress, :notifempty, :copytruncate ]
+  </code>
   </pre>
   
   DESC

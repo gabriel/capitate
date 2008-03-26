@@ -169,7 +169,7 @@ class Capitate::TaskNode
           if options[:include_source]
             file_name, source, comments = Capitate::TaskNode.find_source(task.fully_qualified_name)
             unless source.blank?
-              file.puts "\n\n<pre><code class='ruby'>#{source}</code></pre>\n\n"
+              file.puts "\n\nh4. Source\n\n<pre><code class='ruby'>#{source}</code></pre>\n\n"
             end
           end
           

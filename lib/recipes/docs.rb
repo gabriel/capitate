@@ -5,14 +5,16 @@ namespace :docs do
   
   This recipe generated this documentation.
   
-  *docs_recipes_dir*: Destination directory. _Defaults to "docs/recipes"_
-  
-  @set :docs_recipes_dir, "docs/recipes"@
-     
-  *docs_recipes_clear*: Whether to clear destination before generating.
-  
-  @set :docs_recipes_clear, true@
+  <dl>
+  <dt>docs_recipes_dir</dd>
+  <dd>Destination directory</dd>
+  <dd class="default">Defaults to @docs/recipes@</dd>  
+  <dd>@set :docs_recipes_dir, "docs/recipes"@</dd>   
     
+  <dt>docs_recipes_clear</dt>
+  <dd>Whether to clear destination before generating.</dd>  
+  <dd>@set :docs_recipes_clear, true@</dd>
+  </dl>
   DESC
   task :recipes do
     

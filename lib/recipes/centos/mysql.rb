@@ -5,8 +5,12 @@ namespace :mysql do
     desc <<-DESC
     Install mysql.
     
-    *mysql_admin_password_set*: Mysql admin password (to set). _Defaults to password prompt._\n    
-    <pre>set :mysql_admin_password_set, prompt.password('Mysql admin password (to set): ')</pre>\n      
+    <dl>
+    <dt>mysql_admin_password_set</dt>
+    <dd>Mysql admin password (to set)</dd>
+    <dd class="default">Defaults to password prompt.</dd>    
+    <pre><code class="ruby">set :mysql_admin_password_set, prompt.password('Mysql admin password (to set): ')<code></pre>
+    </dl>
     DESC
     task :install do    
       

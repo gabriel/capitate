@@ -5,15 +5,23 @@ namespace :ruby do
     desc <<-DESC
     Install ruby and rubygems.
     
-    *ruby_build_options*: Ruby build options.\n
-    *rubygems_build_options*: Rubygems build options.\n
+    <dl>    
+    <dt>ruby_build_options</dt>
+    <dd>Ruby build options.</dd>
+    
+    <dt>rubygems_build_options<dt>
+    <dd>Rubygems build options.</dd>    
+    </dl>
+    
     <pre>
+    <code class="ruby">
     set :ruby_build_options, {
       :url => "http://capitate.s3.amazonaws.com/ruby-1.8.6-p110.tar.gz",
       :build_dest => "/usr/src",
       :configure_options => "--prefix=/usr",       
       :clean => false
     }
+    </code>
     </pre>
     DESC
     task :install do 

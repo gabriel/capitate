@@ -5,8 +5,14 @@ namespace :backgroundrb do
     desc <<-DESC
     Setup backgroundrb for application.
     
-    *backgroundrb_bin_path*: Path to start. _Defaults to @{current_path}/script/backgroundrb start@_\n
-    *backgroundrb_pid_path*: Path to backgroundrb pid file. _Defaults to @{shared_path}/pids/backgroundrb.pid@_\n
+    <dl>
+    <dt>backgroundrb_bin_path</dt>
+    <dd>Path to start.
+    <dd class="default">Defaults to @\#{current_path}/script/backgroundrb -e production start@</dd>
+    <dt>backgroundrb_pid_path</dt>
+    <dd>Path to backgroundrb pid file</dd>
+    <dd class="default">Defaults to @\#{shared_path}/pids/backgroundrb.pid@</dd>
+    </dl>
     DESC
     task :setup do       
       

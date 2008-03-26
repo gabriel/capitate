@@ -7,7 +7,7 @@ module Capitate
         base.send :alias_method, :fetch, :fetch_with_capitate
       end
     
-      # Fetch (alias method chained) variable.
+      # Fetch.
       # Displays usage message from recipe docs if variable not found.
       #
       # See capistrano fetch for usage info.
@@ -72,7 +72,7 @@ module Capitate
         nil        
       end
       
-      # Fetch roles with name and options
+      # Fetch roles with name and options.
       # I don't actually use this.
       #
       # ==== Options

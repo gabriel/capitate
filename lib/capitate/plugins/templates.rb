@@ -1,6 +1,6 @@
 module Capitate::Plugins::Templates
   
-  # Load template. If extension is erb will be evaluated with binding.
+  # Load template. If the extension is .erb will be evaluated with binding.
   #
   # You can add to the list of places we search for templates by setting:
   #
@@ -17,8 +17,9 @@ module Capitate::Plugins::Templates
   # +override_binding+:: Binding to override, otherwise uses current (task) binding
   #
   # ==== Examples
-  #   template.load("memcached/memcached.monitrc.erb")
-  #   put template.load("memcached/memcached.monitrc.erb"), "/tmp/memcached.monitrc"
+  #   template.load("memcached/memcached.monitrc.erb") => "This is the text of eval'ed template found at ..."
+  #
+  #   put template.load("memcached/memcached.monitrc.erb"), "/tmp/memcached.monitrc" # Uploads eval'ed template to remote /tmp/ directory
   #
   def load(path, override_binding = nil)
     template_dirs_found = template_dirs.select { |dir| File.exist?("#{dir}/#{path}") }
@@ -69,9 +70,16 @@ module Capitate::Plugins::Templates
     
 protected
 
-  # Load all possible places for templates
+  # Load all possible places for templates.
+  #
+  # Returns:
+  # * the <tt>:templates_dirs</tt> setting (if set)
+  # * the current directory
+  # * the <tt>:project_root</tt> setting (if set)
+  # * the gem templates path
+  #
   def template_dirs
-    @template_dir ||= begin
+    @template_dirs ||= begin
       template_dirs = []      
       template_dirs += fetch(:templates_dirs) if exists?(:templates_dirs)      
       template_dirs << "."
@@ -88,10 +96,11 @@ protected
   
   # Get full template path from relative path.
   #
-  # Something like <tt>monit/monit.cnf => /usr/lib/..../capitate/lib/templates/monit/monit.cnf</tt>.
-  #
   # ==== Options 
   # +template_path+:: Relative path
+  #
+  # ==== Examples
+  #    gem_template_path("monit/monit.cnf") => /usr/lib/..../capitate/lib/templates/monit/monit.cnf
   #
   def gem_template_path(template_path)
     File.join(gem_templates_root, template_path)

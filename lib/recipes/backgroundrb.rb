@@ -7,9 +7,19 @@ namespace :backgroundrb do
   
     pid_file = "\#{CONFIG_FILE[:backgroundrb][:pid_file]}"
   
-  *backgroundrb_host*: Backgroundrb host. _Defaults to 0.0.0.0_\n
-  *backgroundrb_port*: Backgroundrb port. _Defaults to 11006_\n
-  *backgroundrb_yml_template*: Backgroundrb yml template. _Defaults to @backgroundrb/backgroundrb.yml.erb@ in this gem.\n
+  <dl>
+    <dt>backgroundrb_host</dt>
+    <dd>Backgroundrb host</dd>
+    <dd class="default">Defaults to @0.0.0.0@</dd>
+    
+    <dt>backgroundrb_port</dt>
+    <dd>Backgroundrb port</dd>
+    <dd class="default">Defaults to @11006@</dd>
+  
+    <dt>backgroundrb_yml_template</dt>
+    <dd>Backgroundrb yml template</dd>
+    <dd class="default">Defaults to @backgroundrb/backgroundrb.yml.erb@ in this gem.</dd>
+  </dl>
   DESC
   task :setup do
     fetch_or_default(:backgroundrb_host, "0.0.0.0")
@@ -21,10 +31,10 @@ namespace :backgroundrb do
   end
   
   desc <<-DESC
-  Symlink backgroundrb config into release path.  
+  Symlink backgroundrb config into current path.  
   DESC
   task :update_code do
-    run "ln -nfs #{shared_path}/config/backgroundrb.yml #{release_path}/config/backgroundrb.yml" 
+    run "ln -nfs #{shared_path}/config/backgroundrb.yml #{current_path}/config/backgroundrb.yml" 
   end
   
 end

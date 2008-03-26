@@ -5,17 +5,16 @@ require 'yaml'
 module Capitate::Plugins::Base
   
   # Project root. Fetch from :project_root, or fall back to RAILS_ROOT.
-  #
   def root
-    if respond_to?(:fetch)
-      return fetch(:project_root)
-    else
-      RAILS_ROOT
-    end
+    return fetch(:project_root) if exists?(:project_root)
+    RAILS_ROOT
   end
     
   # Path relative to project root.
-  # Project root is set via, set :project_root, "path/to/project" in Capfile.
+  #
+  # To set the project root:
+  #
+  #   set :project_root, "path/to/project" in Capfile.
   #
   # ==== Options
   # +path+:: Relative path
@@ -48,7 +47,7 @@ module Capitate::Plugins::Base
   # Usage for current task.
   #
   # ==== Options
-  # +variable+:: Missing variable setting
+  # +variable+:: Missing variable setting (to display as not set)
   #
   # ==== Examples
   #   usage(:gem_list) => "Description from task definition."
@@ -86,7 +85,13 @@ module Capitate::Plugins::Base
     s.split("\n").collect { |sp| "#{indentation}#{sp}"}.join("\n")
   end
   
-  # Unindent, lifted from capistrano bin/capify
+  # Unindent.
+  #
+  # Lifted from capistrano bin/capify
+  #
+  # ==== Options
+  # +string+:: String to unindent
+  #
   def unindent(string)
     return "" if string.blank?
     if string =~ /\A(\s*)/
@@ -96,7 +101,7 @@ module Capitate::Plugins::Base
     string
   end  
   
-  # Load all tasks
+  # Load all tasks into an array.
   def load_all_tasks
     tasks = []
     top.namespaces.each do |namespace|
@@ -105,7 +110,7 @@ module Capitate::Plugins::Base
     tasks
   end
   
-  # Task tree
+  # Build a task tree, consisting of task nodes.  
   def task_tree
     top_node = Capitate::TaskNode.new("top")
     
@@ -116,7 +121,7 @@ module Capitate::Plugins::Base
   end
 
 protected
-  
+    
   def load_tasks(namespace, tasks = [])    
     recipe = namespace.last
     

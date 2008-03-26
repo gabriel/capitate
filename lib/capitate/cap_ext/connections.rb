@@ -12,13 +12,21 @@ module Capitate
       # establishes connections to them, and then yields that list of
       # servers.
       #
-      # Overriden to handle NoMatchingServersError as NON-FATAL
+      # If you set:
+      #
+      #   set :ignore_missing_roles, true
+      #
+      # Overriden to handle NoMatchingServersError as NON-FATAL.      
       #  
-      def execute_on_servers_with_capitate(options={}, &block)
-        begin
+      def execute_on_servers_with_capitate(options={}, &block)        
+        if exists?(:ignore_missing_roles) && fetch(:ignore_missing_roles)        
+          begin
+            execute_on_servers_without_capitate(options, &block)
+          rescue Capistrano::NoMatchingServersError => e
+            logger.important "`#{current_task.fully_qualified_name}' is only run for servers matching #{current_task.options.inspect}, but no servers matched"
+          end
+        else
           execute_on_servers_without_capitate(options, &block)
-        rescue Capistrano::NoMatchingServersError => e
-          logger.important "`#{current_task.fully_qualified_name}' is only run for servers matching #{current_task.options.inspect}, but no servers matched"
         end
       end
   
@@ -59,7 +67,7 @@ module Capitate
         clear_sessions
       end
   
-      # Yields the previous user.
+      # Perform action as a different user. Yields the previous user to the block.
       #
       # ==== Options
       # +new_user+:: User to become
@@ -81,8 +89,7 @@ module Capitate
         clear_sessions
       end
   
-      # Close all open sessions.
-      # Will force user to re-login.
+      # Close all open sessions, and will force user to re-login.
       def clear_sessions    
         sessions.each do |key, session|
           logger.info "Closing: #{key}"
@@ -91,15 +98,7 @@ module Capitate
         sessions.clear    
         reset_password
       end
-  
-      # Reset the password.
-      # Display the current user that is asking for the password.
-      def reset_password
-        set :password, Proc.new {
-          Capistrano::CLI.password_prompt("Password (for user: #{user}): ")
-        }  
-      end
-    
+      
     end
   end
 end

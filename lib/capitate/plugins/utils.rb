@@ -27,12 +27,14 @@ module Capitate::Plugins::Utils
   # ==== Options
   # +template_path+:: Path to template
   # +destination+:: Remote path to evaluated template
-  # +options+::
-  # - +user+:: User to install (-o)
-  # - +mode+:: Mode to install file (-m)
+  # +options+:: Options (see Install template options)
+  #
+  # ==== Install template options
+  # +user+:: User to install (-o)
+  # +mode+:: Mode to install file (-m)
   #
   # ==== Example
-  #   utils.install_template("monit/memcached.monitrc.erb", "/etc/monit/memcached.monitrc")
+  #   utils.install_template("monit/memcached.monitrc.erb", "/etc/monit/memcached.monitrc", :user => "root", :mode => "600")
   #
   def install_template(template_path, destination, options = {})
     # Truncate extension
@@ -96,7 +98,7 @@ module Capitate::Plugins::Utils
   # ==== Options
   # +path+:: Path to file to append to
   # +data+:: String data to append
-  # +check+:: If not nil, will check to see if egrep matches "^string_to_check" and will not re-append
+  # +check+:: If not nil, will check to see if egrep matches this regex and will not re-append
   # +left_strip+:: If true (default), remove whitespace before lines
   # +should_exist+:: If true (default), raise error if file does not exist
   #

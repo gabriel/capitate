@@ -1,11 +1,12 @@
 module Capitate::Plugins::Upload
   
   # Upload file with source path.
+  #
   # Data is streamed.
   #
   # ==== Options
   # +src_path+:: Source path
-  # +dest_path:: Remote destination path
+  # +dest_path+:: Remote destination path
   # +options+:: Options (see capistrano 'put')
   #
   # ==== Examples

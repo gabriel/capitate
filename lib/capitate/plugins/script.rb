@@ -36,9 +36,11 @@ module Capitate::Plugins::Script
   # ==== Options
   # +url+:: URL to download
   # +dest+:: Destination directory
-  # +options+::
-  # - +clean+:: If true will remove the unpacked directory. _Defaults to true_
-  # - +unpack_dir+:: Directory that is unpacked from tgz (if not matching the file name)
+  # +options+:: Options (see Unpack options)
+  #
+  # ==== Unpack options
+  # +clean+:: If true will remove the unpacked directory. _Defaults to true_
+  # +unpack_dir+:: Directory that is unpacked from tgz (if not matching the file name)
   #
   # ==== Examples
   #   script.unpack("http://rubyforge.org/frs/download.php/29548/rubygems-1.0.1.tgz", "/tmp/rubygems") do
@@ -80,7 +82,7 @@ module Capitate::Plugins::Script
   #
   # ==== Options
   # +cmds+:: Commands (separated by newlines)
-  # +options+:: See invoke_command options
+  # +options+:: See Capistrano invoke_command options
   #
   def run_all(cmds, options = {}, &block)    
     cmds.split("\n").each do |cmd|

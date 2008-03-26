@@ -2,6 +2,8 @@ module Capitate::CapExt::RunVia
   
   # Invoke command with current run_method setting.
   #
+  # Chooses +sudo+ or +run+ based on <tt>:run_method</tt> setting.
+  #
   # ==== Options
   # +cmd+:: Command to run
   # +options+:: Options (see invoke_command options)

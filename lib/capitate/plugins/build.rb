@@ -4,16 +4,17 @@ module Capitate::Plugins::Build
   #
   # ==== Options
   # +name+:: Name for app
-  # +options+:: Options 
-  # - +build_dest+:: Place to build from, ex. /usr/src, defaults to /tmp/name
-  # - +url+:: URL to download package from
-  # - +configure_options+:: Options for ./configure
-  # - +symlink+:: After install, list of source, dest pairs to symlink 
+  # +options+:: Options (See Make install options)
+  #
+  # ==== Make install options
+  # +build_dest+:: Place to build from, ex. /usr/src, defaults to /tmp/name
+  # +url+:: URL to download package from
+  # +configure_options+:: Options for ./configure
+  # +symlink+:: After install, list of source, dest pairs to symlink 
   #    [ { "/usr/local/sphinx-0.9.8-rc1" => "/usr/local/sphinx" }, ... ]
   #    ln -s /usr/local/sphinx-0.9.8-rc1 /usr/local/sphinx
-  #
-  # - +unpack_dir+:: Directory that is unpacked from tgz (if not matching the file name)
-  # - +to_log+:: If specified, will redirect output to this path
+  # +unpack_dir+:: Directory that is unpacked from tgz (if not matching the file name)
+  # +to_log+:: If specified, will redirect output to this path
   #
   # ==== Examples (in capistrano task)
   #   build.make_install("nginx", { :url => "http://sysoev.ru/nginx/nginx-0.5.35.tar.gz", ... })
@@ -44,9 +45,11 @@ module Capitate::Plugins::Build
   # 
   # ==== Options
   # +name+:: Name for app
-  # +options+:: Options
-  # - +build_dest+:: Place to build from, ex. /usr/src, defaults to /tmp/name
-  # - +url+:: URL to download package from
+  # +options+:: Options (see Install options)
+  #
+  # ==== Install options
+  # +build_dest+:: Place to build from, ex. /usr/src, defaults to /tmp/name
+  # +url+:: URL to download package from
   # 
   # ==== Examples (in capistrano task)
   #   script.make("rubygems", { :url => :url => "http://rubyforge.org/frs/download.php/29548/rubygems-1.0.1.tgz" }) do |dir|

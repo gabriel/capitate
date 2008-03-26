@@ -16,10 +16,12 @@ module Capitate::Plugins::Prompt
   #
   # ==== Options
   # +label+:: Label
-  # +options+:: Options
-  # - +verify+:: If true, prompt twice and verify
-  # - +lazy+:: If true, returns a Proc. _Defaults to true_
-  # - +check_hash+:: If present, checks that md5 is same as password md5
+  # +options+:: Options (see Password options)
+  #
+  # ==== Password options
+  # +verify+:: If true, prompt twice and verify
+  # +lazy+:: If true, returns a Proc. _Defaults to true_
+  # +check_hash+:: If present, checks that md5 is same as password md5
   #
   def password(label, options = {})
     
@@ -66,10 +68,6 @@ module Capitate::Plugins::Prompt
     return password_prompt if lazy
     password_prompt.call
   end  
-  
-  def check_password_hash(password, hash)
-    MD5.md5()
-  end
   
 end
 

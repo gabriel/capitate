@@ -35,6 +35,7 @@ namespace :memcached do
     <dd>@set :memcached_port, 11211@</dd>
     
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do
 

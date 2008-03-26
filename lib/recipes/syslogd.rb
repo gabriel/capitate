@@ -6,6 +6,8 @@ namespace :syslogd do
   *syslog_program_name*: syslog program name. What you used for <tt>SyslogLogger.new("program_name_here")</tt>\n  
   *syslog_log_path*: Path to log.\n
   *syslog_conf_path*: Path to syslog conf. _Defaults to <tt>/etc/syslog.conf</tt>_\n
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :setup_conf do 
     
@@ -37,6 +39,8 @@ namespace :syslogd do
   *newsyslog_size*: Max size. _Defaults to *_\n
   *newsyslog_when*: When to rotate. _Defaults to @T00_\n
   *newsyslog_zb*: Whether to gzip or tarball. _Defaults to Z_\n
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :setup_newsyslog_conf do
     

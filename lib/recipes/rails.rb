@@ -15,6 +15,8 @@ namespace :rails do
   *db_socket*: Database socket (can be nil, if you are using host). _Defaults to nil_\n    
   @set :db_socket, "/var/lib/mysql/mysql.sock"@\n
   *database_yml_template*: Path to database yml erb template. _Defaults to <tt>rails/database.yml.erb</tt>_ (in this GEM)\n
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :setup, :roles => :app do    
     
@@ -49,8 +51,11 @@ namespace :rails do
   namespace :logs do 
     
     desc <<-DESC
-    Tail production log files.\n
-    http://errtheblog.com/posts/19-streaming-capistrano
+    Tail production log files.
+    
+    "From errtheblog":http://errtheblog.com/posts/19-streaming-capistrano
+
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :tail, :roles => :web do
       run "tail -f #{shared_path}/log/production.log" do |channel, stream, data|
@@ -62,8 +67,11 @@ namespace :rails do
 
 
     desc <<-DESC
-    Check production log files in TextMate.\n
-    See http://errtheblog.com/posts/19-streaming-capistrano
+    Check production log files in TextMate.
+    
+    "From errtheblog":http://errtheblog.com/posts/19-streaming-capistrano
+
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :mate, :roles => :app do
 
@@ -87,8 +95,11 @@ namespace :rails do
   end
 
   desc <<-DESC
-  Remotely console.\n
-  See http://errtheblog.com/posts/19-streaming-capistrano
+  Remotely console.
+  
+  "From errtheblog":http://errtheblog.com/posts/19-streaming-capistrano
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :console, :roles => :app do
     input = ''

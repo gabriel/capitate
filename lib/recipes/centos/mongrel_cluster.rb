@@ -38,6 +38,7 @@ namespace :mongrel do
       <dd class="default">Defaults to @{}@</dd>
       
       </dl>
+      "Source":#{link_to_source(__FILE__)}
       DESC
       task :setup do 
 

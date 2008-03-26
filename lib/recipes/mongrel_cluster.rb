@@ -7,6 +7,7 @@ namespace :mongrel do
       
       desc <<-DESC
       Create monit configuration for mongrel cluster.
+      "Source":#{link_to_source(__FILE__)}
       DESC
       task :setup do
     

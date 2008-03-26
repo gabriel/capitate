@@ -23,9 +23,9 @@ namespace :centos do
   <dt>home_readable</dt>
   <dd>Whether home permissions are readable by all. Needed if using deploy dir as home.</dd>
   <dd class="default">Defaults to @true@</dd>
-  <dd>@set :home_readable, true@</dd>
-  
+  <dd>@set :home_readable, true@</dd>  
   </dl>
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :add_user do
     

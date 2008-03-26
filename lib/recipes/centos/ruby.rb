@@ -23,6 +23,7 @@ namespace :ruby do
     }
     </code>
     </pre>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do 
 

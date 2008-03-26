@@ -15,6 +15,7 @@ namespace :docs do
   <dd>Whether to clear destination before generating.</dd>  
   <dd>@set :docs_recipes_clear, true@</dd>
   </dl>
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :recipes do
     

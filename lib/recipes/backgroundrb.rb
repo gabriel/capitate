@@ -20,6 +20,8 @@ namespace :backgroundrb do
     <dd>Backgroundrb yml template</dd>
     <dd class="default">Defaults to @backgroundrb/backgroundrb.yml.erb@ in this gem.</dd>
   </dl>
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :setup do
     fetch_or_default(:backgroundrb_host, "0.0.0.0")
@@ -32,6 +34,8 @@ namespace :backgroundrb do
   
   desc <<-DESC
   Symlink backgroundrb config into current path.  
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :update_code do
     run "ln -nfs #{shared_path}/config/backgroundrb.yml #{current_path}/config/backgroundrb.yml" 

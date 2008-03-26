@@ -18,6 +18,7 @@ namespace :nginx do
     <dd>Defaults to "/etc/monit"</dd>
     <dd>@set :monit_conf_dir, "/etc/monit"@</dd>
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do
     
@@ -49,6 +50,7 @@ namespace :nginx do
     <dt>domain_name</dt>: Domain name for nginx virtual host, (without www prefix).</dd>
     <dd>@set :domain_name, "foo.com"@</dd>
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :setup do 
     

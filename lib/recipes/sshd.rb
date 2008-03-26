@@ -8,6 +8,8 @@ namespace :sshd do
     *sshd_port*: SSH daemon port. _Defaults to 22_\n
     *sshd_pid_path*: Path to mysql pid file. _Defaults to /var/run/sshd.pid_\n
     *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
+    
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do
     
@@ -27,6 +29,8 @@ namespace :sshd do
       
   *ssh_keygen_type*: SSH keygen type. _Defaults to rsa_\n
   *ssh_keygen_bits*: SSH keygen bits. _Defaults to 2048_\n  
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :keygen do
     # Settings 
@@ -56,6 +60,8 @@ namespace :sshd do
   Add to authorized keys. Uses <tt>.ssh/authorized_keys</tt>.
   
   *ssh_public_key*: The public key from ssh:keygen.
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :authorize_key do
     

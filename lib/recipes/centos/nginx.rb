@@ -40,6 +40,7 @@ namespace :nginx do
     <dd class="default">Defaults to /var/nginx_</dd>
     <dd>@set :nginx_prefix_path, "/var/nginx"@</dd>
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do
       

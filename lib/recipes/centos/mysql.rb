@@ -11,6 +11,7 @@ namespace :mysql do
     <dd class="default">Defaults to password prompt.</dd>    
     <pre><code class="ruby">set :mysql_admin_password_set, prompt.password('Mysql admin password (to set): ')<code></pre>
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do    
       

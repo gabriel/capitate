@@ -13,6 +13,7 @@ namespace :backgroundrb do
     <dd>Path to backgroundrb pid file</dd>
     <dd class="default">Defaults to @\#{shared_path}/pids/backgroundrb.pid@</dd>
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :setup do       
       

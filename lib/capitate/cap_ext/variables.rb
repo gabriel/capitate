@@ -124,6 +124,13 @@ module Capitate
         return matched.first if matched
         nil
       end
+      
+      
+      def link_to_source(recipe_path)
+        full_path = File.expand_path(recipe_path)
+        project_path = File.expand_path(File.dirname(__FILE__) + "/../../../")
+        "http://github.com/gabriel/capitate/tree/master#{full_path.sub(project_path, "")}"
+      end
     
     end
   end

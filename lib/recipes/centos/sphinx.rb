@@ -47,6 +47,7 @@ namespace :sphinx do
     <dt>sphinx_conf_path</dt><dd>Path to sphinx.conf</dd><dd class="default">Defaults to @\#{shared_path}/config/sphinx.conf@</dd>
     <dt>sphinx_index_path</dt><dd>Path to sphinx indexes</dd><dd class="default">Defaults to @\#{shared_path}/var/index@</dd>
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :setup do       
       
@@ -79,6 +80,7 @@ namespace :sphinx do
     <dd class="default">Defaults to @3312@</dd>    
     <dd>@set :sphinx_port, 3312@</dd>
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :iptables do
       # Settings

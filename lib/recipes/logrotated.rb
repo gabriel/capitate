@@ -29,7 +29,7 @@ namespace :logrotated do
       :daily, :missingok, :compress, :delaycompress, :notifempty, :copytruncate ]
   </code>
   </pre>
-  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :install_conf do
     

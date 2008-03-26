@@ -4,7 +4,7 @@ namespace :mysql do
   namespace :monit do
   
     desc <<-DESC
-    Install mysql monit hooks.  
+    Install mysql monit hooks. "Source":#{link_to_source(__FILE__)}  
     DESC
     task :install do
     
@@ -44,6 +44,7 @@ namespace :mysql do
   <dd>Mysql admin password (to use to connect).</dd>
   <dd>Defaults to password prompt.</dd>
   </dl>
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :setup, :roles => :db do    
     

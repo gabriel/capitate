@@ -36,6 +36,7 @@ namespace :monit do
     <dd class="default">Defaults to @/var/log/monit.log@</dd>
     
     </dl>
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do
       

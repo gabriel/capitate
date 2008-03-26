@@ -7,6 +7,8 @@ namespace :sphinx do
     Create monit configuration for sphinx.\n  
     *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
     *sphinx_pid_path*: Location for sphinx pid. _Defaults to "[shared_path]/pids/searchd.pid"_\n
+    
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :setup do    
     
@@ -39,6 +41,7 @@ namespace :sphinx do
   *sphinx_db_host*: Sphinx DB host. _Defaults to db_host_\n
   *sphinx_conf_host*: Sphinx DB host to listen on. _Defaults to 127.0.0.1_\n
   
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :update_conf do
     
@@ -65,6 +68,8 @@ namespace :sphinx do
   
   *sphinx_prefix*: Location to sphinx install. _Defaults to nil_\n
   *sphinx_conf*: Location to sphinx conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n  
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :rotate_all do
     fetch_or_default(:sphinx_prefix, nil)
@@ -80,6 +85,8 @@ namespace :sphinx do
   
   *sphinx_prefix*: Location to sphinx install. _Defaults to nil_\n
   *sphinx_conf*: Location to sphinx conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n
+  
+  "Source":#{link_to_source(__FILE__)}
   DESC
   task :index_all do
     fetch_or_default(:sphinx_prefix, nil)

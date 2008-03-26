@@ -26,6 +26,7 @@ namespace :memcached do
   
     desc <<-DESC
     Generate and install memcached monitrc.
+    "Source":#{link_to_source(__FILE__)}
     DESC
     task :install do
     

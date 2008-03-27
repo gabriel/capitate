@@ -7,10 +7,12 @@ namespace :nginx do
   
     <dl>
     <dt>mongrel_application</dt>
-    <dd>Mongrel application. _Defaults to <tt>:application</tt>_
+    <dd>Mongrel application.</dd>
+    <dd class="default">Defaults to @:application@</dd>
     
-    <dt>mongrel_size</dt>: Number of mongrels.\n
-    <dd>@set :mongrel_size, 3@\n    
+    <dt>mongrel_size</dt>
+    <dd>Number of mongrels.</dd>
+    <dd>@set :mongrel_size, 3@</dd>  
     
     <dt>*mongrel_port</dt>
     <dd>Starting port for mongrels. If there are 3 mongrels with port 9000, then instances will be at 9000, 9001, and 9002</dd>

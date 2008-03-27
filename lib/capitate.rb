@@ -27,13 +27,13 @@ require 'capitate/plugins/yum'
 require "capitate/cap_ext/connections"
 require "capitate/cap_ext/variables"
 require "capitate/cap_ext/run_via"
-require "capitate/cap_ext/roles"
+require "capitate/cap_ext/docs"
         
 class Capistrano::Configuration   
   include Capitate::CapExt::Variables
   include Capitate::CapExt::RunVia
-  include Capitate::CapExt::Roles
   include Capitate::CapExt::Connections
+  include Capitate::CapExt::Docs
 end
 
 #module Capistrano::Configuration::Connections; end

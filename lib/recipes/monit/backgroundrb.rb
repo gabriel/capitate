@@ -23,13 +23,13 @@ namespace :backgroundrb do
       sudo "#{monit_bin_path} restart backgroundrb_#{application}"
     end
     
-    desc "Start mongrel cluster (for application)"
+    desc "Start backgroundrb (for application)"
     task :start do
       fetch_or_default(:monit_bin_path, "monit")
       sudo "#{monit_bin_path} start backgroundrb_#{application}" 
     end
     
-    desc "Stop mongrel cluster (for application)"
+    desc "Stop backgroundrb (for application)"
     task :stop do
       fetch_or_default(:monit_bin_path, "monit")
       sudo "#{monit_bin_path} stop backgroundrb_#{application}"

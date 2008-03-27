@@ -5,8 +5,7 @@ namespace :nginx do
     desc <<-DESC 
     Install nginx monit hooks.
   
-    <dl>
-    
+    <dl>    
     <dt>nginx_pid_path</dt>
     <dd>Path to nginx pid file</dd>
     <dd>Defaults to /var/run/nginx.pid</dd>
@@ -27,6 +26,24 @@ namespace :nginx do
     
       put template.load("nginx/nginx.monitrc.erb", binding), "/tmp/nginx.monitrc"    
       run_via "install -o root /tmp/nginx.monitrc #{monit_conf_dir}/nginx.monitrc"
+    end
+        
+    desc "Restart nginx (through monit)"
+    task :restart do
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} restart nginx"
+    end
+    
+    desc "Start nginx (through monit)"
+    task :start do
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} start nginx" 
+    end
+    
+    desc "Stop nginx (through monit)"
+    task :stop do
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} stop nginx"
     end
     
   end

@@ -55,6 +55,17 @@ namespace :logrotated do
   
   desc <<-DESC
   Force rotate files.
+  
+  <dl>
+  <dt>logrotate_prefix</dt>
+  <dd>Path to logrotate</dd>
+  <dd>Defaults to none</dd>
+  
+  <dt>logrotate_conf_path</dt>
+  <dd>Path to logrotate conf</dd>
+  <dd>Defaults to @"/etc/logrotate.conf"@</dd>
+  </dl>
+  "Source":#{link_to_source(__FILE__)}   
   DESC
   task :force do 
         

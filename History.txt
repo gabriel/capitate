@@ -1,3 +1,10 @@
+== 0.2.14
+
+* Removing my lame monkey patches
+* Mysql cnf template
+* Cleaning up mysql grant locations
+* Logrotate for mysql slow query log
+
 == 0.2.13 2008-03-26
 
 * Fixing monit re/start for mongrel cluster and backgroundrb

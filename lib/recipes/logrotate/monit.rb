@@ -5,7 +5,12 @@ namespace :monit do
     desc <<-DESC
     Install logrotated conf for monit.
     
-    *monit_log_path*: Path to monit log. _Defaults to <tt>/var/log/monit.log</tt>_
+    <dl>
+    <dt>monit_log_path</dt>
+    <dd>Path to monit log</dd>
+    <dd class="default">Defaults to @"/var/log/monit.log"@</dd>
+    </dl>
+    "Source":#{link_to_source(__FILE__)}    
     DESC
     task :install do
       

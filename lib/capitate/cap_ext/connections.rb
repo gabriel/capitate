@@ -3,33 +3,6 @@ module Capitate
   module CapExt
     module Connections
   
-      def self.included(base) #:nodoc:
-        base.send :alias_method, :execute_on_servers_without_capitate, :execute_on_servers
-        base.send :alias_method, :execute_on_servers, :execute_on_servers_with_capitate
-      end
-  
-      # Determines the set of servers within the current task's scope and
-      # establishes connections to them, and then yields that list of
-      # servers.
-      #
-      # If you set:
-      #
-      #   set :ignore_missing_roles, true
-      #
-      # Overriden to handle NoMatchingServersError as NON-FATAL.      
-      #  
-      def execute_on_servers_with_capitate(options={}, &block)        
-        if exists?(:ignore_missing_roles) && fetch(:ignore_missing_roles)        
-          begin
-            execute_on_servers_without_capitate(options, &block)
-          rescue Capistrano::NoMatchingServersError => e
-            logger.important "`#{current_task.fully_qualified_name}' is only run for servers matching #{current_task.options.inspect}, but no servers matched"
-          end
-        else
-          execute_on_servers_without_capitate(options, &block)
-        end
-      end
-  
       # Set the user to something new (but save the old user; reset_user will set it back).
       # Takes care of invalidating current connections. Will force a re-login.
       # 

@@ -10,7 +10,7 @@ config/requirements.rb
 docs/nginx.README
 lib/capitate.rb
 lib/capitate/cap_ext/connections.rb
-lib/capitate/cap_ext/roles.rb
+lib/capitate/cap_ext/docs.rb
 lib/capitate/cap_ext/run_via.rb
 lib/capitate/cap_ext/variables.rb
 lib/capitate/plugins/base.rb
@@ -41,6 +41,7 @@ lib/recipes/docs.rb
 lib/recipes/logrotate/backgroundrb.rb
 lib/recipes/logrotate/mongrel_cluster.rb
 lib/recipes/logrotate/monit.rb
+lib/recipes/logrotate/mysql.rb
 lib/recipes/logrotate/nginx.rb
 lib/recipes/logrotate/rails.rb
 lib/recipes/logrotate/sphinx.rb
@@ -48,6 +49,7 @@ lib/recipes/logrotated.rb
 lib/recipes/memcached.rb
 lib/recipes/monit.rb
 lib/recipes/monit/backgroundrb.rb
+lib/recipes/monit/database.rb
 lib/recipes/monit/memcached.rb
 lib/recipes/monit/mongrel_cluster.rb
 lib/recipes/monit/mysql.rb
@@ -75,6 +77,7 @@ lib/templates/monit/monit.cnf
 lib/templates/monit/monit.initd.centos.erb
 lib/templates/monit/monitrc.erb
 lib/templates/mysql/install_db.sql.erb
+lib/templates/mysql/my.cnf.innodb_1024.erb
 lib/templates/mysql/mysql.monitrc.erb
 lib/templates/nginx/nginx.conf.erb
 lib/templates/nginx/nginx.initd.erb

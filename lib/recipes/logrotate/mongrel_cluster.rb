@@ -6,7 +6,12 @@ namespace :mongrel do
       desc <<-DESC
       Install logrotated conf for mongrel cluster.
     
-      *mongrel_cluster_logrotate_path*: Mongrel cluster logrotate path. _Defaults to <tt>{shared_path}/log/mongrel_cluster_*.log</tt>_
+      <dl>
+      <dt>mongrel_cluster_logrotate_path</dt>
+      <dd>Mongrel cluster logrotate path</dd>
+      <dd class="default">Defaults to @\#{shared_path}/log/mongrel_cluster_*.log@</dd>
+      </dl>
+      "Source":#{link_to_source(__FILE__)}    
       DESC
       task :install do
         fetch_or_default(:mongrel_cluster_logrotate_path, "#{shared_path}/log/mongrel_cluster_*.log")

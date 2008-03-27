@@ -10,6 +10,7 @@ namespace :backgroundrb do
     <dd>Backgroundrb logrotate paths.</dd>
     <dd class="default">Defaults to @\#{shared_path}/log/backgroundrb*.log@</dd>
     </dl>
+    "Source":#{link_to_source(__FILE__)}    
     DESC
     task :install do
       fetch_or_default(:backgroundrb_logrotate_path, "#{shared_path}/log/backgroundrb*.log")

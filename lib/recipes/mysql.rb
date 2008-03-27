@@ -36,18 +36,7 @@ namespace :mysql do
     fetch(:db_pass)
     fetch_or_default(:mysql_admin_password, prompt.password('Mysql admin password: '))
     fetch_or_default(:mysql_grant_priv_type, "ALL")
-    
-    # Set grant locations to all servers in roles: :search, :db, :app
-    unless exists?(:mysql_grant_locations) 
-      mysql_grant_locations = [ "localhost" ]
-      role_names = [ :search, :db, :app ]
-      role_names.each do |role_name| 
-        roles[role_name].each do |role|
-          mysql_grant_locations << role.host
-        end unless roles[role_name].blank?
-      end
-      set :mysql_grant_locations, mysql_grant_locations.uniq!
-    end 
+    fetch_or_default(:mysql_grant_locations, [ "localhost" ])
     
     sql = template.load("mysql/install_db.sql.erb")       
     
@@ -56,5 +45,32 @@ namespace :mysql do
     put sql, "/tmp/install_db_#{application}.sql"    
     run "mysql -u root -p#{mysql_admin_password} < /tmp/install_db_#{application}.sql"
   end
+  
+  desc <<-DESC
+  Create my.cnf based on template.
+  
+  <dl>
+  <dt>my_cnf_template</dt>
+  <dd>Path to my.cnf template</dd>
+  
+  <dt>db_socket</dt>
+  <dd>Path to mysql .sock</dd>
+  <dd class="default">Defaults to @"/var/lib/mysql/mysql.sock"@</dd>
+  
+  <dt>db_port</dt>
+  <dd>Mysql port</dd>
+  <dd class="default">Defaults to @3306@</dd>
+  </dl>
+  
+  "Source":#{link_to_source(__FILE__)}
+  DESC
+  task :install_my_cnf, :roles => :db do      
+    fetch_or_default(:my_cnf_template, "mysql/my.cnf.innodb_1024.erb")      
+    fetch_or_default(:db_socket, "/var/lib/mysql/mysql.sock")
+    fetch_or_default(:db_port, 3306)
+    
+    utils.install_template(my_cnf_template, "/etc/my.cnf")    
+  end
+  
   
 end

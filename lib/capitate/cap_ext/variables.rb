@@ -21,7 +21,7 @@ module Capitate
           if message.blank?
             message = <<-EOS
 
-            Please set :#{variable} variable in your Capfile or profile.
+            Please set :#{variable} variable in your Capfile or deploy.rb
 
             EOS
           end

@@ -71,6 +71,7 @@ module Capitate::Plugins::Base
     
       EOS
     end
+    message
   end
   
   # Indent string block.

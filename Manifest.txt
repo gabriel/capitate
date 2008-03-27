@@ -99,7 +99,6 @@ tasks/website.rake
 test/test_helper.rb
 test/test_plugin_upload.rb
 test/test_recipes.rb
-test/test_roles.rb
 test/test_templates.rb
 website/index.html
 website/index.txt

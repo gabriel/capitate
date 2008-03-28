@@ -127,9 +127,17 @@ class Capitate::TaskNode
           names.pop
         end
       end
+      
       # Write breadcrumb
       file.puts %{ "home":../index.html > "recipes":index.html > #{links.reverse.join(" > ")} }
     
+      # Write task count
+      # count = 0
+      # each_node do |snode, level|
+      #   count += snode.tasks.length
+      # end
+      # file.puts %{\n\n*#{count}* tasks!\n\n}
+      
       #
       # Namespace
       #
@@ -137,8 +145,9 @@ class Capitate::TaskNode
         file.puts "\n\nh2. Namespaces\n\n"
         each_node do |snode, level|
           #li_level = (0..level).collect { "*" }.join
+          li_level = "*"
           if snode.tasks.length > 0
-            file.puts %{* "#{snode.full_name(":")}":#{snode.full_name}.html (#{snode.tasks.length}) \n}                  
+            file.puts %{#{li_level} "#{snode.full_name(":")}":#{snode.full_name}.html (#{snode.tasks.length}) \n}                  
           end
         end        
       end

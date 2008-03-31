@@ -1,4 +1,3 @@
 check process backgroundrb_<%= application %> with pidfile <%= backgroundrb_pid_path %>
   start program = "/sbin/service backgroundrb_<%= application %> start" 
   stop program =  "/sbin/service backgroundrb_<%= application %> stop" 
-  if failed host 127.0.0.1 port <%= backgroundrb_port %> then restart

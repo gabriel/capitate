@@ -1,0 +1,94 @@
+#!/bin/bash
+#
+# Copyright (c) 2007 Bradley Taylor, bradley@railsmachine.com
+#
+# mongrel_cluster_<%= application %>   Startup script for Mongrel clusters (<%= application %>)
+#
+# chkconfig: - 85 15
+# description: mongrel_cluster_<%= application %> manages multiple Mongrel processes for use \
+#              behind a load balancer.
+#
+# Modified by: Gabriel Handford http://ducktyper.com
+#              
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+NAME="mongrel_cluster_<%= application %>"
+CONF_DIR=<%= mongrel_config_dir %>
+PID_DIR=<%= mongrel_pid_dir %>
+USER=<%= user %>
+CMD=<%= mongrel_cluster_command %>
+
+RETVAL=0
+
+start() {
+  echo -n $"Starting $NAME: "
+  $CMD start -c $CONF_DIR --clean >/dev/null
+  RETVAL=$?
+  [ "$RETVAL" -eq 0 ] && success $"$NAME start" || failure $"$NAME start"
+  echo
+  return $RETVAL;  
+}
+
+stop() {
+  echo -n $"Stopping $NAME: "
+  $CMD stop -c $CONF_DIR >/dev/null
+  RETVAL=$?
+  [ "$RETVAL" -eq 0 ] && success $"$NAME shutdown" || failure $"$NAME shutdown"
+  echo
+  return $RETVAL;
+}
+
+restart() {
+  echo -n $"Restarting $NAME: "
+  $CMD restart -c $CONF_DIR >/dev/null
+  RETVAL=$?
+  [ "$RETVAL" -eq 0 ] && success $"$NAME restart" || failure $"$NAME restart"
+  echo 
+  return $RETVAL;
+}
+
+status() {
+  $CMD status -c $CONF_DIR
+  RETVAL=$?
+  echo 
+  return $RETVAL;
+}
+
+fail() {
+  echo "Failed to start: $1"
+  exit 1
+}
+
+# Gracefully exit if the controller is missing.
+which $CMD >/dev/null || fail "$CMD not found"
+
+# Go no further if config directory is missing.
+[ -d "$CONF_DIR" ] || fail "$CONF_DIR not found"
+
+# Go no further if config directory is missing.
+[ -d "$PID_DIR" ] || fail "$PID_DIR not found"
+
+case "$1" in
+    start)
+      start
+  ;;
+    stop)
+      stop
+  ;;
+    restart)
+      restart
+  ;;
+    status)
+      status
+  ;;
+    *)
+      echo "Usage: $0 {start|stop|restart|status}"
+      RETVAL=3;
+  ;;
+esac      
+
+exit $RETVAL

@@ -1,0 +1,69 @@
+#! /bin/sh
+# nginx Startup script for nginx
+#
+# chkconfig: - 86 14
+# description: nginx web server
+#
+# Author:	Ryan Norbauer <ryan.norbauer@gmail.com>
+# Modified: Geoffrey Grosenbach http://topfunky.com
+# Modified: Gabriel Handford http://ducktyper.com
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="nginx daemon"
+NAME=nginx
+DAEMON=<%= nginx_bin_path %>
+CONFIGFILE=<%= nginx_conf_path %>
+PIDFILE=<%= nginx_pid_path %>
+
+# Gracefully exit if the package has been removed.
+test -x $DAEMON || exit 0
+
+start() {
+  echo -n $"Starting $DESC: "
+  daemon $DAEMON -c $CONFIGFILE
+  RETVAL=$?
+  echo
+  return $RETVAL;  
+}
+
+stop() {
+  echo -n $"Stopping $DESC: "
+  killproc -p $PIDFILE nginx -QUIT
+  RETVAL=$?
+  echo 
+  return $RETVAL;
+}
+
+reload() {
+  echo -n $"Reloading $DESC: "
+  killproc -p $PIDFILE nginx -HUP
+  RETVAL=$?
+  echo 
+  return $RETVAL;
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  reload)
+  	reload
+  ;;
+  restart)
+  	stop
+  	sleep 1
+  	start
+	;;
+  *)
+	  echo "Usage: $0 {start|stop|restart|reload}" >&2
+	  exit 3
+	;;
+esac
+
+exit $RETVAL;

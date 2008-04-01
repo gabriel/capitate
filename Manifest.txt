@@ -27,6 +27,7 @@ lib/capitate/task_node.rb
 lib/capitate/version.rb
 lib/deployment/centos-5.1-64-web/install.rb
 lib/recipes/backgroundrb.rb
+lib/recipes/centos/backgroundjob.rb
 lib/recipes/centos/backgroundrb.rb
 lib/recipes/centos/centos.rb
 lib/recipes/centos/imagemagick.rb
@@ -38,6 +39,7 @@ lib/recipes/centos/nginx.rb
 lib/recipes/centos/ruby.rb
 lib/recipes/centos/sphinx.rb
 lib/recipes/docs.rb
+lib/recipes/logrotate/backgroundjob.rb
 lib/recipes/logrotate/backgroundrb.rb
 lib/recipes/logrotate/mongrel_cluster.rb
 lib/recipes/logrotate/monit.rb
@@ -48,6 +50,7 @@ lib/recipes/logrotate/sphinx.rb
 lib/recipes/logrotated.rb
 lib/recipes/memcached.rb
 lib/recipes/monit.rb
+lib/recipes/monit/backgroundjob.rb
 lib/recipes/monit/backgroundrb.rb
 lib/recipes/monit/database.rb
 lib/recipes/monit/memcached.rb
@@ -62,6 +65,8 @@ lib/recipes/rails.rb
 lib/recipes/sphinx.rb
 lib/recipes/sshd.rb
 lib/recipes/syslogd.rb
+lib/templates/backgroundjob/backgroundjob.initd.centos.erb
+lib/templates/backgroundjob/backgroundjob.monitrc.erb
 lib/templates/backgroundrb/backgroundrb.initd.centos.erb
 lib/templates/backgroundrb/backgroundrb.monitrc.erb
 lib/templates/backgroundrb/backgroundrb.yml.erb

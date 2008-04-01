@@ -1,0 +1,3 @@
+check process backgroundjob_<%= application %> with pidfile <%= backgroundjob_pid_path %>
+  start program = "/sbin/service backgroundjob_<%= application %> start" 
+  stop program =  "/sbin/service backgroundjob_<%= application %> stop" 

@@ -1,0 +1,55 @@
+#! /bin/sh
+# backgroundjob_<%= application %>: Backgroundjob daemon for <%= application %>
+#
+# chkconfig: - 86 14
+# description: backgroundjob daemon
+# processname: bj
+#
+# Author: Gabriel Handford http://ducktyper.com
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+DESC="backgroundjob daemon (<%= application %>)"
+DAEMON="<%= backgroundjob_bin_path %>"
+PIDFILE="<%= backgroundjob_pid_path %>"
+
+start() {
+  daemon --user <%= user %> --pidfile $PIDFILE $DAEMON
+  RETVAL=$?
+  echo
+  return $RETVAL;  
+}
+
+stop() {
+  kill -TERM `cat $PIDFILE` || echo -n " not running"
+}
+
+case "$1" in
+  start)
+  	echo -n "Starting $DESC: $NAME"
+  	start
+    RETVAL=$?;
+	;;
+  stop)
+  	echo -n "Stopping $DESC: $NAME"
+  	stop
+  	RETVAL=$?;
+	;;
+  restart)
+  	echo -n "Restarting $DESC: $NAME"
+  	stop
+  	# Sleep after stop
+  	sleep 1
+  	start
+  	RETVAL=$?;
+	;;
+  *)
+	  echo "Usage: $0 {start|stop|restart}" >&2
+	  RETVAL=3;
+	;;
+esac
+
+exit $RETVAL;

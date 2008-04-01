@@ -1,3 +1,8 @@
+== 0.3.1
+
+* Fixing the init scripts to use killproc and have nice output (centos)
+* Fixing sphinx initscript to clean on start (if process does not exist)
+
 == 0.2.15 2008-03-31
 
 * Adding backgroundjob recipes and templates.

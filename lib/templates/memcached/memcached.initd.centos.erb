@@ -22,6 +22,7 @@ PORT=<%= memcached_port %>
 USER=root
 
 start() {
+  echo -n $"Starting $DESC: "
   daemon $DAEMON -d -m $MEM -p $PORT -u $USER -P $PIDFILE
   RETVAL=$?
   echo
@@ -29,40 +30,27 @@ start() {
 }
 
 stop() {
-  kill -QUIT `cat $PIDFILE` || echo -n " not running"
-}
-
-reload() {
-  kill -HUP `cat $PIDFILE` || echo -n " can't reload"
+  echo -n $"Stopping $DESC: "
+  killproc -p $PIDFILE memcached
+  RETVAL=$?
+  echo 
+  return $RETVAL;
 }
 
 case "$1" in
   start)
-  	echo -n "Starting $DESC: $NAME"
   	start
-    RETVAL=$?;
 	;;
   stop)
-  	echo "Stopping $DESC: $NAME"
   	stop
-  	RETVAL=$?;
 	;;
-  reload)
-  	echo -n "Reloading $DESC configuration..."
-  	reload
-  	RETVAL=$?;
-  	echo "reloaded."
-  ;;
   restart)
-  	echo -n "Restarting $DESC: $NAME"
   	stop
-  	# Sleep after stop
   	sleep 1
   	start
-  	RETVAL=$?;
 	;;
   *)
-	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+	  echo "Usage: $0 {start|stop|restart}" >&2
 	  RETVAL=3;
 	;;
 esac

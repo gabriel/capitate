@@ -25,9 +25,6 @@ namespace :backgroundjob do
     "Source":#{link_to_source(__FILE__)}
     DESC
     task :setup do       
-      
-      
-      
       # Settings
       fetch_or_default(:backgroundjob_pid_path, "#{shared_path}/pids/bj.pid")
       fetch_or_default(:backgroundjob_log_path, "#{shared_path}/log/bj.log")

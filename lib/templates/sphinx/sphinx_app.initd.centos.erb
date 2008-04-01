@@ -18,58 +18,63 @@ DAEMON=<%= sphinx_prefix %>/bin/searchd
 CONFIGFILE=<%= sphinx_conf_path %>
 PIDFILE=<%= sphinx_pid_path %>
 INDEX_DIR=<%= sphinx_index_root %>
+USER=<%= user %>
+
 
 start() {
-  daemon --user <%= user %> $DAEMON --config $CONFIGFILE
+  echo -n $"Starting $DESC: "
+  daemon --user $USER --pidfile $PIDFILE $DAEMON --config $CONFIGFILE
   RETVAL=$?
   echo
   return $RETVAL;  
 }
 
 stop() {
-  kill -QUIT `cat $PIDFILE` || echo -n " not running"
+  echo -n $"Stopping $DESC: "
+  killproc -p $PIDFILE
+  RETVAL=$?
+  echo 
+  return $RETVAL;
 }
 
 reload() {
-  kill -HUP `cat $PIDFILE` || echo -n " can't reload"
+  echo -n $"Reloading $DESC: "
+  killproc -p $PIDFILE searchd -HUP
+  RETVAL=$?
+  echo 
+  return $RETVAL;
 }
 
 clean() {
-  pid=`cat $PIDFILE`
+  echo -n $"Cleaning $DESC: "
+  pid=`cat $PIDFILE 2>/dev/null`
   
   if checkpid $pid; then
-    echo -n " can't clean; running"
+    failure $"$NAME clean"
   else
     rm -f $INDEX_DIR/*.spl
-    return $?
+    RETVAL=$?
+    [ "$RETVAL" -eq 0 ] && success $"$NAME clean" || failure $"$NAME clean"    
   fi
-  return 1 
+  echo
+  return $RETVAL;
 }
 
 case "$1" in
   start)
-  	echo -n "Starting $DESC: $NAME"
+    clean
   	start
-    RETVAL=$?;
 	;;
   stop)
-  	echo -n "Stopping $DESC: $NAME"
   	stop
-  	RETVAL=$?;
 	;;
   reload)
-  	echo -n "Reloading $DESC configuration..."
   	reload
-  	RETVAL=$?;
-  	echo "reloaded."
   ;;
   restart)
-  	echo -n "Restarting $DESC: $NAME"
   	stop
-  	# Sleep after stop
   	sleep 1
   	start
-  	RETVAL=$?;
 	;;
 	clean)
     echo -n "Cleaning $DESC"
@@ -77,7 +82,7 @@ case "$1" in
     RETVAL=$?;
     ;;
   *)
-	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+	  echo "Usage: $0 {start|stop|restart|reload|clean}" >&2
 	  RETVAL=3;
 	;;
 esac

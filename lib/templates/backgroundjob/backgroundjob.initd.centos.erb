@@ -17,31 +17,30 @@ DAEMON="<%= backgroundjob_bin_path %>"
 PIDFILE="<%= backgroundjob_pid_path %>"
 
 start() {
-  daemon --user <%= user %> --pidfile $PIDFILE $DAEMON
+  echo -n $"Starting $DESC: "
+  daemon --user sick --pidfile $PIDFILE $DAEMON
   RETVAL=$?
   echo
   return $RETVAL;  
 }
 
 stop() {
-  kill -TERM `cat $PIDFILE` || echo -n " not running"
+  echo -n $"Stopping $DESC:"
+  killproc -p $PIDFILE
+  RETVAL=$?
+  echo 
+  return $RETVAL;
 }
 
 case "$1" in
   start)
-  	echo -n "Starting $DESC: $NAME"
   	start
-    RETVAL=$?;
 	;;
-  stop)
-  	echo -n "Stopping $DESC: $NAME"
-  	stop
-  	RETVAL=$?;
+  stop)  	
+  	stop  	
 	;;
   restart)
-  	echo -n "Restarting $DESC: $NAME"
   	stop
-  	# Sleep after stop
   	sleep 1
   	start
   	RETVAL=$?;

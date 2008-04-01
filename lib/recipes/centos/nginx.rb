@@ -57,10 +57,8 @@ namespace :nginx do
       # Build
       build.make_install("nginx", nginx_build_options)
 
-      # Install initscript, and turn it on
-      put template.load("nginx/nginx.initd.erb"), "/tmp/nginx.initd"
-      run_via "install -o root /tmp/nginx.initd /etc/init.d/nginx && rm -f /tmp/nginx.initd"
-      run_via "/sbin/chkconfig --level 345 nginx on"
+      # Initscript
+      initscript
 
       # Setup nginx
       run_via "mkdir -p /etc/nginx/vhosts"
@@ -70,6 +68,16 @@ namespace :nginx do
 
       # Create nginx user
       run_via "id nginx || /usr/sbin/adduser -r nginx"
+    end
+    
+    desc "Install nginx initscript"
+    task :initscript do
+      fetch_or_default(:nginx_bin_path, "/sbin/nginx")
+      fetch_or_default(:nginx_conf_path, "/etc/nginx/nginx.conf")
+      fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
+      
+      utils.install_template("nginx/nginx.initd.centos.erb", "/etc/init.d/nginx")
+      run_via "/sbin/chkconfig --level 345 nginx on"
     end
     
     # Restart nginx

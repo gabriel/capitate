@@ -61,16 +61,24 @@ namespace :mongrel do
         
         set :mongrel_pid_path, "#{mongrel_pid_dir}/#{mongrel_application}.pid"
         set :mongrel_log_path, "log/#{mongrel_application}.log"
-
-        put template.load("mongrel/mongrel_cluster.initd.erb"), "/tmp/#{mongrel_initscript_name}.initd"    
+            
         put template.load("mongrel/mongrel_cluster.yml.erb"), "#{mongrel_config_dir}/mongrel_cluster.yml"
 
-        # Setup the mongrel_cluster init script
-        sudo "install -o root /tmp/#{mongrel_initscript_name}.initd /etc/init.d/#{mongrel_initscript_name}"
-
-        sudo "/sbin/chkconfig --level 345 #{mongrel_initscript_name} on"
-      end
+        initscript
+      end    
     
+      desc "Mongrel cluster setup initscript for application"
+      task :initscript do
+
+        fetch_or_default(:mongrel_config_dir, "#{shared_path}/config/mongrel")
+        fetch_or_default(:mongrel_pid_dir, "#{shared_path}/pids")      
+        fetch_or_default(:mongrel_cluster_command, "mongrel_cluster_ctl")
+        fetch_or_default(:mongrel_initscript_name, "mongrel_cluster_#{application}")
+
+        utils.install_template("mongrel/mongrel_cluster.initd.centos.erb", "/etc/init.d/#{mongrel_initscript_name}")
+        run_via "/sbin/chkconfig --level 345 #{mongrel_initscript_name} on"
+      end
+      
     end
     
   end

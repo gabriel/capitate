@@ -2,19 +2,34 @@
 namespace :rails do
   
   desc <<-DESC
-  Create database yaml in shared path. Note: If both <tt>:db_host</tt> and <tt>:db_socket</tt> are used,
-  db_socket wins.
+  Create database yaml in shared path. Note: If both @:db_host@ and @:db_socket@ are used, @db_socket@ wins.
   
-  *db_name*: Database name (rails).\n    
-  @set :db_name, "app_db_name"@\n  
-  *db_user*: Database user (rails).\n  
-  @set :db_user, "app_db_user"@\n    
-  *db_pass*: Database password (rails).\n  
-  @set :db_pass, "the_password"@\n    
-  *db_host*: Database host (can be nil, if you are using socket). _Defaults to nil_\n
-  *db_socket*: Database socket (can be nil, if you are using host). _Defaults to nil_\n    
-  @set :db_socket, "/var/lib/mysql/mysql.sock"@\n
-  *database_yml_template*: Path to database yml erb template. _Defaults to <tt>rails/database.yml.erb</tt>_ (in this GEM)\n
+  <dl>
+  <dt>db_name</dt>
+  <dd>Database name (rails).</dd>  
+  <dd>@set :db_name, "app_db_name"@</dd>
+  
+  <dt>db_user</dt>
+  <dd>Database user (rails).</dd>
+  <dd>@set :db_user, "app_db_user"@</dd>    
+  
+  <dt>db_pass</dt>
+  <dd>Database password (rails).</dd>
+  <dd>@set :db_pass, "the_password"@</dd>   
+  
+  <dt>db_host</dt>
+  <dd>Database host (can be nil, if you are using socket).</dd>
+  <dd class="default">Defaults to @nil@</dd>
+  
+  <dt>db_socket</dt>
+  <dd>Database socket (can be nil, if you are using host).</dd>
+  <dd class="default">Defaults to @nil@</dd>      
+  <dd>@set :db_socket, "/var/lib/mysql/mysql.sock"@</dd>
+  
+  <dt>database_yml_template</dt>
+  <dd>Path to database yml erb template.
+  <dd class="default">Defaults to @rails/database.yml.erb@ (in this GEM)</dd>
+  </dl>
   
   "Source":#{link_to_source(__FILE__)}
   DESC

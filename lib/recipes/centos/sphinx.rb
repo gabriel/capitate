@@ -57,15 +57,24 @@ namespace :sphinx do
       fetch_or_default(:sphinx_conf_path, "#{shared_path}/config/sphinx.conf")      
       fetch_or_default(:sphinx_index_root, "#{shared_path}/var/index")      
 
-      # Install initscript
-      put template.load("sphinx/sphinx_app.initd.centos.erb"), "/tmp/sphinx.initd"
-      run_via "install -o root /tmp/sphinx.initd /etc/init.d/sphinx_#{application}"
-
-      # Enable service
-      run_via "/sbin/chkconfig --level 345 sphinx_#{application} on"    
+      initscript
 
       # Create app indexes dir
       run "mkdir -p #{shared_path}/var/index"    
+    end
+    
+    
+    desc "Setup sphinx initscript"
+    task :initscript do      
+
+      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
+      fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
+      fetch_or_default(:sphinx_conf_path, "#{shared_path}/config/sphinx.conf")      
+      fetch_or_default(:sphinx_index_root, "#{shared_path}/var/index")      
+      
+      utils.install_template("sphinx/sphinx_app.initd.centos.erb", "/etc/init.d/sphinx_#{application}")
+      run_via "/sbin/chkconfig --level 345 sphinx_#{application} on"
+      
     end
     
     

@@ -19,7 +19,9 @@ CONFFILE=/etc/monitrc
 LOGFILE=<%= monit_log_path %>
 PIDFILE=<%= monit_pid_path %>
 
+
 start() {
+  echo -n $"Starting $DESC: "
   daemon $DAEMON -l $LOGFILE -p $PIDFILE -c $CONFFILE
   RETVAL=$?
   echo
@@ -27,40 +29,38 @@ start() {
 }
 
 stop() {
-  kill -QUIT `cat $PIDFILE` || echo -n " not running"
+  echo -n $"Stopping $DESC: "
+  killproc -p $PIDFILE monit -TERM
+  RETVAL=$?
+  echo 
+  return $RETVAL;
 }
 
 reload() {
-  kill -HUP `cat $PIDFILE` || echo -n " can't reload"
+  echo -n $"Reloading $DESC: "
+  killproc -p $PIDFILE monit -HUP
+  RETVAL=$?
+  echo 
+  return $RETVAL;
 }
 
 case "$1" in
   start)
-  	#echo -n "Starting $DESC: $NAME"
   	start
-    RETVAL=$?;
 	;;
   stop)
-  	echo "Stopping $DESC: $NAME"
   	stop
-  	RETVAL=$?;
 	;;
   reload)
-  	echo -n "Reloading $DESC configuration..."
   	reload
-  	RETVAL=$?;
-  	echo "reloaded."
   ;;
   restart)
-  	echo -n "Restarting $DESC: $NAME"
   	stop
-  	# Sleep after stop
   	sleep 1
   	start
-  	RETVAL=$?;
 	;;
   *)
-	  echo "Usage: $0 {start|stop|restart|force-reload}" >&2
+	  echo "Usage: $0 {start|stop|restart|reload}" >&2
 	  RETVAL=3;
 	;;
 esac

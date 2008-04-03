@@ -77,26 +77,6 @@ namespace :sphinx do
       
     end
     
-    
-    desc <<-DESC
-    Install sphinx firewall rule.
-    
-    This doesn't work yet (doesn't insert in right place).
-    
-    <dl>
-    <dt>sphinx_portdt>
-    <dd>Sphinx port</dd>
-    <dd class="default">Defaults to @3312@</dd>    
-    <dd>@set :sphinx_port, 3312@</dd>
-    </dl>
-    "Source":#{link_to_source(__FILE__)}
-    DESC
-    task :iptables do
-      # Settings
-      fetch_or_default(:sphinx_port, 3312)      
-      run_via "iptables -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport #{sphinx_port} -j ACCEPT"
-      run_via "/sbin/service iptables save"
-    end
   end
   
 end

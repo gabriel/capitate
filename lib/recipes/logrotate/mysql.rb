@@ -3,7 +3,7 @@ namespace :mysql do
   namespace :logrotate do
     
     desc <<-DESC
-    Install logrotated conf for nginx.
+    Install logrotated conf for mysql.
     
     <dl>
     <dt>mysql_logrotate_path</dt>
@@ -12,7 +12,7 @@ namespace :mysql do
     </dl>
     "Source":#{link_to_source(__FILE__)}    
     DESC
-    task :install, :roles => :db do
+    task :install do
       fetch_or_default(:mysql_logrotate_path, "/var/lib/mysql/localhost-slow.log")
       
       set :logrotate_name, "mysql"

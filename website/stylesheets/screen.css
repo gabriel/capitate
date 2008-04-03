@@ -165,6 +165,10 @@ h2+ul {
 	cursor:	hand;
 }
 
+.options {
+  font-size: 0.8em;
+}
+
 /* Code highlighter */
 pre, code {
   font-family: "Bitstream Vera Sans Mono", monospace;

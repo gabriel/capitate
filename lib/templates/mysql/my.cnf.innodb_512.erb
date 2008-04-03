@@ -1,0 +1,127 @@
+#
+# my.cnf.innodb_1024
+#
+# This is a MySQL 5.x configuration file designed for the typical
+# webapp, running on a 1GB server that is also the app and 
+# httpd server. The below configuration dedicates about half of 
+# the system resources to MySQL. It is InnoDB-specific, and 
+# will not perform well with many MyISAM tables. It supports 
+# limited ACID and referential integrity. It does not support 
+# replication.
+#
+# By Evan Weaver
+# http://blog.evanweaver.com/articles/2007/04/30/top-secret-tuned-mysql-configurations-for-rails
+#
+# Copyright 2007, Cloudburst, LLC
+# Licensed under the Academic Free License v. 3.0
+# http://blog.evanweaver.com/files/mysql/LICENSE
+#
+# Modified by: gabrielh@gmail.com (http://ducktyper.com)
+#
+
+[client]
+port = <%= db_port %>
+socket = <%= db_socket %>
+#max_allowed_packet = 32M
+
+[mysqld]
+######### engine and access interfaces
+skip-networking 
+skip-locking 
+skip-bdb
+
+port = <%= db_port %>
+socket = <%= db_socket %>
+default-storage-engine = innodb
+
+######### character sets
+character_set_server = utf8
+collation_server = utf8_general_ci
+
+######### innodb options
+innodb_additional_mem_pool_size = 16M
+# buffer pool size is most critical for innodb's performance and memory usage
+innodb_buffer_pool_size = 160M    
+# innodb_buffer_pool_size = 256M
+innodb_data_file_path = ibdata1:10M:autoextend
+innodb_data_home_dir = /var/lib/mysql
+innodb_file_io_threads = 4
+innodb_thread_concurrency = 4
+# 2 is fastest but slightly less reliable than 0 or 1, if you don't trust your hard disks
+innodb_flush_log_at_trx_commit = 2
+
+innodb_log_buffer_size = 64M
+# innodb_log_file_size * innodb_log_files_in_group < buffer_pool_size
+innodb_log_file_size = 48M
+# innodb_log_file_size = 80M
+innodb_log_files_in_group = 3
+# use a secondary volume if possible for a concurrent read/write speed boost
+innodb_log_group_home_dir = /var/lib/mysql 
+
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+     
+######### myisam
+# innodb still requires the myisam engine for mysql's internal metadata table
+key_buffer_size = 16M
+
+######### general
+connect_timeout = 10
+back_log = 50
+# you can't have more mongrels or fastcgi processes than the max_connections setting
+max_connections = 64
+# max_connections = 96
+max_connect_errors = 10
+table_cache = 2048
+max_allowed_packet = 32M
+
+open_files_limit = 1024
+# this is the in-memory tmp table max size
+max_heap_table_size = 32M
+# max_heap_table_size = 64M
+# below are per-connection and per-sub-query
+join_buffer_size = 4M
+read_buffer_size = 4M
+sort_buffer_size = 8M
+read_rnd_buffer_size = 8M
+
+thread_cache_size = 8
+thread_concurrency = 8
+
+# query_cache_size is a global setting
+query_cache_size = 64M
+# query_cache_size = 128M
+query_cache_limit = 2M
+thread_stack = 192K
+transaction_isolation = READ-COMMITTED
+# this is the on-disk max size
+tmp_table_size = 128M
+tmpdir = /tmp
+
+
+# You can log slow queries to the mysql log directory to help isolate performance problems
+log_slow_queries
+long_query_time = 3
+log_long_format
+
+[mysqldump]
+quick
+max_allowed_packet = 32M
+
+[mysql]
+no-auto-rehash
+
+[myisamchk]
+# not used except when repairing the database at startup
+key_buffer = 64M
+sort_buffer_size = 64M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+[mysqld_safe]
+open-files-limit = 8192
+
+# PS. Do not under any circumstances enable binlog

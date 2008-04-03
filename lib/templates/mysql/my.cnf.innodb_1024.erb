@@ -16,6 +16,8 @@
 # Licensed under the Academic Free License v. 3.0
 # http://blog.evanweaver.com/files/mysql/LICENSE
 #
+# Modified by: gabrielh@gmail.com (http://ducktyper.com)
+#
 
 [client]
 port = <%= db_port %>
@@ -99,7 +101,7 @@ log_long_format
 
 [mysqldump]
 quick
-max_allowed_packet = 16M
+max_allowed_packet = 32M
 
 [mysql]
 no-auto-rehash

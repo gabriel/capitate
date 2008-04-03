@@ -3,11 +3,11 @@ namespace :backgroundjob do
   namespace :monit do
   
     desc <<-DESC
-    Generate and install backgroundjob (for application) monitrc.
+    Setup backgroundjob (for application) monitrc.
     
     "Source":#{link_to_source(__FILE__)}
     DESC
-    task :install do
+    task :setup do
     
       # Settings
       fetch_or_default(:backgroundjob_pid_path, "#{shared_path}/pids/bj.pid")

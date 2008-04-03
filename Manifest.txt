@@ -83,6 +83,7 @@ lib/templates/monit/monit.initd.centos.erb
 lib/templates/monit/monitrc.erb
 lib/templates/mysql/install_db.sql.erb
 lib/templates/mysql/my.cnf.innodb_1024.erb
+lib/templates/mysql/my.cnf.innodb_512.erb
 lib/templates/mysql/mysql.monitrc.erb
 lib/templates/nginx/nginx.conf.erb
 lib/templates/nginx/nginx.initd.centos.erb

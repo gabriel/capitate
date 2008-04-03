@@ -19,6 +19,24 @@ module Capitate::Plugins::Utils
     end
   end
   
+  # Delete file.
+  #
+  # ==== Options
+  # +path+:: Path to delete
+  #
+  def rm(path)
+    run_via "rm #{path}"
+  end
+
+  # Delete file (recursive/force)
+  #
+  # ==== Options
+  # +path+:: Path to delete
+  #  
+  def rm_rf(path)
+    run_via "rm -rf #{path}"
+  end
+  
   # Load template and install it.
   # Removes temporary files during transfer and ensures desination directory is created before install.
   #

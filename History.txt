@@ -1,4 +1,4 @@
-== 0.3.1
+== 0.3.1 2008-04-02
 
 * Fixing the init scripts to use killproc and have nice output (centos)
 * Fixing sphinx initscript to clean on start (if process does not exist)

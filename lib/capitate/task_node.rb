@@ -169,7 +169,9 @@ class Capitate::TaskNode
         file.puts "\n\nh2. Task documentation\n\n"        
         sorted_tasks.each do |task|
           file.puts %{<div class="recipe">\n\n}
-          file.puts "h3(##{task.fully_qualified_name}). #{task.fully_qualified_name}\n\n"
+          options = ""
+          options = "<span class='options'>, #{task.options.inspect}</span>" unless task.options.blank?
+          file.puts "h3(##{task.fully_qualified_name}). #{task.fully_qualified_name}#{options}\n\n"
           file.puts "#{unindent(task.desc)}\n\n"                    
           file.puts "</div>\n\n\n"
         end

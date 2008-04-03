@@ -20,7 +20,7 @@ namespace :mysql do
     
     "Source":#{link_to_source(__FILE__)}  
     DESC
-    task :install, :roles => :db do
+    task :install do
     
       # Settings 
       fetch_or_default(:mysql_pid_path, "/var/run/mysqld/mysqld.pid")

@@ -116,10 +116,11 @@ module Capitate::Plugins::Utils
   #   utils.hostname => "localhost.localdomain"
   #
   def hostname
+    hostname = nil
     run "hostname" do |channel, stream, data|
-      return data.chomp
+      hostname = data.chomp
     end
-    nil
+    hostname
   end
   
   # Append data to a file.

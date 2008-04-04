@@ -23,14 +23,14 @@ source pages
 
   sql_query_pre = SET NAMES UTF8
   sql_query_pre = SET SESSION query_cache_type=OFF
-  sql_query_pre = INSERT INTO indexer_status (id, started_at, status, index_name, hostname) VALUES (10, NOW(), 'indexing', 'pages', '<%= sphinx_hostname %>') \
+  sql_query_pre = INSERT INTO indexer_status (started_at, status, index_name, hostname) VALUES (NOW(), 'indexing', 'pages', USER()) \
     ON DUPLICATE KEY UPDATE started_at = NOW(), status = 'indexing'
   
   sql_query = SELECT id, user_id, language, UNIX_TIMESTAMP(created_at) AS created_at, UNIX_TIMESTAMP(updated_at) AS updated_at, body, title FROM pages WHERE id>=$start AND id<=$end
   sql_query_range = SELECT MIN(id),MAX(id) FROM pages where type='Article'
   sql_range_step = 1000
   
-  sql_query_post = UPDATE indexer_status SET updated_at = NOW(), status = 'updated' WHERE index_name = 'pages' and hostname = '<%= sphinx_hostname %>'
+  sql_query_post = UPDATE indexer_status SET updated_at = NOW(), status = 'updated' WHERE index_name = 'pages' and hostname = USER()
   
   sql_attr_uint      = user_id
   sql_attr_timestamp = created_at
@@ -43,15 +43,15 @@ source pages_delta : pages
   sql_query_pre =
   sql_query_pre = SET NAMES UTF8
   sql_query_pre = SET SESSION query_cache_type=OFF
-  sql_query_pre = INSERT INTO indexer_status (id, started_at, status, index_name, hostname) VALUES (11, NOW(), 'indexing', 'pages_delta', '<%= sphinx_hostname %>') \
+  sql_query_pre = INSERT INTO indexer_status (id, started_at, status, index_name, hostname) VALUES (NOW(), 'indexing', 'pages_delta', USER()) \
     ON DUPLICATE KEY UPDATE started_at = NOW(), status = 'indexing'
   
   sql_query = SELECT id, user_id, language, UNIX_TIMESTAMP(created_at) AS created_at, UNIX_TIMESTAMP(updated_at) AS updated_at, body, title \
    FROM pages \
-   WHERE updated_at >= (SELECT updated_at FROM indexer_status WHERE id = 11)  
+   WHERE updated_at >= (SELECT updated_at FROM indexer_status WHERE index_name = 'pages_delta' and hostname = USER())  
    
   sql_query_post = 
-  sql_query_post = UPDATE indexer_status SET updated_at = NOW(), status = 'updated' WHERE index_name = 'pages_delta' and hostname = '<%= sphinx_hostname %>'
+  sql_query_post = UPDATE indexer_status SET updated_at = NOW(), status = 'updated' WHERE index_name = 'pages_delta' and hostname = USER()
   sql_query_range =
   sql_range_step =
 }

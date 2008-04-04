@@ -32,8 +32,7 @@ namespace :sphinx do
     fetch_or_default(:sphinx_conf_root, "#{current_path}/config")
     fetch_or_default(:sphinx_index_root, "#{shared_path}/var/index")
     fetch_or_default(:sphinx_log_root, "#{shared_path}/log")
-    fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")    
-    fetch_or_default(:sphinx_hostname, Proc.new { utils.hostname }) # Runs if needed
+    fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
     
     fetch_or_set(:sphinx_db_user, :db_user)
     fetch_or_set(:sphinx_db_pass, :db_pass)
@@ -42,7 +41,7 @@ namespace :sphinx do
     fetch_or_set(:sphinx_db_host, :db_host)
     fetch_or_default(:sphinx_conf_host, "127.0.0.1")
         
-    put template.load(sphinx_conf_template), sphinx_conf_path
+    put(template.load(sphinx_conf_template), sphinx_conf_path)        
   end
   
   desc "Make symlink for sphinx conf" 

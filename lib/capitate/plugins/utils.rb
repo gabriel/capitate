@@ -110,6 +110,18 @@ module Capitate::Plugins::Utils
     found
   end
   
+  # Get the hostname of the remote server
+  #
+  # ==== Example
+  #   utils.hostname => "localhost.localdomain"
+  #
+  def hostname
+    run "hostname" do |channel, stream, data|
+      return data.chomp
+    end
+    nil
+  end
+  
   # Append data to a file.
   # Optionally check that it exists before adding.
   #

@@ -4,22 +4,24 @@ namespace :sphinx do
   desc <<-DESC
   Update sphinx for application.
   
-  *sphinx_conf_template*: Path to sphinx.conf.erb. _Defaults to "config/templates/sphinx.conf.erb"_\n
-  *sphinx_conf_path*: Path to sphinx.conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n
-  *sphinx_port*: Sphinx port. _Defaults to 3312_\n
-  *sphinx_conf_root*: Directory for sphinx configuration, like stopwords.txt. _Defaults to [current_path]/config_\n
-  *sphinx_index_root*: Directory for sphinx indexes. _Defaults to "[shared_path]/var/index"_\n
-  *sphinx_log_root*: Directory for sphinx logs. _Defaults to "[shared_path]/log"_\n
-  *sphinx_pid_root*: Directory for sphinx pids. _Defaults to "[shared_path]/pids"_\n
+  <dl>
+  <dt>sphinx_conf_template</dt><dd>Path to sphinx.conf.erb.</dd><dd>_Defaults to "config/templates/sphinx.conf.erb"_</dd>
+  <dt>sphinx_conf_path</dt><dd>Path to sphinx.conf.</dd><dd>_Defaults to "[shared_path]/config/sphinx.conf"_</dd>
+  <dt>sphinx_port</dt><dd>Sphinx port.</dd><dd>_Defaults to 3312_</dd>
+  <dt>sphinx_conf_root</dt><dd>Directory for sphinx configuration, like stopwords.txt.</dd><dd>_Defaults to [current_path]/config_</dd>
+  <dt>sphinx_index_root</dt><dd>Directory for sphinx indexes.</dd><dd>_Defaults to "[shared_path]/var/index"_</dd>
+  <dt>sphinx_log_root</dt><dd>Directory for sphinx logs.</dd><dd>_Defaults to "[shared_path]/log"_</dd>
+  <dt>sphinx_pid_root</dt><dd>Directory for sphinx pids.</dd><dd>_Defaults to "[shared_path]/pids"_</dd>
   
-  *sphinx_db_user*: Sphinx DB user. _Defaults to db_user_\n
-  *sphinx_db_pass*: Sphinx DB password. _Defaults to db_pass_\n
-  *sphinx_db_name*: Sphinx DB name. _Defaults to db_name_\n
-  *sphinx_db_port*: Sphinx DB port. _Defaults to db_port_\n
+  <dt>sphinx_db_user</dt><dd>Sphinx DB user.</dd><dd>_Defaults to db_user_</dd>
+  <dt>sphinx_db_pass</dt><dd>Sphinx DB password.</dd><dd>_Defaults to db_pass_</dd>
+  <dt>sphinx_db_name</dt><dd>Sphinx DB name.</dd><dd>_Defaults to db_name_</dd>
+  <dt>sphinx_db_port</dt><dd>Sphinx DB port.</dd><dd>_Defaults to db_port_</dd>
   
-  *sphinx_db_host*: Sphinx DB host. _Defaults to db_host_\n
-  *sphinx_conf_host*: Sphinx DB host to listen on. _Defaults to 127.0.0.1_\n
+  <dt>sphinx_db_host</dt><dd>Sphinx DB host.</dd><dd>_Defaults to db_host_</dd>
+  <dt>sphinx_conf_host</dt><dd>Sphinx DB host to listen on.</dd><dd>_Defaults to 127.0.0.1_</dd>
   
+  </dl>
   "Source":#{link_to_source(__FILE__)}
   DESC
   task :update_conf do
@@ -31,6 +33,7 @@ namespace :sphinx do
     fetch_or_default(:sphinx_index_root, "#{shared_path}/var/index")
     fetch_or_default(:sphinx_log_root, "#{shared_path}/log")
     fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")    
+    fetch_or_default(:sphinx_hostname, Proc.new { utils.hostname }) # Runs if needed
     
     fetch_or_set(:sphinx_db_user, :db_user)
     fetch_or_set(:sphinx_db_pass, :db_pass)
@@ -50,8 +53,8 @@ namespace :sphinx do
   desc <<-DESC
   Rotate sphinx index for application.
   
-  *sphinx_prefix*: Location to sphinx install. _Defaults to nil_\n
-  *sphinx_conf*: Location to sphinx conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n  
+  *sphinx_prefix*<dd>Location to sphinx install. _Defaults to nil_\n
+  *sphinx_conf*<dd>Location to sphinx conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n  
   
   "Source":#{link_to_source(__FILE__)}
   DESC
@@ -67,8 +70,8 @@ namespace :sphinx do
   desc <<-DESC
   Build sphinx indexes for application.
   
-  *sphinx_prefix*: Location to sphinx install. _Defaults to nil_\n
-  *sphinx_conf*: Location to sphinx conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n
+  *sphinx_prefix*<dd>Location to sphinx install. _Defaults to nil_\n
+  *sphinx_conf*<dd>Location to sphinx conf. _Defaults to "[shared_path]/config/sphinx.conf"_\n
   
   "Source":#{link_to_source(__FILE__)}
   DESC

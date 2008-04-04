@@ -20,18 +20,41 @@ source pages
 	sql_pass			= <%= sphinx_db_pass %>
 	sql_db				= <%= sphinx_db_name %>
 	sql_port			= <%= sphinx_db_port %> # optional, default is 3306
-	# sql_query_pre		= SET CHARACTER_SET_RESULTS=cp1251
-	sql_query_pre		= SET NAMES UTF8
-	# mandatory
-	sql_query	= QUERY
-	sql_query_range	= SELECT MIN(id),MAX(id) FROM TABLE_NAME
+
+  sql_query_pre = SET NAMES UTF8
+  sql_query_pre = SET SESSION query_cache_type=OFF
+  sql_query_pre = INSERT INTO indexer_status (id, started_at, status, index_name, hostname) VALUES (10, NOW(), 'indexing', 'pages', '<%= sphinx_hostname %>') \
+    ON DUPLICATE KEY UPDATE started_at = NOW(), status = 'indexing'
+  
+  sql_query = SELECT id, user_id, language, UNIX_TIMESTAMP(created_at) AS created_at, UNIX_TIMESTAMP(updated_at) AS updated_at, body, title FROM pages WHERE id>=$start AND id<=$end
+  sql_query_range = SELECT MIN(id),MAX(id) FROM pages where type='Article'
   sql_range_step = 1000
-  sql_group_column = user_id
-  sql_group_column = language
-  sql_date_column = published_date
-  sql_date_column = last_modified
+  
+  sql_query_post = UPDATE indexer_status SET updated_at = NOW(), status = 'updated' WHERE index_name = 'pages' and hostname = '<%= sphinx_hostname %>'
+  
+  sql_attr_uint      = user_id
+  sql_attr_timestamp = created_at
+  sql_attr_timestamp = updated_at
 }
 
+source pages_delta : pages
+{
+  # Clear and reset sql_query_pre
+  sql_query_pre =
+  sql_query_pre = SET NAMES UTF8
+  sql_query_pre = SET SESSION query_cache_type=OFF
+  sql_query_pre = INSERT INTO indexer_status (id, started_at, status, index_name, hostname) VALUES (11, NOW(), 'indexing', 'pages_delta', '<%= sphinx_hostname %>') \
+    ON DUPLICATE KEY UPDATE started_at = NOW(), status = 'indexing'
+  
+  sql_query = SELECT id, user_id, language, UNIX_TIMESTAMP(created_at) AS created_at, UNIX_TIMESTAMP(updated_at) AS updated_at, body, title \
+   FROM pages \
+   WHERE updated_at >= (SELECT updated_at FROM indexer_status WHERE id = 11)  
+   
+  sql_query_post = 
+  sql_query_post = UPDATE indexer_status SET updated_at = NOW(), status = 'updated' WHERE index_name = 'pages_delta' and hostname = '<%= sphinx_hostname %>'
+  sql_query_range =
+  sql_range_step =
+}
 
 index pages
 {
@@ -44,6 +67,13 @@ index pages
 	charset_type		= utf-8
 	min_prefix_len		= 0
 	min_infix_len		= 0
+}
+
+index pages_delta : pages
+{
+  source           = pages_delta
+  path             = <%= sphinx_index_root %>/pages_delta
+  
 }
 
 #############################################################################

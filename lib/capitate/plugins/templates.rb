@@ -32,10 +32,12 @@ module Capitate::Plugins::Templates
     # Use first
     template_path = template_dirs_found.first + "/#{path}"
     
+    logger.info "reading #{template_path}"
     template_data = IO.read(template_path)
     
     if File.extname(template_path) == ".erb"    
       template = ERB.new(template_data)
+      logger.info "evaluating #{template_path}"
       template_data = template.result(override_binding || binding)
     end
     template_data

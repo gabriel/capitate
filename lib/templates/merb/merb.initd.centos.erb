@@ -1,0 +1,123 @@
+#!/bin/bash
+#
+# Copyright (c) 2008 Gabriel Handford, gabrielh@gmail.com
+#
+# merb_<%= application %>   Startup script for Merb (<%= application %>)
+#
+# chkconfig: - 85 15
+# description: merb_<%= application %> Merb runtime for <%= application %>
+#
+# WARNING: Relies on some patches:
+#   This requires a couple of submitted patches to merb-core (on version 0.9.2),
+#   for correct pid file and kill handling.
+#
+# Also have to cd into the project before starting merb. There are some issues with plugins
+# and Merb.root
+#
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+
+NAME="merb_<%= application %>"
+USER="<%= user %>"
+GROUP="<%= user %>"
+
+PID_PATH="<%= merb_pid_path %>"
+NODES=<%= merb_nodes %>
+PORT=<%= merb_port %>
+ROOT_DIR="<%= merb_root %>"
+
+CMD="<%= merb_command_path %>"
+CMD_OPTIONS="-u $USER -G $GROUP -P $PID_PATH -m $ROOT_DIR -e production"
+
+RETVAL=0
+
+start() {
+  echo -n $"Starting $NAME: "
+  cd $ROOT_DIR
+  $CMD $CMD_OPTIONS -c $NODES -p $PORT 
+  RETVAL=$?
+  [ "$RETVAL" -eq 0 ] && success $"$NAME start" || failure $"$NAME start"
+  echo
+  return $RETVAL;  
+}
+
+# Start only a single daemon function ($1=port)
+start_only() {
+  cd $ROOT_DIR
+  $CMD $CMD_OPTIONS -c 1 -p $1
+}
+
+stop() {
+  echo -n $"Stopping $NAME: "
+  cd $ROOT_DIR
+  $CMD $CMD_OPTIONS -c $NODES -p $PORT -K all
+  RETVAL=$?
+  [ "$RETVAL" -eq 0 ] && success $"$NAME shutdown" || failure $"$NAME shutdown"
+  echo
+  return $RETVAL;
+}
+
+# Stop only a single daemon ($1=port) 
+stop_only() {
+  cd $ROOT_DIR
+  $CMD $CMD_OPTIONS -c 1 -p $PORT -K $1
+}
+
+restart() {
+  stop
+  sleep 1
+  start
+}
+
+status() {
+  echo "Don't know"
+  RETVAL=$?
+  echo 
+  return $RETVAL;
+}
+
+fail() {
+  echo "Failed to start: $1"
+  exit 1
+}
+
+# Gracefully exit if the controller is missing.
+which $CMD >/dev/null || fail "$CMD not found"
+
+case "$1" in
+  start)
+    start
+  ;;
+  start_only)
+    start_only $2
+  ;;
+  stop)
+    stop
+  ;;
+  stop_only)
+    stop_only $2
+  ;;
+  restart)
+    restart
+  ;;
+  status)
+    status
+  ;;
+  *)
+    echo "Usage: $0"
+    echo " "
+    echo "  start"
+    echo "  stop"
+    echo "  restart"
+    echo "  status"
+    echo "  start_only [port]"
+    echo "  stop_only [port]"
+    echo " "
+    RETVAL=3;
+  ;;
+esac      
+
+exit $RETVAL

@@ -26,12 +26,14 @@ lib/capitate/recipes.rb
 lib/capitate/task_node.rb
 lib/capitate/version.rb
 lib/deployment/centos-5.1-64-web/install.rb
+lib/recipes/active_record.rb
 lib/recipes/backgroundrb.rb
 lib/recipes/centos/backgroundjob.rb
 lib/recipes/centos/backgroundrb.rb
 lib/recipes/centos/centos.rb
 lib/recipes/centos/imagemagick.rb
 lib/recipes/centos/memcached.rb
+lib/recipes/centos/merb.rb
 lib/recipes/centos/mongrel_cluster.rb
 lib/recipes/centos/monit.rb
 lib/recipes/centos/mysql.rb
@@ -41,6 +43,7 @@ lib/recipes/centos/sphinx.rb
 lib/recipes/docs.rb
 lib/recipes/logrotate/backgroundjob.rb
 lib/recipes/logrotate/backgroundrb.rb
+lib/recipes/logrotate/merb.rb
 lib/recipes/logrotate/mongrel_cluster.rb
 lib/recipes/logrotate/monit.rb
 lib/recipes/logrotate/mysql.rb
@@ -54,6 +57,7 @@ lib/recipes/monit/backgroundjob.rb
 lib/recipes/monit/backgroundrb.rb
 lib/recipes/monit/database.rb
 lib/recipes/monit/memcached.rb
+lib/recipes/monit/merb.rb
 lib/recipes/monit/mongrel_cluster.rb
 lib/recipes/monit/mysql.rb
 lib/recipes/monit/nginx.rb
@@ -75,6 +79,8 @@ lib/templates/logrotated/conf.erb
 lib/templates/memcached/memcached.initd.centos.erb
 lib/templates/memcached/memcached.monitrc.erb
 lib/templates/memcached/memcached.yml.erb
+lib/templates/merb/merb.initd.centos.erb
+lib/templates/merb/merb.monitrc.erb
 lib/templates/mongrel/mongrel_cluster.initd.centos.erb
 lib/templates/mongrel/mongrel_cluster.monitrc.erb
 lib/templates/mongrel/mongrel_cluster.yml.erb
@@ -89,6 +95,7 @@ lib/templates/nginx/nginx.conf.erb
 lib/templates/nginx/nginx.initd.centos.erb
 lib/templates/nginx/nginx.monitrc.erb
 lib/templates/nginx/nginx_vhost.conf.erb
+lib/templates/nginx/nginx_vhost_generic.conf.erb
 lib/templates/rails/database.yml.erb
 lib/templates/ruby/fix_openssl.sh
 lib/templates/sphinx/sphinx.conf.erb

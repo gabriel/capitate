@@ -1,4 +1,3 @@
-# Create init script
 namespace :mongrel do
 
   namespace :cluster do
@@ -23,12 +22,13 @@ namespace :mongrel do
         fetch_or_default(:mongrel_bin_path, "/usr/bin/mongrel_rails")
         fetch_or_default(:mongrel_config_script, nil)
         fetch_or_default(:monit_conf_dir, "/etc/monit")
+        fetch_or_default(:mongrel_pid_dir, "#{shared_path}/pids")
     
         processes = []
         ports = (0...mongrel_size).collect { |i| mongrel_port + i }
         ports.each do |port|
       
-          pid_path = "#{shared_path}/pids/#{mongrel_application}.#{port}.pid"
+          pid_path = "#{mongrel_pid_dir}/#{mongrel_application}.#{port}.pid"
       
           default_options = [
             [ "-d" ], 

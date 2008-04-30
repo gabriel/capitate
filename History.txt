@@ -1,3 +1,11 @@
+== 0.3.3 2008-04-29
+
+* Adding merb init script (for Centos)
+* Adding merb monit confs
+* Adding merb logrotate
+* Created generic nginx vhost template
+* Deprecated rails:setup for active_record:setup (for merb setup)
+
 == 0.3.2 2008-04-03
 
 * Adding hostname helper (utils.hostname) 

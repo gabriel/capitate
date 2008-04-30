@@ -8,6 +8,10 @@ namespace :mongrel do
       Create mongrel cluster.
       
       <dl>
+      <dt>mongrel_application</dt>
+      <dd>Name of mongrel application</dd>
+      <dd>@set :mongrel_application, "mongrel_cluster_\#{application}"@</dd>
+      
       <dt>mongrel_size</dt><dd>Number of mongrels</dd>
       <dd>@set :mongrel_size, 3@</dd>
       

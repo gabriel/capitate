@@ -4,17 +4,19 @@ namespace :rails do
   desc <<-DESC
   Create database yaml in shared path. Note: If both @:db_host@ and @:db_socket@ are used, @db_socket@ wins.
   
+  *DEPRECATED*: Use @active_record:setup@
+  
   <dl>
   <dt>db_name</dt>
-  <dd>Database name (rails).</dd>  
+  <dd>Database name.</dd>  
   <dd>@set :db_name, "app_db_name"@</dd>
   
   <dt>db_user</dt>
-  <dd>Database user (rails).</dd>
+  <dd>Database user.</dd>
   <dd>@set :db_user, "app_db_user"@</dd>    
   
   <dt>db_pass</dt>
-  <dd>Database password (rails).</dd>
+  <dd>Database password.</dd>
   <dd>@set :db_pass, "the_password"@</dd>   
   
   <dt>db_host</dt>

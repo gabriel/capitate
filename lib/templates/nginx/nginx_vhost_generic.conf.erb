@@ -1,6 +1,4 @@
 #
-# DEPRECATED: USE nginx_vhost_generic.conf.erb (This is here for backwards compatibility)
-#
 # Nginx virtual host conf
 #
 # * Uses cache directory configured for public/cache
@@ -9,8 +7,8 @@
 # * Redirects domain.com to www.domain.com (IMO should be the other way around; www is deprecated)
 #
 
-upstream <%= mongrel_application %> {
-  <% ports.each do |port| %>
+upstream <%= nginx_upstream_name %> {
+  <% nginx_upstream_ports.each do |port| %>
   server 127.0.0.1:<%= port %>;
   <% end %>
 }
@@ -57,7 +55,7 @@ server {
       # For iphone unique url
       if ($http_user_agent ~* "(iPhone|iPod)") {
         rewrite ^/$ /iphone break;
-        proxy_pass http://<%= mongrel_application %>;
+        proxy_pass http://<%= nginx_upstream %>;
         break;
       }
 
@@ -78,7 +76,7 @@ server {
       }
 
       if (!-f $request_filename) {
-        proxy_pass http://<%= mongrel_application %>;
+        proxy_pass http://<%= nginx_upstream %>;
         break;
       }
     }

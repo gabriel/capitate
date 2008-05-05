@@ -19,7 +19,6 @@ lib/capitate/plugins/gem.rb
 lib/capitate/plugins/prompt.rb
 lib/capitate/plugins/script.rb
 lib/capitate/plugins/templates.rb
-lib/capitate/plugins/upload.rb
 lib/capitate/plugins/utils.rb
 lib/capitate/plugins/yum.rb
 lib/capitate/recipes.rb

@@ -32,13 +32,10 @@ namespace :nginx do
       fetch(:nginx_upstream_size)
       fetch(:nginx_upstream_port)
     
-      set :ports, (0...nginx_upstream_size).collect { |i| nginx_upstream_port + i }
+      set :nginx_upstream_ports, (0...nginx_upstream_size.to_i).collect { |i| nginx_upstream_port.to_i + i }
       set :public_path, current_path + "/public"
     
-      run "mkdir -p #{shared_path}/config"
-      put template.load("nginx/nginx_vhost_generic.conf.erb"), "/tmp/nginx_#{nginx_upstream_name}.conf"    
-    
-      sudo "install -o root /tmp/nginx_#{nginx_upstream_name}.conf /etc/nginx/vhosts/#{nginx_upstream_name}.conf"        
+      utils.install_template("nginx/nginx_vhost_generic.conf.erb", "/etc/nginx/vhosts/#{nginx_upstream_name}.conf")
     end
     
   end

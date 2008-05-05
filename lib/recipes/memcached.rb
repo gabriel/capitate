@@ -46,7 +46,7 @@ namespace :memcached do
     fetch_or_default(:memcached_servers, [ "localhost:11211" ])
     fetch_or_default(:memcached_yml_template, "memcached/memcached.yml.erb")    
 
-    utils.install_template(memcached_yml_template, "#{shared_path}/config/memcached.yml")
+    put(memcached_yml_template, "#{shared_path}/config/memcached.yml")
   end
 
   desc "Symlink memcached configuration after deploy."

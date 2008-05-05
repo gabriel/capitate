@@ -55,7 +55,7 @@ server {
       # For iphone unique url
       if ($http_user_agent ~* "(iPhone|iPod)") {
         rewrite ^/$ /iphone break;
-        proxy_pass http://<%= nginx_upstream %>;
+        proxy_pass http://<%= nginx_upstream_name %>;
         break;
       }
 
@@ -76,7 +76,7 @@ server {
       }
 
       if (!-f $request_filename) {
-        proxy_pass http://<%= nginx_upstream %>;
+        proxy_pass http://<%= nginx_upstream_name %>;
         break;
       }
     }

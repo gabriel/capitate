@@ -20,7 +20,6 @@ require 'capitate/plugins/utils'
 require 'capitate/plugins/script'
 require 'capitate/plugins/prompt'
 require 'capitate/plugins/templates'
-require 'capitate/plugins/upload'
 require 'capitate/plugins/yum'
 
 # Extensions + Patches

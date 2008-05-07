@@ -4,7 +4,6 @@ License.txt
 Manifest.txt
 README.txt
 Rakefile
-bin/capitate
 config/hoe.rb
 config/requirements.rb
 docs/nginx.README

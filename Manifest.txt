@@ -51,6 +51,7 @@ lib/recipes/logrotate/rails.rb
 lib/recipes/logrotate/sphinx.rb
 lib/recipes/logrotated.rb
 lib/recipes/memcached.rb
+lib/recipes/merb.rb
 lib/recipes/monit.rb
 lib/recipes/monit/backgroundjob.rb
 lib/recipes/monit/backgroundrb.rb

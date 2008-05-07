@@ -5,8 +5,8 @@ module Capitate::Plugins::Prompt
   # Prompt.
   #
   # ==== Options
-  # +label+:: Label
-  # +options+:: Options (none yet)
+  # :label<String>:: Label
+  # :options<Hash>:: An options hash (see below)
   #
   def ask(label, options = {}, &block)
     Capistrano::CLI.ui.ask(label, &block)
@@ -14,15 +14,15 @@ module Capitate::Plugins::Prompt
   
   # Prompt for password.
   #
-  # ==== Options
-  # +label+:: Label
-  # +options+:: Options (see Password options)
+  # ==== Options (options)
+  # :label<String>:: Label
+  # :options<Hash>:: An options hash (see below)
   #
   # ==== Password options
-  # +verify+:: If true, prompt twice and verify
-  # +lazy+:: If true, returns a Proc. _Defaults to true_
-  # +check_hash+:: If present, checks that md5 is same as password md5
-  # +max_attempts+:: Number of attempts to retry. _Defaults to 3_
+  # :verify<bool>:: If true, prompt twice and verify
+  # :lazy<bool>:: If true, returns a Proc. _Defaults to true_
+  # :check_hash<String>:: If present, checks that md5 is same as password md5
+  # :max_attempts<Integer>:: Number of attempts to retry. _Defaults to 3_
   #
   def password(label, options = {})
     
@@ -72,6 +72,37 @@ module Capitate::Plugins::Prompt
     return password_prompt if lazy
     password_prompt.call
   end  
+  
+  # Preview variables, and re-set them if asked to.
+  # Uses highline menus. Is not very intelligent.
+  #
+  # ==== Options
+  # :variables<Array>:: List of variables to show and verify
+  # :header<String>:: Menu header
+  # :prompt<String>:: Menu prompt
+  #
+  def preview_variables(variables, header = "Verify your settings", prompt = "Choose: ")
+    hl = Capistrano::CLI.ui
+    
+    confirmed = false
+    while not confirmed do 
+      hl.choose do |menu|
+        menu.header = header
+        menu.prompt = prompt
+        
+        menu.choice("<Continue>") do
+          confirmed = true
+        end
+        
+        variables.each do |variable|
+          menu.choice("#{variable}: #{fetch(variable)}") do
+            new_setting = ask("Set #{variable}: ") { |q| q.default = fetch(variable) }
+            set variable, new_setting
+          end
+        end        
+      end
+    end
+  end
   
 end
 

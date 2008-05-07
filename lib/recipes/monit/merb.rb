@@ -1,7 +1,7 @@
 
 namespace :merb do
 
-    namespace :monit do
+  namespace :monit do
     
     desc <<-DESC
     Create monit configuration for merb.
@@ -23,7 +23,7 @@ namespace :merb do
       ports = (0...merb_nodes).collect { |i| merb_port + i }
       ports.each do |port|
         
-        pid_path = "#{merb_pid_dir}/#{merb_application}.#{port}.pid"
+        pid_path = "#{merb_pid_dir}/merb.#{port}.pid"
         
         start = "/etc/init.d/#{merb_initscript_name} start_only #{port}"
         stop = "/etc/init.d/#{merb_initscript_name} stop_only #{port}"

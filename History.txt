@@ -1,8 +1,13 @@
-== 0.3.5 ?
+== 0.3.6 ?
+
+* Fixing backgroundjob to use --daemon
+
+== 0.3.5 2008-05-08
 
 * Adding merb:migrate recipe
 * Fixing merb monitrc
 * Added preview variables prompt
+* Fixed merb logrotate defaults
 
 == 0.3.4 2008-05-05
 

@@ -13,12 +13,12 @@
 RETVAL=0
 
 DESC="backgroundjob daemon (<%= application %>)"
-DAEMON="<%= backgroundjob_bin_path %>"
-PIDFILE="<%= backgroundjob_pid_path %>"
+BIN_PATH"<%= backgroundjob_bin_path %>"
+PID_FILE="<%= backgroundjob_pid_path %>"
 
 start() {
   echo -n $"Starting $DESC: "
-  daemon --user sick --pidfile $PIDFILE $DAEMON
+  daemon --user sick $BIN_PATH
   RETVAL=$?
   echo
   return $RETVAL;  
@@ -26,7 +26,7 @@ start() {
 
 stop() {
   echo -n $"Stopping $DESC:"
-  killproc -p $PIDFILE
+  killproc -p $PID_FILE
   RETVAL=$?
   echo 
   return $RETVAL;

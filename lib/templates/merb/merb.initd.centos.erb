@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright (c) 2008 Gabriel Handford, gabrielh@gmail.com
 #
@@ -37,7 +37,7 @@ RETVAL=0
 start() {
   echo -n $"Starting $NAME: "
   cd $ROOT_DIR
-  $CMD $CMD_OPTIONS -c $NODES -p $PORT 
+  daemon --user $USER $CMD $CMD_OPTIONS -c $NODES -p $PORT 
   RETVAL=$?
   [ "$RETVAL" -eq 0 ] && success $"$NAME start" || failure $"$NAME start"
   echo
@@ -47,7 +47,7 @@ start() {
 # Start only a single daemon function ($1=port)
 start_only() {
   cd $ROOT_DIR
-  $CMD $CMD_OPTIONS -c 1 -p $1
+  daemon --user $USER $CMD $CMD_OPTIONS -c 1 -p $1
 }
 
 stop() {

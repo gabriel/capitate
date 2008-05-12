@@ -2,6 +2,8 @@
 
 * Fixing backgroundjob to use --daemon
 * Fixing merb init to use daemon init function on start (then it plays nice with monit)
+* Fixing backgroundjob init (BIN_PATH error)
+* Adding --log to backgroundjob init.d
 
 == 0.3.5 2008-05-08
 

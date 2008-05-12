@@ -10,8 +10,8 @@ namespace :backgroundjob do
     <dd>Path to start.
     <dd class="default">Defaults to: 
     <pre>
-      \#{current_path}/script/bj --forever --rails_env=production --rails_root=\#{current_path} --redirect \
-      --redirect=\#{backgroundjob_log_path} --pidfile=\#{backgroundjob_pid_path} --daemon
+      \#{current_path}/script/bj --forever --rails_env=production --rails_root=\#{current_path} \
+      --redirect=\#{backgroundjob_log_path} --log=\#{backgroundjob_log_path} --pidfile=\#{backgroundjob_pid_path} --daemon
     </pre>
     </dd>
     <dt>backgroundjob_pid_path</dt>
@@ -30,7 +30,7 @@ namespace :backgroundjob do
       fetch_or_default(:backgroundjob_log_path, "#{shared_path}/log/bj.log")
       
       default_bin_path = "#{current_path}/script/bj run --forever --rails_env=production --rails_root=#{current_path} \
---redirect=#{backgroundjob_log_path} --pidfile=#{backgroundjob_pid_path} --daemon"
+--redirect=#{backgroundjob_log_path} --log=#{backgroundjob_log_path} --pidfile=#{backgroundjob_pid_path} --daemon"
       
       fetch_or_default(:backgroundjob_bin_path, default_bin_path)      
 

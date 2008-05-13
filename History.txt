@@ -4,6 +4,7 @@
 * Fixing merb init to use daemon init function on start (then it plays nice with monit)
 * Fixing backgroundjob init (BIN_PATH error)
 * Adding --log to backgroundjob init.d
+* Fixing sphinx monit start/stop/restart
 
 == 0.3.5 2008-05-08
 

@@ -19,10 +19,24 @@ namespace :sphinx do
       sudo "install -o root /tmp/sphinx_#{application}.monitrc #{monit_conf_dir}/sphinx_#{application}.monitrc"
     end
   
-    desc "Restart sphinx"
+    desc "Restart sphinx application (through monit)"
     task :restart do
-      sudo "/sbin/service monit restart sphinx_#{application}"
-    end    
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} restart sphinx_#{application}"
+    end
+    
+    desc "Start sphinx application (through monit)"
+    task :start do
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} start sphinx_#{application}"
+    end
+    
+    desc "Stop sphinx application (through monit)"
+    task :stop do
+      fetch_or_default(:monit_bin_path, "monit")
+      sudo "#{monit_bin_path} stop sphinx_#{application}"
+    end
+    
     
   end
     

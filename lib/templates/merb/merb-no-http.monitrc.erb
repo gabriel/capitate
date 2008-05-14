@@ -1,0 +1,13 @@
+<% processes.each do |process| %>
+  
+check process <%= merb_application %>_<%= process[:port] %> with pidfile <%= process[:pid_path] %>
+   group <%= merb_application %>
+   start program = "<%= process[:start]  %>"
+   stop program = "<%= process[:stop] %>"
+   if totalmem > 100 Mb then restart
+   if cpu is greater than 60% for 2 cycles then alert
+   if cpu > 80% for 5 cycles then restart
+   if loadavg(5min) greater than 10 for 8 cycles then restart
+   if 3 restarts within 5 cycles then timeout
+   
+<% end %>

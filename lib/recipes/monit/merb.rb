@@ -8,16 +8,12 @@ namespace :merb do
     
     "Source":#{link_to_source(__FILE__)}
     DESC
+    task_arg(:merb_nodes, "Number of nodes in merb cluster")
+    task_arg(:merb_port, "Starting port")
+    task_arg(:monit_conf_dir, "Monit config directory", :default => "/etc/monit")
+    task_arg(:merb_pid_dir, "Merb pid directory", :default => Proc.new {"#{shared_path}/pids"}, :default_desc => "\#{shared_path}/pids")
+    task_arg(:merb_monitrc_template, "Merb monitrc template", :default => "merb/merb.monitrc.erb")
     task :setup do
-  
-      # Settings
-      fetch(:merb_nodes)
-      fetch(:merb_port)
-      fetch_or_default(:merb_application, "merb_#{application}")
-      fetch_or_default(:merb_initscript_name, "merb_#{application}")
-      fetch_or_default(:monit_conf_dir, "/etc/monit")
-  
-      fetch_or_default(:merb_pid_dir, "#{shared_path}/pids")
   
       processes = []
       ports = (0...merb_nodes).collect { |i| merb_port + i }
@@ -32,9 +28,8 @@ namespace :merb do
       end
   
       set :processes, processes
-  
-      put template.load("merb/merb.monitrc.erb"), "/tmp/#{merb_application}.monitrc"    
-      sudo "install -o root /tmp/#{merb_application}.monitrc #{monit_conf_dir}/#{merb_application}.monitrc"
+      
+      utils.install_template(merb_monitrc_template, "#{monit_conf_dir}/#{merb_application}.monitrc") 
     end
     
     desc "Restart merb (for application)"

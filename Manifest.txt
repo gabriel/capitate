@@ -6,11 +6,12 @@ README.txt
 Rakefile
 config/hoe.rb
 config/requirements.rb
-docs/nginx.README
 lib/capitate.rb
 lib/capitate/cap_ext/connections.rb
 lib/capitate/cap_ext/docs.rb
+lib/capitate/cap_ext/namespace.rb
 lib/capitate/cap_ext/run_via.rb
+lib/capitate/cap_ext/task_definition.rb
 lib/capitate/cap_ext/variables.rb
 lib/capitate/plugins/base.rb
 lib/capitate/plugins/build.rb
@@ -78,6 +79,7 @@ lib/templates/logrotated/conf.erb
 lib/templates/memcached/memcached.initd.centos.erb
 lib/templates/memcached/memcached.monitrc.erb
 lib/templates/memcached/memcached.yml.erb
+lib/templates/merb/merb-no-http.monitrc.erb
 lib/templates/merb/merb.initd.centos.erb
 lib/templates/merb/merb.monitrc.erb
 lib/templates/mongrel/mongrel_cluster.initd.centos.erb
@@ -112,11 +114,3 @@ test/test_helper.rb
 test/test_plugin_upload.rb
 test/test_recipes.rb
 test/test_templates.rb
-website/index.html
-website/index.txt
-website/javascripts/code_highlighter.js
-website/javascripts/rounded_corners_lite.inc.js
-website/javascripts/ruby.js
-website/stylesheets/screen.css
-website/template.rhtml
-website/template_recipe.rhtml

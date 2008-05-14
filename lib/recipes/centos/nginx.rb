@@ -5,9 +5,10 @@ namespace :nginx do
     desc <<-DESC
     Install nginx, conf, initscript, nginx user and service.
     
-    <dl>
-    <dt>nginx_build_options</dt>
-    <dd>Nginx build options.
+    "Source":#{link_to_source(__FILE__)}
+    DESC
+    task_arg(:nginx_build_options, <<-EOS)
+    Nginx build options.
     <pre>
     <code class="ruby">
     set :nginx_build_options, {
@@ -18,39 +19,12 @@ namespace :nginx do
     }
     </code>
     </pre>
-    </dd>
-    
-    <dt>nginx_bin_path</dt>
-    <dd>Nginx sbin path</dd>
-    <dd class="default">Defaults to /sbin/nginx</dd>
-    <dd>@set :nginx_bin_path, "/sbin/nginx"@</dd>
-    
-    <dt>nginx_conf_path</dt>
-    <dd>Path to nginx conf.</dd>
-    <dd class="default">Defaults to /etc/nginx/nginx.conf</dd>
-    <dd>@set :nginx_conf_path, "/etc/nginx/nginx.conf"@</dd>
-    
-    <dt>nginx_pid_path</dt>
-    <dd>Path to nginx pid file</dd>
-    <dd class="default">Defaults to /var/run/nginx.pid</dd>
-    <dd>@set :nginx_pid_path, "/var/run/nginx.pid"@</dd>
-    
-    <dt>nginx_prefix_path</dt>
-    <dd>Nginx install prefix</dd>
-    <dd class="default">Defaults to /var/nginx_</dd>
-    <dd>@set :nginx_prefix_path, "/var/nginx"@</dd>
-    </dl>
-    "Source":#{link_to_source(__FILE__)}
-    DESC
-    task :install do
-      
-      # Settings
-      fetch(:nginx_build_options)
-      fetch_or_default(:nginx_bin_path, "/sbin/nginx")
-      fetch_or_default(:nginx_conf_path, "/etc/nginx/nginx.conf")
-      fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
-      fetch_or_default(:nginx_prefix_path, "/var/nginx")      
-            
+    EOS
+    task_arg(:nginx_bin_path, "Nginx sbin path", :default => "/sbin/nginx")
+    task_arg(:nginx_conf_path, "Path to nginx conf", :default => "/etc/nginx/nginx.conf")
+    task_arg(:nginx_pid_path, "Path to nginx pid file", :default => "/var/run/nginx.pid")
+    task_arg(:nginx_prefix_path, "Nginx install prefix", :default => "/var/nginx")          
+    task :install do      
       # Install dependencies
       yum.install([ "pcre-devel", "openssl", "openssl-devel" ]) 
             
@@ -71,11 +45,10 @@ namespace :nginx do
     end
     
     desc "Install nginx initscript"
+    task_arg(:nginx_bin_path, "Nginx sbin path", :default => "/sbin/nginx")
+    task_arg(:nginx_conf_path, "Path to nginx conf", :default => "/etc/nginx/nginx.conf")
+    task_arg(:nginx_pid_path, "Path to nginx pid file", :default => "/var/run/nginx.pid")    
     task :initscript do
-      fetch_or_default(:nginx_bin_path, "/sbin/nginx")
-      fetch_or_default(:nginx_conf_path, "/etc/nginx/nginx.conf")
-      fetch_or_default(:nginx_pid_path, "/var/run/nginx.pid")
-      
       utils.install_template("nginx/nginx.initd.centos.erb", "/etc/init.d/nginx")
       run_via "/sbin/chkconfig --level 345 nginx on"
     end
@@ -84,8 +57,7 @@ namespace :nginx do
     desc "Restart nginx (service)"
     task :restart do
       sudo "/sbin/service nginx restart"
-    end
-    
+    end    
     
   end
   

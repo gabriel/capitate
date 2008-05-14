@@ -5,49 +5,23 @@ namespace :monit do
     desc <<-DESC
     Install monit.
     
-    <dl>
-    <dt>monit_build_options</dt>
-    <dd>Monit build options.</dd>
-    
+    "Source":#{link_to_source(__FILE__)}
+    DESC
+    task_arg(:monit_port, "Monit port", :default => 2812)
+    task_arg(:monit_password, "Monit password", :default => Proc.new{prompt.password('Monit admin password (to set): ', :verify => true)}, :default_desc => "password prompt")
+    task_arg(:monit_conf_dir, :default => "/etc/monit")
+    task_arg(:monit_pid_path, "Path to monit pid", :default => "/var/run/monit.pid")
+    task_arg(:monit_log_path, "Path to monit log file", :default => "/var/log/monit.log")
+    task_arg(:monit_build_options, <<-EOS)    
+    Monit build options
     <pre>
     <code class="ruby">
     set :monit_build_options, { :url => "http://www.tildeslash.com/monit/dist/monit-4.10.1.tar.gz" }
     </code>
     </pre>
-
-    <dt>monit_port</dt>
-    <dd>Monit port</dd>
-    <dd class="default">Defaults to @2812@</dd>
-    <dd>@set :monit_port, 2812@</dd>
-
-    <dt>monit_password</dt>
-    <dd>Monit password</dd>
-    <dd class="default">Defaults to password prompt</dd>
-    <dd>@set :monit_password, prompt.password('Monit admin password (to set): ')@</dd>
-
-    <dt>monit_conf_dir</dt><dd>Directory for monitrc files.</dd>
-    <dd>@set :monit_conf_dir, "/etc/monit"@</dd>
-
-    <dt>monit_pid_path</dt><dd>Path to monit pid.</dd>
-    @set :monit_pid_path, "/var/run/monit.pid"@</dd>
-
-    <dt>monit_log_path</dt>
-    <dd>Path to monit log file.</dd>
-    <dd class="default">Defaults to @/var/log/monit.log@</dd>
-    
-    </dl>
-    "Source":#{link_to_source(__FILE__)}
-    DESC
+    EOS
     task :install do
       
-      # Settings
-      fetch_or_default(:monit_port, 2812)
-      fetch_or_default(:monit_password, prompt.password('Monit admin password (to set): ', :verify => true))
-      fetch_or_default(:monit_conf_dir, "/etc/monit")
-      fetch_or_default(:monit_pid_path, "/var/run/monit.pid")
-      fetch_or_default(:monit_log_path, "/var/log/monit.log")
-      fetch(:monit_build_options)
-        
       # Install dependencies
       yum.install([ "flex", "byacc" ])
         

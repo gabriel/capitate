@@ -4,17 +4,12 @@ namespace :sphinx do
   
     desc <<-DESC
     Create monit configuration for sphinx.\n  
-    *monit_conf_dir*: Destination for monitrc. _Defaults to "/etc/monit"_\n
-    *sphinx_pid_path*: Location for sphinx pid. _Defaults to "[shared_path]/pids/searchd.pid"_\n
-    
+
     "Source":#{link_to_source(__FILE__)}
     DESC
+    task_arg(:monit_conf_dir, :default => "/etc/monit")
+    task_arg(:sphinx_pid_path, :default => Proc.new{"#{shared_path}/pids/searchd.pid"}, :default_desc => "\#{shared_path}/pids/searchd.pid")
     task :setup do    
-    
-      # Settings
-      fetch_or_default(:monit_conf_dir, "/etc/monit")
-      fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
-    
       put template.load("sphinx/sphinx.monitrc.erb"), "/tmp/sphinx_#{application}.monitrc"            
       sudo "install -o root /tmp/sphinx_#{application}.monitrc #{monit_conf_dir}/sphinx_#{application}.monitrc"
     end

@@ -4,42 +4,16 @@ namespace :merb do
     desc <<-DESC
     Setup merb.
       
-    <dl>
-    <dt>merb_command_path</dt>
-    <dd>The path for merb startup command</dd>
-    <dd class="default">Defaults to @merb@</dd>
-    
-    <dt>merb_nodes</dt>
-    <dd>Number of merb daemons to run</dd>
-    <dd>@set :merb_nodes, 3@</dd>
-    
-    <dt>merb_port</dt>
-    <dd>Starting port for merb nodes. If there are 3 merb nodes with port 9000, 
-    then instances will be at 9000, 9001, and 9002</dd>
-    <dd>@set :merb_port, 9000@</dd>
-    
-    <dt>merb_root</dt>
-    <dd>Directory for merb root</dd>
-    <dd class="default">Defaults to @\#{current_path}@</dd>
-    
-    <dt>merb_pid_path</dt>
-    <dd>Path for merb pids</dd> 
-    <dd class="default">Defaults to @\#{shared_path}/pids/merb.pid@</dd>      
-    </dl>
     "Source":#{link_to_source(__FILE__)}
     DESC
+    task_arg(:merb_nodes, "Number of merb daemons to run")
+    task_arg(:merb_port, "Starting port for merb nodes. If there are 3 merb nodes with port 9000, then instances will be at 9000, 9001, and 9002")
+    task_arg(:merb_command_path, "The path for merb startup command", :default => "merb")
+    task_arg(:merb_pid_path, "Path for merb pids", :default => Proc.new{"#{shared_path}/pids/merb.pid"}, :default_desc => "\#{shared_path}/pids/merb.pid")
+    task_arg(:merb_root, "Directory for merb root", :set => :current_path)
+    task_arg(:merb_application, "Merb application name", :default => Proc.new{"merb_#{application}"}, :default_desc => "merb_\#{application}")    
+    task_arg(:merb_initscript_name, "Initscript name", :default => Proc.new{"merb_#{application}"}, :default_desc => "merb_\#{application}")
     task :setup do 
-
-      # Settings
-      fetch(:merb_nodes)
-      fetch(:merb_port)
-      fetch_or_default(:merb_command_path, "merb")
-      fetch_or_default(:merb_pid_path, "#{shared_path}/pids/merb.pid")
-      fetch_or_default(:merb_root, current_path)
-      fetch_or_default(:merb_application, "merb_#{application}")
-      
-      fetch_or_default(:merb_initscript_name, "merb_#{application}")
-
       utils.install_template("merb/merb.initd.centos.erb", "/etc/init.d/#{merb_initscript_name}")
       run_via "/sbin/chkconfig --level 345 #{merb_initscript_name} on"
     end

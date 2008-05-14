@@ -5,10 +5,9 @@ namespace :sphinx do
     desc <<-DESC
     Install sphinx.\n
     
-    <dl>
-    <dt>sphinx_build_options</dt>
-    <dd>Sphinx build options.</dd>
-    <dd>
+    DESC
+    task_arg(:sphinx_build_options, <<-EOS)
+    Sphinx build options.
     <pre>
     <code class="ruby">
     set :sphinx_build_options, {
@@ -18,19 +17,9 @@ namespace :sphinx do
     }
     </code>    
     </pre>
-    </dd>
-    
-    <dt>sphinx_prefix</dt>
-    <dd>Sphinx install prefix</dd>
-    <dd class="default">Defaults to @/usr/local/sphinx@</dd>
-    </dl>
-    DESC
+    EOS
+    task_arg(:sphinx_prefix, "Sphinx install prefix", :default => "/usr/local/sphinx")    
     task :install do 
-      
-      # Settings
-      fetch(:sphinx_build_options)
-      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
-      
       # Install dependencies
       yum.install([ "gcc-c++" ])
       
@@ -41,37 +30,25 @@ namespace :sphinx do
     desc <<-DESC
     Setup sphinx for application.
   
-    <dl>
-    <dt>sphinx_prefix</dt><dd>Sphinx install prefix</dd><dd class="default">Defaults to @/usr/local/sphinx@</dd>
-    <dt>sphinx_pid_path</dt><dd>Directory to sphinx pid</dd><dd class="default">Defaults to @\#{shared_path}/pids/searchd.pid@</dd>
-    <dt>sphinx_conf_path</dt><dd>Path to sphinx.conf</dd><dd class="default">Defaults to @\#{shared_path}/config/sphinx.conf@</dd>
-    <dt>sphinx_index_path</dt><dd>Path to sphinx indexes</dd><dd class="default">Defaults to @\#{shared_path}/var/index@</dd>
-    </dl>
     "Source":#{link_to_source(__FILE__)}
     DESC
+    task_arg(:sphinx_prefix, "Sphinx install prefix", :default => "/usr/local/sphinx")
+    task_arg(:sphinx_pid_path, "Directory to sphinx pid", :default => Proc.new{"#{shared_path}/pids/searchd.pid"}, :default_desc => "\#{shared_path}/pids/searchd.pid")
+    task_arg(:sphinx_conf_path, "Path to sphinx.conf", :default => Proc.new{"#{shared_path}/config/sphinx.conf"}, :default_desc => "\#{shared_path}/config/sphinx.conf")      
+    task_arg(:sphinx_index_root, "Path to sphinx indexes", :default => Proc.new{"#{shared_path}/var/index"}, :default_desc => "\#{shared_path}/var/index")
     task :setup do       
-      
-      # Settings
-      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
-      fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
-      fetch_or_default(:sphinx_conf_path, "#{shared_path}/config/sphinx.conf")      
-      fetch_or_default(:sphinx_index_root, "#{shared_path}/var/index")      
-
       initscript
-
       # Create app indexes dir
       run "mkdir -p #{shared_path}/var/index"    
     end
     
     
     desc "Setup sphinx initscript"
+    task_arg(:sphinx_prefix, "Sphinx install prefix", :default => "/usr/local/sphinx")
+    task_arg(:sphinx_pid_path, "Directory to sphinx pid", :default => Proc.new{"#{shared_path}/pids/searchd.pid"}, :default_desc => "\#{shared_path}/pids/searchd.pid")
+    task_arg(:sphinx_conf_path, "Path to sphinx.conf", :default => Proc.new{"#{shared_path}/config/sphinx.conf"}, :default_desc => "\#{shared_path}/config/sphinx.conf")      
+    task_arg(:sphinx_index_root, "Path to sphinx indexes", :default => Proc.new{"#{shared_path}/var/index"}, :default_desc => "\#{shared_path}/var/index")    
     task :initscript do      
-
-      fetch_or_default(:sphinx_prefix, "/usr/local/sphinx")
-      fetch_or_default(:sphinx_pid_path, "#{shared_path}/pids/searchd.pid")
-      fetch_or_default(:sphinx_conf_path, "#{shared_path}/config/sphinx.conf")      
-      fetch_or_default(:sphinx_index_root, "#{shared_path}/var/index")      
-      
       utils.install_template("sphinx/sphinx_app.initd.centos.erb", "/etc/init.d/sphinx_#{application}")
       run_via "/sbin/chkconfig --level 345 sphinx_#{application} on"
       

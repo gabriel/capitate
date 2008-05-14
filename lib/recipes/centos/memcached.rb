@@ -5,10 +5,13 @@ namespace :memcached do
     desc <<-DESC
     Install memcached.
     
-    <dl>
-    <dt>memcached_build_options</dt>
-    <dd>Memcached build options.</dd>
-    <dd>
+    "Source":#{link_to_source(__FILE__)}
+    DESC
+    task_arg(:memcached_pid_path, "Path to memcached pid file.", :default => "/var/run/memcached.pid")
+    task_arg(:memcached_port, "Memcached port", :default => 11211)
+    task_arg(:memcached_memory, "Memcached memory (in MB)")      
+    task_arg(:memcached_build_options, <<-EOS)
+    Memcached build options
     <pre>
     <code class="ruby">
     set :memcached_build_options, {
@@ -17,66 +20,22 @@ namespace :memcached do
     }
     </code>
     </pre>
-    </dd>
-    
-    
-    <dt>memcached_memory</dt>
-    <dd>Memcached memory (in MB).</dd>
-    <dd>@set :memcached_memory, 64@</dd>
-    
-    <dt>memcached_pid_path*</dt>
-    <dd>Path to memcached pid file.</dd>
-    <dd class="default">Defaults to @/var/run/memcached.pid@</dd>
-    <dd>@set :memcached_pid_path, "/var/run/memcached.pid"@</dd>
-    
-    <dt>memcached_port</dt>
-    <dd>Memcached port<dd>
-    <dd class="default">Defaults to 11211.</dd>
-    <dd>@set :memcached_port, 11211@</dd>
-    
-    </dl>
-    "Source":#{link_to_source(__FILE__)}
-    DESC
+    EOS
     task :install do
-
-      # Settings
-      fetch_or_default(:memcached_pid_path, "/var/run/memcached.pid")
-      fetch_or_default(:memcached_port, 11211)
-      fetch(:memcached_memory)      
-      fetch(:memcached_build_options)
-
       # Build
       build.make_install("memcached", memcached_build_options)
-
       initscript
     end
     
     desc <<-DESC
     Install memcached initscript.    
     
-    <dl>
-    <dt>memcached_memory</dt>
-    <dd>Memcached memory (in MB).</dd>
-    <dd>@set :memcached_memory, 64@</dd>
-    
-    <dt>memcached_pid_path*</dt>
-    <dd>Path to memcached pid file.</dd>
-    <dd class="default">Defaults to @/var/run/memcached.pid@</dd>
-    <dd>@set :memcached_pid_path, "/var/run/memcached.pid"@</dd>
-    
-    <dt>memcached_port</dt>
-    <dd>Memcached port<dd>
-    <dd class="default">Defaults to 11211.</dd>
-    <dd>@set :memcached_port, 11211@</dd>
-    </dl>
     "Source":#{link_to_source(__FILE__)}
     DESC
-    task :initscript do
-      
-      fetch_or_default(:memcached_pid_path, "/var/run/memcached.pid")
-      fetch_or_default(:memcached_port, 11211)
-      fetch(:memcached_memory)            
-      
+    task_arg(:memcached_pid_path, "Path to memcached pid file.", :default => "/var/run/memcached.pid")
+    task_arg(:memcached_port, "Memcached port", :default => 11211)
+    task_arg(:memcached_memory, "Memcached memory (in MB)")          
+    task :initscript do      
       utils.install_template("memcached/memcached.initd.centos.erb", "/etc/init.d/memcached")
       run_via "/sbin/chkconfig --level 345 memcached on"      
     end

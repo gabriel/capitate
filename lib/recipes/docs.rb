@@ -5,23 +5,11 @@ namespace :docs do
   
   This recipe generated this documentation.
   
-  <dl>
-  <dt>docs_recipes_dir</dd>
-  <dd>Destination directory</dd>
-  <dd class="default">Defaults to @docs/recipes@</dd>  
-  <dd>@set :docs_recipes_dir, "docs/recipes"@</dd>   
-    
-  <dt>docs_recipes_clear</dt>
-  <dd>Whether to clear destination before generating.</dd>  
-  <dd>@set :docs_recipes_clear, true@</dd>
-  </dl>
   "Source":#{link_to_source(__FILE__)}
   DESC
+  task_arg(:docs_recipes_dir, "Destination directory", :default => "docs/recipes")
+  task_arg(:docs_recipes_clear, "Whether to clear destination before generating.", :default => true)
   task :recipes do
-    
-    # Settings
-    fetch_or_default(:docs_recipes_dir, "docs/recipes")
-    fetch_or_default(:docs_recipes_clear, true)
     
     # Build task tree
     top_node = capitate.task_tree

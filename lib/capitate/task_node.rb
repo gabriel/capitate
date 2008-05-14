@@ -172,7 +172,27 @@ class Capitate::TaskNode
           options = ""
           options = "<span class='options'>, #{task.options.inspect}</span>" unless task.options.blank?
           file.puts "h3(##{task.fully_qualified_name}). #{task.fully_qualified_name}#{options}\n\n"
-          file.puts "#{unindent(task.desc)}\n\n"                    
+          file.puts "#{unindent(task.desc)}\n\n"
+          if task.arguments
+            file.puts "h4. Parameters\n\n"
+            file.puts "<dl>\n"
+            task.arguments.each do |arg|
+              file.puts "<dt>#{arg[:name]}</dt>"
+              file.puts "<dd>#{unindent(arg[:desc])}</dd>" if arg.has_key?(:desc)
+              if arg.has_key?(:default_desc)
+                file.puts "<dd class='default'>Defaults to @#{arg[:default_desc]}@</dd>"
+              elsif arg.has_key?(:default)
+                file.puts "<dd class='default'>Defaults to @#{arg[:default].inspect}@</dd>"
+              end           
+              
+              if arg.has_key?(:set)
+                file.puts "<dd class='default'>Defaults to @#{arg[:set].inspect}@ (cap setting)</dd>"
+              end
+                 
+              file.puts "<dd class='example'>Example: @set :#{arg[:name]}, #{arg[:example]}@" if arg.has_key?(:example)
+            end 
+          end
+          file.puts "</dl>\n\n"
           file.puts "</div>\n\n\n"
         end
       end

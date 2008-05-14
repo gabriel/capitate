@@ -15,11 +15,10 @@ namespace :merb do
       set :migrate_env,    ""
       set :migrate_target, :latest
   DESC
+  task_arg(:rake, "Path to rake", :default => "rake")
+  task_arg(:merb_env, "Merb environment", :default => "")
+  task_arg(:migrate_target, "Migration target", :default => :latest)
   task :migrate, :roles => :db, :only => { :primary => true } do
-    rake = fetch(:rake, "rake")
-    merb_env = fetch(:merb_env, "production")
-    migrate_env = fetch(:migrate_env, "")
-    migrate_target = fetch(:migrate_target, :latest)
 
     current_directory = case migrate_target.to_sym
       when :current then current_path

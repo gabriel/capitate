@@ -5,35 +5,13 @@ namespace :centos do
   desc <<-DESC
   Add user and set user password for application. Adds user to specified groups. 
   
-  <dl>
-  <dt>user_add</dt>
-  <dd>User to add.</dd>
-  <dd>@set :user_add, "app_user"@</dd>
-
-  <dt>groups</dt>
-  <dd>Groups for user to be in.</dd>
-  <dd class="default">Defaults to @nil@</dd>
-  <dd>@set :groups, "admin,foo"@</dd>
-  
-  <dt>home</dt>
-  <dd>Home directory for user.</dd>
-  <dd class="default">Defaults to @:deploy_to@ setting_</dd>  
-  <dd>@set :home, "/var/www/apps/app_name"@</dd>
-  
-  <dt>home_readable</dt>
-  <dd>Whether home permissions are readable by all. Needed if using deploy dir as home.</dd>
-  <dd class="default">Defaults to @true@</dd>
-  <dd>@set :home_readable, true@</dd>  
-  </dl>
   "Source":#{link_to_source(__FILE__)}
   DESC
+  task_arg(:user_add, "User to add")
+  task_arg(:groups, "Groups for user to be in", :default => nil, :example => "\"admin,foo,bar\"")
+  task_arg(:home, "Home directory for user", :set => :deploy_to)
+  task_arg(:home_readable, "Whether home permissions are readable by all. Needed if using deploy dir as home.", :default => true)
   task :add_user do
-    
-    # Settings
-    fetch(:user_add)
-    fetch_or_default(:groups, nil)
-    fetch_or_default(:home, deploy_to)
-    fetch_or_default(:home_readable, true)
     
     adduser_options = []
     adduser_options << "-d #{home}" unless home.blank?

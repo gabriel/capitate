@@ -3,23 +3,22 @@ namespace :logrotated do
   
   desc <<-DESC
   Create logrotated conf. You probably use this in other recipes and not standalone.
+    
+  "Source":#{link_to_source(__FILE__)}
+  DESC
+  task_arg(:logrotate_name, "Name of file in /etc/logrotate.d/")
+  task_arg(:logrotate_log_path, "Path to log file. Can include wildcards, like /var/log/foo_*.log.")
+  task_arg(:logrotate_options, <<-EOS)
+  Log rotate options
   
-  <dl>
-  <dt>logrotate_name</dt>
-  <dd>Name of file in /etc/logrotate.d/</dd>
-  
-  <dt>logrotate_log_path<dt>
-  <dd>Path to log file. Can include wildcards, like /var/log/foo_*.log.</dd>
-  
-  <dt>logrotate_options</dt>
-  <dd>:rotate (Number of times to rotate before discarding)</dd>
-  <dd>:size (Rotate when file hits this size)</dd>
-  <dd>:daily, :weekly, :monthly (How often to perform rotate)</dd>
-  <dd>:missingok</dd>
-  <dd>:compress</dd>
-  <dd>:delaycompress</dd>
-  <dd>:notifempty</dd>
-  <dd>:copytruncate</dd>
+  * :rotate (Number of times to rotate before discarding)
+  * :size (Rotate when file hits this size)
+  * :daily, :weekly, :monthly (How often to perform rotate)
+  * :missingok
+  * :compress
+  * :delaycompress
+  * :notifempty
+  * :copytruncate
   
   See man page for all the options.
   
@@ -29,13 +28,8 @@ namespace :logrotated do
       :daily, :missingok, :compress, :delaycompress, :notifempty, :copytruncate ]
   </code>
   </pre>
-  "Source":#{link_to_source(__FILE__)}
-  DESC
+  EOS
   task :install_conf do
-    
-    fetch(:logrotate_name)
-    fetch(:logrotate_log_path)
-    fetch(:logrotate_options)
     
     text = []    
     logrotate_options.each do |option|            
@@ -56,26 +50,12 @@ namespace :logrotated do
   desc <<-DESC
   Force rotate files.
   
-  <dl>
-  <dt>logrotate_prefix</dt>
-  <dd>Path to logrotate</dd>
-  <dd>Defaults to none</dd>
-  
-  <dt>logrotate_conf_path</dt>
-  <dd>Path to logrotate conf</dd>
-  <dd>Defaults to @"/etc/logrotate.conf"@</dd>
-  </dl>
   "Source":#{link_to_source(__FILE__)}   
   DESC
+  task_arg(:logrotate_bin_path, "Logrotate bin path", :default => "logrotate", :example => "/usr/local/bin/logrotate")
+  task_arg(:logrotate_conf_path, "Path to logrotate conf", :default => "/etc/logrotate.conf")
   task :force do 
-        
-    fetch_or_default(:logrotate_prefix, "")
-    fetch_or_default(:logrotate_conf_path, "/etc/logrotate.conf")    
-    
-    command = "logrotate"
-    command = "#{logrotate_prefix}/logrotate" unless logrotate_prefix.blank?
-    
-    run_via "#{command} -f #{logrotate_conf_path}"    
+    run_via "#{logrotate_bin_path} -f #{logrotate_conf_path}"    
   end
   
 end

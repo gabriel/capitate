@@ -5,6 +5,8 @@
 * Fixing backgroundjob init (BIN_PATH error)
 * Adding --log to backgroundjob init.d
 * Fixing sphinx monit start/stop/restart
+* Adding task arguments to DSL
+* Updating most of the documentation to pull from task args
 
 == 0.3.5 2008-05-08
 

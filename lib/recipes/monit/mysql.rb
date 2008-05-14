@@ -5,28 +5,12 @@ namespace :mysql do
     desc <<-DESC
     Install mysql monit hooks. 
     
-    <dl>
-    <dt>mysql_pid_path</dt>
-    <dd>Path to mysql pid file</dd>
-
-    <dt>db_port</dt>
-    <dd>Mysql port</dd>
-    <dd class="default">Defaults to @3306@</dd>
-    
-    <dt>monit_conf_dir</dt>
-    <dd>Monitrd directory.</dd>
-    <dd class="default">Defaults to @"/etc/monit"@</dd>
-    </dl>    
-    
     "Source":#{link_to_source(__FILE__)}  
     DESC
+    task_arg(:mysql_pid_path, "Path to mysql pid file", :default => "/var/run/mysqld/mysqld.pid")
+    task_arg(:mysql_port, "Mysql port", :default => 3306)   
+    task_arg(:monit_conf_dir, "Monitrd directory", :default => "/etc/monit")
     task :install do
-    
-      # Settings 
-      fetch_or_default(:mysql_pid_path, "/var/run/mysqld/mysqld.pid")
-      fetch_or_default(:mysql_port, 3306)   
-      fetch_or_default(:monit_conf_dir, "/etc/monit") 
-    
       put template.load("mysql/mysql.monitrc.erb", binding), "/tmp/mysql.monitrc"    
       run_via "install -o root /tmp/mysql.monitrc #{monit_conf_dir}/mysql.monitrc"
     end      

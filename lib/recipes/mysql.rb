@@ -4,45 +4,19 @@ namespace :mysql do
   desc <<-DESC
   Create database, database user, and set grant permissions.
   
-  <dl>
-  <dt>db_name</dt>
-  <dd>Database name (application).</dd>
-  
-  <dt>db_user</dt>
-  <dd>Database user (application).</dd>
-  
-  <dt>db_pass</dt>
-  <dd>Database password (application).</dd>
-  
-  <dt>mysql_grant_locations</dt>
-  <dd>Grant locations. </dd>
-  <dd>Defaults to @[ "localhost" ]@</dd>
-  
-  <dt>mysql_grant_priv_type</dt>
-  <dd>Grant privilege types.</dd>
-  <dd>Defaults to @ALL@</dd>
-  
-  <dt>mysql_admin_user</dt>
-  <dd>Mysql admin user.</dd>
-  <dd>Defaults to password prompt.</dd>
-  
-  <dt>mysql_admin_password</dt>
-  <dd>Mysql admin password.</dd>
-  <dd>Defaults to password prompt.</dd>
-  </dl>
   "Source":#{link_to_source(__FILE__)}
   DESC
+  task_arg(:db_name, "Database name (application)")
+  task_arg(:db_user, "Database user (application)")
+  task_arg(:db_pass, "Database password (application)")
+  task_arg(:mysql_admin_user, "Mysql admin user", :default => "root")
+  task_arg(:mysql_admin_password, "Mysql admin password", 
+    :default => Proc.new { prompt.password('Mysql admin password: ') }, 
+    :example => "prompt.password('Mysql admin password: ')")
+    
+  task_arg(:mysql_grant_priv_type, "Grant privilege types", :default => "ALL")
+  task_arg(:mysql_grant_locations, "Grant locations", :default => ["localhost"])
   task :setup do    
-    
-    # Settings
-    fetch(:db_name)
-    fetch(:db_user)
-    fetch(:db_pass)
-    fetch_or_default(:mysql_admin_user, "root")
-    fetch_or_default(:mysql_admin_password, prompt.password('Mysql admin password: '))
-    fetch_or_default(:mysql_grant_priv_type, "ALL")
-    fetch_or_default(:mysql_grant_locations, [ "localhost" ])
-    
     sql = template.load("mysql/install_db.sql.erb")       
     
     logger.trace "Running sql:\n#{sql}\n"
@@ -55,26 +29,12 @@ namespace :mysql do
   desc <<-DESC
   Create my.cnf based on template.
   
-  <dl>
-  <dt>my_cnf_template</dt>
-  <dd>Path to my.cnf template</dd>
-  
-  <dt>db_socket</dt>
-  <dd>Path to mysql .sock</dd>
-  <dd class="default">Defaults to @"/var/lib/mysql/mysql.sock"@</dd>
-  
-  <dt>db_port</dt>
-  <dd>Mysql port</dd>
-  <dd class="default">Defaults to @3306@</dd>
-  </dl>
-  
   "Source":#{link_to_source(__FILE__)}
   DESC
+  task_arg(:my_cnf_template, "Path to my.cnf template", :default => "mysql/my.cnf.innodb_1024.erb")      
+  task_arg(:db_socket, "Path to mysql .sock", :default => "/var/lib/mysql/mysql.sock")
+  task_arg(:db_port, "Mysql port", :default => 3306)
   task :install_my_cnf do      
-    fetch_or_default(:my_cnf_template, "mysql/my.cnf.innodb_1024.erb")      
-    fetch_or_default(:db_socket, "/var/lib/mysql/mysql.sock")
-    fetch_or_default(:db_port, 3306)
-    
     utils.install_template(my_cnf_template, "/etc/my.cnf")    
   end
   

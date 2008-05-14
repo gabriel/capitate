@@ -6,29 +6,14 @@ namespace :backgroundrb do
   For pid path support, change backgroundrb script pid_file line to:
   
     pid_file = "\#{CONFIG_FILE[:backgroundrb][:pid_file]}"
-  
-  <dl>
-    <dt>backgroundrb_host</dt>
-    <dd>Backgroundrb host</dd>
-    <dd class="default">Defaults to @0.0.0.0@</dd>
     
-    <dt>backgroundrb_port</dt>
-    <dd>Backgroundrb port</dd>
-    <dd class="default">Defaults to @11006@</dd>
-  
-    <dt>backgroundrb_yml_template</dt>
-    <dd>Backgroundrb yml template</dd>
-    <dd class="default">Defaults to @backgroundrb/backgroundrb.yml.erb@ in this gem.</dd>
-  </dl>
-  
   "Source":#{link_to_source(__FILE__)}
   DESC
+  task_arg(:backgroundrb_host, "Backgroundrb host", :default => "0.0.0.0")
+  task_arg(:backgroundrb_port, "Backgroundrb port", :default => 11006)
+  task_arg(:backgroundrb_pid_path, "Backgroundrb pid path", :default => Proc.new{"#{shared_path}/pids/backgroundrb.pid"}, :default_desc => "\#{shared_path}/pids/backgroundrb.pid")
+  task_arg(:backgroundrb_yml_template, "Backgroundrb yml template", :default => "backgroundrb/backgroundrb.yml.erb")  
   task :setup do
-    fetch_or_default(:backgroundrb_host, "0.0.0.0")
-    fetch_or_default(:backgroundrb_port, 11006)
-    fetch_or_default(:backgroundrb_pid_path, "#{shared_path}/pids/backgroundrb.pid")
-    fetch_or_default(:backgroundrb_yml_template, "backgroundrb/backgroundrb.yml.erb")
-    
     utils.install_template(backgroundrb_yml_template, "#{shared_path}/config/backgroundrb.yml")    
   end
   

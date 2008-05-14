@@ -5,14 +5,10 @@ namespace :ruby do
     desc <<-DESC
     Install ruby and rubygems.
     
-    <dl>    
-    <dt>ruby_build_options</dt>
-    <dd>Ruby build options.</dd>
-    
-    <dt>rubygems_build_options<dt>
-    <dd>Rubygems build options.</dd>    
-    </dl>
-    
+    "Source":#{link_to_source(__FILE__)}
+    DESC
+    task_arg(:ruby_build_options, <<-EOS)
+    Rubygems build options.
     <pre>
     <code class="ruby">
     set :ruby_build_options, {
@@ -23,14 +19,9 @@ namespace :ruby do
     }
     </code>
     </pre>
-    "Source":#{link_to_source(__FILE__)}
-    DESC
+    EOS
+    task_arg(:rubygems_build_options, "Rubygems build options")    
     task :install do 
-
-      # Settings
-      fetch(:ruby_build_options)
-      fetch(:rubygems_build_options)
-    
       # Install dependencies
       yum.install([ "zlib", "zlib-devel", "readline-devel" ])
     

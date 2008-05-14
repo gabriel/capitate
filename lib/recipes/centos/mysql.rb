@@ -5,19 +5,10 @@ namespace :mysql do
     desc <<-DESC
     Install mysql.
     
-    <dl>
-    <dt>mysql_admin_password_set</dt>
-    <dd>Mysql admin password (to set)</dd>
-    <dd class="default">Defaults to password prompt.</dd>    
-    <pre><code class="ruby">set :mysql_admin_password_set, prompt.password('Mysql admin password (to set): ')<code></pre>
-    </dl>
     "Source":#{link_to_source(__FILE__)}
     DESC
+    task_arg(:mysql_admin_password_set, "Mysql admin password (to set)", :default => Proc.new{prompt.password('Mysql admin password (to set): ', :verify => true)}, :default_desc => "password prompt")
     task :install do    
-      
-      # Settings
-      fetch_or_default(:mysql_admin_password_set, prompt.password('Mysql admin password (to set): ', :verify => true))
-
       # Install through package manager
       yum.install([ "mysql", "mysql-devel", "mysql-server" ])
 

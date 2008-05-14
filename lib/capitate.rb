@@ -27,12 +27,26 @@ require "capitate/cap_ext/connections"
 require "capitate/cap_ext/variables"
 require "capitate/cap_ext/run_via"
 require "capitate/cap_ext/docs"
+require "capitate/cap_ext/namespace"
+require "capitate/cap_ext/task_definition"
         
 class Capistrano::Configuration   
   include Capitate::CapExt::Variables
   include Capitate::CapExt::RunVia
   include Capitate::CapExt::Connections
   include Capitate::CapExt::Docs
+end
+
+class Capistrano::TaskDefinition
+  include Capitate::CapExt::TaskDefinition
+end
+
+class Capistrano::Configuration::Namespaces::Namespace
+  include Capitate::CapExt::Namespace
+end
+
+module Capistrano::Configuration::Namespaces
+  include Capitate::CapExt::Namespace
 end
 
 #module Capistrano::Configuration::Connections; end

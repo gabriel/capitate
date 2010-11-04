@@ -99,7 +99,8 @@ class Capistrano::SSH
       connect_without_logging(server, options, &block)      
     end
   
-    alias_method_chain :connect, :logging
-  
+    alias_method :connect_without_logging, :connect
+    alias_method :connect, :connect_with_logging  
+    
   end
 end
